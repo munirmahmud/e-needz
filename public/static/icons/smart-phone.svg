@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="8.833" height="15.587" viewBox="0 0 8.833 15.587">
+  <g id="smartphone_4_" data-name="smartphone (4)" transform="translate(-110.933)">
+    <g id="Group_140" data-name="Group 140" transform="translate(113.791 0.779)">
+      <g id="Group_139" data-name="Group 139" transform="translate(0)">
+        <path id="Path_84" data-name="Path 84" d="M207.659,25.6h-2.6a.26.26,0,1,0,0,.52h2.6a.26.26,0,1,0,0-.52Z" transform="translate(-204.801 -25.6)"/>
+      </g>
+    </g>
+    <g id="Group_142" data-name="Group 142" transform="translate(117.947 0.779)">
+      <g id="Group_141" data-name="Group 141" transform="translate(0)">
+        <path id="Path_85" data-name="Path 85" d="M341.854,25.6h-.26a.26.26,0,1,0,0,.52h.26a.26.26,0,0,0,0-.52Z" transform="translate(-341.334 -25.6)"/>
+      </g>
+    </g>
+    <g id="Group_144" data-name="Group 144" transform="translate(114.31 13.249)">
+      <g id="Group_143" data-name="Group 143" transform="translate(0)">
+        <path id="Path_86" data-name="Path 86" d="M223.229,435.2h-.645a.718.718,0,0,0-.717.717v.125a.717.717,0,0,0,.717.716h.645a.717.717,0,0,0,.717-.716v-.125A.718.718,0,0,0,223.229,435.2Zm.2.842a.2.2,0,0,1-.2.2h-.645a.2.2,0,0,1-.2-.2v-.125a.2.2,0,0,1,.2-.2h.645a.2.2,0,0,1,.2.2Z" transform="translate(-221.867 -435.2)"/>
+      </g>
+    </g>
+    <g id="Group_146" data-name="Group 146" transform="translate(110.933)">
+      <g id="Group_145" data-name="Group 145" transform="translate(0)">
+        <path id="Path_87" data-name="Path 87" d="M118.827,0h-6.955a.94.94,0,0,0-.939.939V14.648a.94.94,0,0,0,.939.939h6.954a.94.94,0,0,0,.939-.939V.939A.94.94,0,0,0,118.827,0Zm.419,14.648a.42.42,0,0,1-.419.42h-6.955a.42.42,0,0,1-.42-.419V.939a.42.42,0,0,1,.42-.42h6.954a.42.42,0,0,1,.42.42V14.648Z" transform="translate(-110.933)"/>
+      </g>
+    </g>
+    <g id="Group_148" data-name="Group 148" transform="translate(110.933 1.559)">
+      <g id="Group_147" data-name="Group 147" transform="translate(0)">
+        <path id="Path_88" data-name="Path 88" d="M119.507,51.2h-8.313a.26.26,0,0,0-.26.26V62.371a.26.26,0,0,0,.26.26h8.313a.26.26,0,0,0,.26-.26V51.46A.26.26,0,0,0,119.507,51.2Zm-.26,10.911h-7.794V51.72h7.794Z" transform="translate(-110.934 -51.2)"/>
+      </g>
+    </g>
+  </g>
+</svg>

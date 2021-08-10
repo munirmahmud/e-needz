@@ -2,12 +2,12 @@
     .menu {
         > li {
             > a {
-                text-transform: uppercase;
-                font-weight: 600;
-                font-size: 16px;
+                font-weight: 400;
+                font-size: 15px;
                 padding: 15px 16px;
-
+                letter-spacing: 0.1px;
                 color: $color-white;
+
                 &:hover {
                     color: $color-dark;
                 }
@@ -24,7 +24,7 @@
 
     .navigation {
         border-bottom: 1px solid #e1e1e1;
-        background-color: $color-1st;
+        background-color: $color-black;
 
         > .container {
             display: flex;

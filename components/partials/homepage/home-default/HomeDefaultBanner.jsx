@@ -1,12 +1,12 @@
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import NextArrow from '~/components/elements/carousel/NextArrow';
 import PrevArrow from '~/components/elements/carousel/PrevArrow';
-import Link from 'next/link';
+import Promotion from '~/components/elements/media/Promotion';
 import MediaRepository from '~/repositories/MediaRepository';
 import { baseUrl } from '~/repositories/Repository';
 import { getItemBySlug } from '~/utilities/product-helper';
-import Promotion from '~/components/elements/media/Promotion';
 
 const HomeDefaultBanner = () => {
     const [bannerItems, setBannerItems] = useState(null);

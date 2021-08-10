@@ -14,21 +14,18 @@ const Menu = ({ source, className }) => {
                 return <MegaMenu source={item} key={item.text} />;
             } else {
                 return (
-                    <>
-                        <li key={item.text}>
-                            <Link href={item.url}>
-                                <>
-                                    <img src={item.icon} alt={item.text} />
-                                    <a>
-                                        {item.icon && (
-                                            <i className={item.icon}></i>
-                                        )}
-                                        {item.text}
-                                    </a>
-                                </>
-                            </Link>
-                        </li>
-                    </>
+                    <li key={item.text}>
+                        <Link href={item.url}>
+                            <>
+                                <a>
+                                    {item.icon && (
+                                        <img src={item.icon} alt={item.text} />
+                                    )}
+                                    {item.text}
+                                </a>
+                            </>
+                        </Link>
+                    </li>
                 );
             }
         });

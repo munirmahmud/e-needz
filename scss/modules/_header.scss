@@ -257,6 +257,7 @@
         .menu__toggle {
             i {
                 font-size: 30px;
+                color: $color-white;
             }
         }
     }
@@ -300,7 +301,8 @@
             }
         }
 
-        .container {
+        .container,
+        .ps-container {
             display: flex;
             flex-flow: row nowrap;
             align-items: center;

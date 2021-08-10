@@ -114,8 +114,8 @@
     justify-content: space-between;
     padding: 15px 30px 10px;
     background-color: #fff;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     @include transition(all 0.4s ease);
-    border: 1px solid #ccc;
 
     > * {
         width: 100%;
@@ -321,10 +321,9 @@
         }
 
         span {
-            font-size: 20px;
-            color: $color-heading;
+            color: $color-white;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 400;
         }
 
         &:before {
@@ -366,6 +365,7 @@
         background-color: #fff;
         border: 1px solid #d3d3d3;
         min-width: 260px;
+
         .menu-item-has-children {
             position: relative;
         }
@@ -389,13 +389,15 @@
     > li {
         padding: 0 20px;
         transition: all 0.4s ease;
+        display: flex;
+        align-items: center;
 
         > a {
             display: block;
             padding: 10px 0;
             color: $color-heading;
 
-            i {
+            img {
                 margin-right: 10px;
                 font-size: 18px;
             }
@@ -407,7 +409,7 @@
                 top: 0;
                 left: 100%;
                 width: auto;
-                min-width: 530px;
+                min-width: 255px;
                 @include hidden;
                 border-left: none;
             }

@@ -277,178 +277,153 @@
     },
     "product_categories": [
         {
-            "icon": "icon-star",
-            "text": "Hot Promotions",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-laundry",
-            "text": "Consumer Electronic",
-            "url": "/shop",
+            "icon": "/static/icons/desktop.svg",
+            "text": "Desktop",
+            "url": "/desktop",
             "extraClass": "menu-item-has-children has-mega-menu",
             "subClass": "sub-menu",
             "mega": true,
             "megaContent": [
                 {
-                    "heading": "Electronic",
-                    "megaItems": [
-                        {
-                            "text": "Home Audio & Theathers",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "TV & Videos",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Camera, Photos & Videos",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Cellphones & Accessories",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Headphones",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Videosgames",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Wireless Speakers",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Office Electronic",
-                            "url": "/shop"
-                        }
-                    ]
+                    "text": "Home Audio & Theathers",
+                    "url": "/shop"
                 },
                 {
-                    "heading": "Accessories & Parts",
-                    "megaItems": [
-                        {
-                            "text": "Digital Cables",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Audio & Video Cables",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Batteries",
-                            "url": "/shop"
-                        }
-                    ]
+                    "text": "TV & Videos",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Camera, Photos & Videos",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Cellphones & Accessories",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Headphones",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Videosgames",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Wireless Speakers",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Office Electronic",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Digital Cables",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Audio & Video Cables",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Batteries",
+                    "url": "/shop"
                 }
             ]
         },
         {
-            "icon": "icon-shirt",
-            "text": "Clothing & Apparel",
-            "url": "/shop"
+            "icon": "/static/icons/joystick.svg",
+            "text": "Joystick",
+            "url": "/joystick"
         },
         {
-            "icon": "icon-lampshade",
-            "text": "Home, Garden & Kitchen",
-            "url": "/shop"
+            "icon": "/static/icons/webcam-menu.svg",
+            "text": "Web Cam",
+            "url": "/webcam"
         },
         {
-            "icon": "icon-heart-pulse",
-            "text": "Health & Beauty",
-            "url": "/shop"
+            "icon": "/static/icons/wearless-headphone.svg",
+            "text": "Wearless Head Phone",
+            "url": "/wearless-head-phone"
         },
         {
-            "icon": "icon-diamond2",
-            "text": "Yewelry & Watches",
-            "url": "/shop"
+            "icon": "/static/icons/motor-bike.svg",
+            "text": "Motor Bike",
+            "url": "/motor-bike"
         },
         {
-            "icon": "icon-desktop",
-            "text": "Computer & Technology",
-            "url": "/shop",
+            "icon": "/static/icons/refrigerator.svg",
+            "text": "Refrigerator",
+            "url": "/refrigerator",
             "extraClass": "menu-item-has-children has-mega-menu",
             "subClass": "sub-menu",
             "megaContent": [
                 {
-                    "heading": "Computer & Technologies",
-                    "megaItems": [
-                        {
-                            "text": "Computer & Tablets",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Laptop",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Monitors",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Networking",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Drive & Storages",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Computer Components",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Security & Protection",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Gaming Laptop",
-                            "url": "/shop"
-                        },
-                        {
-                            "text": "Accessories",
-                            "url": "/shop"
-                        }
-                    ]
+                    "text": "Computer & Tablets",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Laptop",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Monitors",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Networking",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Drive & Storages",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Computer Components",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Security & Protection",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Gaming Laptop",
+                    "url": "/shop"
+                },
+                {
+                    "text": "Accessories",
+                    "url": "/shop"
                 }
             ]
         },
         {
-            "icon": "icon-baby-bottle",
-            "text": "Babies & Moms",
-            "url": "/shop"
+            "icon": "/static/icons/smart-phone.svg",
+            "text": "Smart Phone",
+            "url": "/smart-phone"
         },
         {
-            "icon": "icon-baseball",
-            "text": "Sport & Outdoor",
-            "url": "/shop"
+            "icon": "/static/icons/webcam-menu.svg",
+            "text": "Smart TV & Android TV",
+            "url": "/smart-tv"
         },
         {
-            "icon": "icon-smartphone",
-            "text": "Phones & Accessories",
-            "url": "/shop"
+            "icon": "/static/icons/wearless-headphone.svg",
+            "text": "Speaker",
+            "url": "/speaker"
         },
         {
-            "icon": "icon-book2",
-            "text": "Books & Office",
-            "url": "/shop"
+            "icon": "/static/icons/joystick.svg",
+            "text": "Split AC",
+            "url": "/split-ac"
         },
         {
-            "icon": "icon-car-siren",
-            "text": "Cars & Motocycles",
-            "url": "/shop"
+            "icon": "/static/icons/refrigerator.svg",
+            "text": "Gadget Item",
+            "url": "/gadgets"
         },
         {
-            "icon": "icon-wrench",
-            "text": "Home Improments",
-            "url": "/shop"
-        },
-        {
-            "icon": "icon-tag",
-            "text": "Vouchers & Services",
-            "url": "/shop"
+            "icon": "/static/icons/smart-phone.svg",
+            "text": "Cloths",
+            "url": "/cloths"
         }
     ]
 }

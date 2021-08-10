@@ -2,8 +2,9 @@
 
 # dependencies
 /node_modules
+!components
 /.pnp
-.pnp.js
+/utilities
 
 # testing
 /coverage
@@ -27,3 +28,5 @@ yarn-error.log*
 package-lock.json
 
 .now
+
+scss/*

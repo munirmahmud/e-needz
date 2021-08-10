@@ -2,10 +2,31 @@ import { notification } from 'antd';
 import Link from 'next/link';
 import React, { Component } from 'react';
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
-import menuData from '../../../public/static/data/menu';
 import Menu from '../../elements/menu/Menu';
-import CurrencyDropdown from '../headers/modules/CurrencyDropdown';
 import LanguageSwicher from '../headers/modules/LanguageSwicher';
+
+const menuMarket2 = [
+    {
+        text: 'Bikes',
+        url: '/bikes',
+        icon: '/static/icons/motorcycle.svg',
+    },
+    {
+        text: 'Mobile Phone',
+        url: '/mobiles',
+        icon: '/static/icons/smartphone.svg',
+    },
+    {
+        text: 'Television',
+        url: '/television',
+        icon: '/static/icons/television.svg',
+    },
+    {
+        text: 'Gadget',
+        url: '/gadget',
+        icon: '/static/icons/webcam.svg',
+    },
+];
 
 class NavigationDefault extends Component {
     constructor(props) {
@@ -24,28 +45,17 @@ class NavigationDefault extends Component {
     render() {
         return (
             <nav className="navigation">
-                <div className="ps-container">
+                <div className="ps-container nav-container">
                     <div className="navigation__left">
                         <MenuCategoriesDropdown />
                     </div>
                     <div className="navigation__right">
-                        <Menu
-                            source={menuData.menuPrimary.menu_1}
-                            className="menu"
-                        />
+                        <Menu source={menuMarket2} className="menu" />
                         <ul className="navigation__extra">
-                            <li>
-                                <Link href="/vendor/become-a-vendor">
-                                    <a>Sell on E-needz</a>
-                                </Link>
-                            </li>
-                            <li>
+                            <li className="navigation-text">
                                 <Link href="/account/order-tracking">
                                     <a>Tract your order</a>
                                 </Link>
-                            </li>
-                            <li>
-                                <CurrencyDropdown />
                             </li>
                             <li>
                                 <LanguageSwicher />

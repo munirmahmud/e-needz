@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
-import Menu from '~/components/elements/menu/Menu';
 import ElectronicHeaderActions from '~/components/shared/headers/modules/ElectronicHeaderActions';
 import SearchHeader from '~/components/shared/headers/modules/SearchHeader';
 import { stickyHeader } from '~/utilities/common-helpers';
+import NavigationDefault from '../navigation/NavigationDefault';
 
 const HeaderMarketPlace2 = () => {
     useEffect(() => {
@@ -12,35 +12,12 @@ const HeaderMarketPlace2 = () => {
         }
     }, []);
 
-    const menuMarket2 = [
-        {
-            text: 'Bikes',
-            url: '/bikes',
-            icon: '/static/icons/motorcycle.svg',
-        },
-        {
-            text: 'Mobile Phone',
-            url: '/mobiles',
-            icon: '/static/icons/smartphone.svg',
-        },
-        {
-            text: 'Television',
-            url: '/television',
-            icon: '/static/icons/television.svg',
-        },
-        {
-            text: 'Gadget',
-            url: '/gadget',
-            icon: '/static/icons/webcam.svg',
-        },
-    ];
-
     return (
         <header
             className="header header--standard header--market-place-2"
             id="headerSticky">
             <div className="header__top">
-                <div className="container">
+                <div className="ps-container">
                     <div className="header__left">
                         <ul className="header__top-links">
                             <li>
@@ -71,7 +48,7 @@ const HeaderMarketPlace2 = () => {
             </div>
 
             <div className="header__content">
-                <div className="container">
+                <div className="ps-container">
                     <div className="header__content-left">
                         <Link href="/">
                             <a className="ps-logo">
@@ -90,14 +67,8 @@ const HeaderMarketPlace2 = () => {
                     </div>
                 </div>
             </div>
-            <nav className="navigation">
-                <div className="container">
-                    <Menu
-                        source={menuMarket2}
-                        className="menu menu--market-2"
-                    />
-                </div>
-            </nav>
+
+            <NavigationDefault />
         </header>
     );
 };
