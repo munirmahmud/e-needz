@@ -1,0 +1,36 @@
+.section-white {
+    background-color: $color_white;
+    padding: 40px 30px;
+
+    .ps-section__header {
+        border-color: #f2f2f2;
+    }
+    .ps-product--inner {
+        border: 1px solid;
+        border-color: #eee;
+        padding: 12px;
+    }
+}
+.search-products {
+    display: flex;
+    align-items: center;
+
+    button {
+        margin-right: 10px;
+    }
+    .ps-btn {
+        border-radius: 0;
+        background: $color_black;
+        color: $color_white;
+        padding: 14px 25px;
+    }
+    .view-all {
+        border: 1px solid $color_black;
+    }
+    .form-control {
+        border-right: 0;
+    }
+    .form-control:focus {
+        border-color: $color_black;
+    }
+}

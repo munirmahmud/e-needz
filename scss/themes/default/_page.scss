@@ -1,7 +1,12 @@
 #homepage-1 {
+    .small-banners {
+        margin-bottom: 30px;
+    }
     .ps-home-banner {
         padding-top: 30px;
         margin-bottom: 30px;
+        height: 425px;
+
         .ps-collection {
             display: block;
             margin-bottom: 30px;
@@ -82,7 +87,7 @@
             }
         }
 
-        @include media("<xs") {
+        @include media('<xs') {
             .ps-section__left {
                 height: 150px;
             }
@@ -92,7 +97,6 @@
     .ps-site-features {
         padding-bottom: 90px;
         @media screen and (max-width: 480px) {
-
         }
     }
 

@@ -70,21 +70,36 @@ const HomeDefaultBanner = () => {
         );
     }
     return (
-        <div className="ps-home-banner ps-home-banner--1">
-            <div className="ps-container">
-                <div className="ps-section__left">{mainCarouselView}</div>
-                <div className="ps-section__right">
-                    <Promotion
-                        link="/shop"
-                        image={promotion1 ? promotion1.image : null}
-                    />
-                    <Promotion
-                        link="/shop"
-                        image={promotion2 ? promotion2.image : null}
-                    />
+        <>
+            <div className="ps-home-banner ps-home-banner--1">
+                <div className="ps-container">
+                    <div style={{ width: '100%' }}>{mainCarouselView}</div>
                 </div>
             </div>
-        </div>
+
+            <div className="ps-container small-banners">
+                <div className="row">
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <Promotion
+                            link="/shop"
+                            image={promotion1 ? promotion1.image : null}
+                        />
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <Promotion
+                            link="/shop"
+                            image={promotion2 ? promotion2.image : null}
+                        />
+                    </div>
+                    <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                        <Promotion
+                            link="/shop"
+                            image={promotion2 ? promotion2.image : null}
+                        />
+                    </div>
+                </div>
+            </div>
+        </>
     );
 };
 

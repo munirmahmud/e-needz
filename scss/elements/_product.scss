@@ -234,8 +234,6 @@
         }
 
         &.ps-product--inner {
-            border: none;
-
             .ps-product__content {
                 display: block;
                 @include show;
@@ -2140,9 +2138,9 @@
             content: '';
             @include max-area();
             @include linear-gradient(
-                            to bottom,
-                            rgba(#000, 0.05) 0%,
-                            rgba(#000, 0.9)
+                to bottom,
+                rgba(#000, 0.05) 0%,
+                rgba(#000, 0.9)
             );
             transition: all 0.4s ease;
             @include hidden;

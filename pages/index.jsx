@@ -9,14 +9,13 @@ import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/Ho
 import HomeDefaultProductListing from '~/components/partials/homepage/home-default/HomeDefaultProductListing';
 import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories';
 import NewArrivals from '~/components/partials/homepage/home-default/NewArrivals';
-import SiteFeatures from '~/components/partials/homepage/home-default/SiteFeatures';
 
 const HomepageDefaultPage = () => {
     return (
         <PageContainer title="Multipurpose Marketplace React Ecommerce Template">
             <main id="homepage-1">
                 <HomeDefaultBanner />
-                <SiteFeatures />
+                {/* <SiteFeatures /> */}
                 <HomeDefaultDealOfDay collectionSlug="deal-of-the-day" />
                 <HomeAdsColumns />
                 <HomeDefaultTopCategories />
