@@ -22,7 +22,7 @@
 .ps-product {
     position: relative;
     padding: 20px 20px 0;
-    border: 1px solid transparent;
+    border: 1px solid #eee;
     border-bottom: none;
     @extend %list-reset;
 
@@ -102,7 +102,7 @@
         margin-bottom: 13px;
         line-height: 1.2;
         font-size: 12px;
-        color: #000;
+        color: #797979;
         text-transform: uppercase;
         border-bottom: 1px solid #e1e1e1;
     }
@@ -117,7 +117,7 @@
         line-height: 20px;
         padding: 5px 10px;
         border-radius: 4px;
-        background-color: #f14705;
+        background-color: $color-1st;
 
         &.out-stock {
             background-color: #000;
@@ -135,7 +135,7 @@
         padding: 0 0 5px;
         font-size: 14px;
         line-height: 1.2em;
-        color: #06c;
+        color: #45443f;
         --max-lines: 2;
         max-height: calc(1.2em * var(--max-lines));
         overflow: hidden;
@@ -215,8 +215,6 @@
     }
 
     &:hover {
-        border-color: silver;
-
         .ps-product__thumbnail {
             .ps-product__actions {
                 @include transform(translate(-50%, 0));
@@ -454,10 +452,13 @@
         color: $color-heading;
 
         &.sale {
-            color: #f30;
+            span {
+                color: $color-black;
+                font-size: 20px;
+            }
 
             del {
-                color: $color-text;
+                color: #797979;
             }
         }
     }
@@ -754,12 +755,15 @@
         color: $color-heading;
 
         &.sale {
-            color: $color-danger;
+            span {
+                color: $color-black;
+                font-size: 20px;
+            }
 
             del {
                 margin-right: 10px;
-                font-size: 22px;
-                color: $color-text;
+                font-size: 14px;
+                color: #797979;
             }
         }
 

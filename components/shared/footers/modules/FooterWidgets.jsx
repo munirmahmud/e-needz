@@ -6,12 +6,104 @@ const FooterWidgets = () => (
         <aside className="widget widget_footer widget_contact-us">
             <h4 className="widget-title">Contact us</h4>
             <div className="widget_content">
-                <p>Call us 24/7</p>
                 <h3>1800 97 97 69</h3>
+
                 <p>
-                    502 New Design Str, Melbourne, Australia <br />
-                    <a href="mailto:contact@E-needz.co">contact@E-needz.co</a>
+                    Plot A-27, Road-1, Niketon
+                    <br />
+                    Gulshan-1 Dhaka-1212
+                    <br />
+                    01311945476
+                    <br />
+                    <a href="mailto:support@e-needz.com">support@e-needz.com</a>
                 </p>
+            </div>
+        </aside>
+        <aside className="widget widget_footer">
+            <h4 className="widget-title">Quick links</h4>
+            <ul className="ps-list--link">
+                <li>
+                    <Link href="/policy">
+                        <a>Policy</a>
+                    </Link>
+                </li>
+
+                <li>
+                    <Link href="/terms-conditions">
+                        <a>Term & Condition</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/shipping">
+                        <a>Shipping</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/return">
+                        <a>Return</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/faqs">
+                        <a>FAQs</a>
+                    </Link>
+                </li>
+            </ul>
+        </aside>
+        <aside className="widget widget_footer">
+            <h4 className="widget-title">My Account</h4>
+            <ul className="ps-list--link">
+                <li>
+                    <Link href="/page/login">
+                        <a>Login</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/page/history">
+                        <a>Order History</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/page/wishlist">
+                        <a>My Wishlist</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/page/track-order">
+                        <a>Track Order</a>
+                    </Link>
+                </li>
+                <li>
+                    <Link href="/page/affiliate-programe">
+                        <a>Be an affiliate partner</a>
+                    </Link>
+                </li>
+            </ul>
+        </aside>
+        <aside className="widget widget_footer">
+            <h4 className="widget-title">Download</h4>
+            <ul className="ps-list--link">
+                <li>
+                    <Link href="/page/about-us">
+                        <a>Our Press</a>
+                    </Link>
+                </li>
+            </ul>
+        </aside>
+        <aside className="widget widget_footer widget_newletters">
+            <h4 className="widget-title">Newsletter</h4>
+
+            <form className="ps-form--newletter" action="#" method="get">
+                <div className="form-group--nest mb-5">
+                    <input
+                        className="form-control"
+                        type="text"
+                        placeholder="Email Address"
+                    />
+                    <button className="ps-btn form-btn">Subscribe</button>
+                </div>
+
+                <h4 className="widget-title mb-4">Social Share</h4>
                 <ul className="ps-list--social">
                     <li>
                         <a className="facebook" href="#">
@@ -34,66 +126,23 @@ const FooterWidgets = () => (
                         </a>
                     </li>
                 </ul>
-            </div>
+            </form>
         </aside>
-        <aside className="widget widget_footer">
-            <h4 className="widget-title">Quick links</h4>
-            <ul className="ps-list--link">
-                <li>
-                    <Link href="/page/blank">
-                        <a>Policy</a>
-                    </Link>
-                </li>
 
-                <li>
-                    <Link href="/page/blank">
-                        <a>Term & Condition</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/blank">
-                        <a>Shipping</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/blank">
-                        <a>Return</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/faqs">
-                        <a>FAQs</a>
-                    </Link>
-                </li>
-            </ul>
-        </aside>
-        <aside className="widget widget_footer">
-            <h4 className="widget-title">Company</h4>
-            <ul className="ps-list--link">
-                <li>
-                    <Link href="/page/about-us">
-                        <a>About Us</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/blank">
-                        <a>Affilate</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/blank">
-                        <a>Career</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/page/contact-us">
-                        <a>Contact</a>
-                    </Link>
-                </li>
-            </ul>
-        </aside>
-        <aside className="widget widget_footer">
-            <h4 className="widget-title">Bussiness</h4>
+        {/* <aside className="widget widget_footer">
+            <h4 className="widget-title">Newsletter</h4>
+            <form className="d-flex align-items-center mb-5">
+                <div className="ps-form__input">
+                    <input
+                        className="form-control"
+                        type="email"
+                        placeholder="Email Address"
+                    />
+                </div>
+                <button className="ps-btn form-btn">Subscribe</button>
+            </form>
+
+            <h4 className="widget-title">Social Share</h4>
             <ul className="ps-list--link">
                 <li>
                     <Link href="/page/about-us">
@@ -105,18 +154,8 @@ const FooterWidgets = () => (
                         <a>Checkout</a>
                     </Link>
                 </li>
-                <li>
-                    <Link href="/account/user-information">
-                        <a>My account</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/shop">
-                        <a>Shop</a>
-                    </Link>
-                </li>
             </ul>
-        </aside>
+        </aside> */}
     </div>
 );
 

@@ -2,10 +2,11 @@
     position: relative;
     padding-bottom: 20px;
     margin-bottom: 20px;
+    flex: 1;
 
     .widget-title {
         margin-bottom: 2.5rem;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     &:last-child {
@@ -334,10 +335,20 @@
     @extend %list-reset;
 
     .widget-title {
-        font-size: 16px;
+        font-size: 22px;
         margin-bottom: 30px;
-        color: $color-heading;
+        color: $color-white;
         font-weight: 600;
+    }
+    .ps-list--link {
+        li {
+            a {
+                color: $color-white;
+                &:hover {
+                    color: $color-1st;
+                }
+            }
+        }
     }
 }
 
@@ -345,6 +356,9 @@
     .widget_content {
         h3 {
             color: $color-1st;
+        }
+        p {
+            color: $color-white;
         }
 
         .ps-list--social {

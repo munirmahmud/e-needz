@@ -1,5 +1,5 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 import Rating from '~/components/elements/Rating';
 
 const ModuleDetailTopInformation = ({ product }) => {
@@ -9,8 +9,8 @@ const ModuleDetailTopInformation = ({ product }) => {
     if (product.is_sale) {
         priceView = (
             <h4 className="ps-product__price sale">
-                <del className="mr-2">&{product.sale_price}</del>$
-                {product.price}
+                <span className="mr-3">{product.price} TK</span>
+                <del>{product.sale_price}</del>
             </h4>
         );
     } else {

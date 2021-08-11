@@ -19,7 +19,11 @@ const Menu = ({ source, className }) => {
                             <>
                                 <a>
                                     {item.icon && (
-                                        <img src={item.icon} alt={item.text} />
+                                        <img
+                                            src={item.icon}
+                                            alt={item.text}
+                                            className="mr-3"
+                                        />
                                     )}
                                     {item.text}
                                 </a>

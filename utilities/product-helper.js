@@ -63,7 +63,6 @@ export function StrapiProductPriceExpanded(product) {
                 <del className="ml-2">
                     ${formatCurrency(product.sale_price)}
                 </del>
-                <small>18% off</small>
             </p>
         );
     } else {

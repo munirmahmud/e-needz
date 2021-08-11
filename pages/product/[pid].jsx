@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import ProductRepository from '~/repositories/ProductRepository';
-import SkeletonProductDetail from '~/components/elements/skeletons/SkeletonProductDetail';
+import React, { useEffect, useState } from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import ProductWidgets from '~/components/partials/product/ProductWidgets';
+import DefaultDescription from '~/components/elements/detail/description/DefaultDescription';
 import ProductDetailFullwidth from '~/components/elements/detail/ProductDetailFullwidth';
-import CustomerBought from '~/components/partials/product/CustomerBought';
-import RelatedProduct from '~/components/partials/product/RelatedProduct';
-import HeaderProduct from '~/components/shared/headers/HeaderProduct';
-import HeaderDefault from '~/components/shared/headers/HeaderDefault';
+import SkeletonProductDetail from '~/components/elements/skeletons/SkeletonProductDetail';
 import PageContainer from '~/components/layouts/PageContainer';
-import Newletters from '~/components/partials/commons/Newletters';
+import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay';
+import CustomerBought from '~/components/partials/product/CustomerBought';
+import ProductWidgets from '~/components/partials/product/ProductWidgets';
 import HeaderMobileProduct from '~/components/shared/header-mobile/HeaderMobileProduct';
+import HeaderDefault from '~/components/shared/headers/HeaderDefault';
+import HeaderMarketPlace2 from '~/components/shared/headers/HeaderMarketPlace2';
+import ProductRepository from '~/repositories/ProductRepository';
 
 const ProductDefaultPage = () => {
     const router = useRouter();
@@ -57,7 +57,7 @@ const ProductDefaultPage = () => {
             productView = <ProductDetailFullwidth product={product} />;
             headerView = (
                 <>
-                    <HeaderProduct product={product} />
+                    <HeaderMarketPlace2 />
                     <HeaderMobileProduct />
                 </>
             );
@@ -74,28 +74,41 @@ const ProductDefaultPage = () => {
     }
 
     return (
-        <PageContainer
-            header={headerView}
-            title={product ? product.title : 'Loading...'}>
-            <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
-            <div className="ps-page--product">
-                <div className="ps-container">
-                    <div className="ps-page__container">
-                        <div className="ps-page__left">{productView}</div>
-                        <div className="ps-page__right">
-                            <ProductWidgets />
+        <>
+            {/* <HeaderMarketPlace2 /> */}
+            <PageContainer
+                header={headerView}
+                title={product ? product.title : 'Loading...'}>
+                <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
+                <div className="ps-page--product">
+                    <div className="ps-container">
+                        <div className="ps-page__container section-white mb-5">
+                            <div className="ps-page__left">{productView}</div>
+                            <div className="ps-page__right">
+                                <ProductWidgets />
+                            </div>
+                        </div>
+                        <div className="ps-page__container section-white mb-5">
+                            <DefaultDescription />
+                        </div>
+
+                        {/* <RelatedProduct collectionSlug="shop-recommend-items" /> */}
+                    </div>
+                    <HomeDefaultDealOfDay
+                        collectionSlug="deal-of-the-day"
+                        dealTitle="Related Products"
+                    />
+                    <div className="ps-container mt-5">
+                        <div className="ps-page__container section-white mb-5">
+                            <CustomerBought
+                                layout="fullwidth"
+                                collectionSlug="deal-of-the-day"
+                            />
                         </div>
                     </div>
-
-                    <CustomerBought
-                        layout="fullwidth"
-                        collectionSlug="deal-of-the-day"
-                    />
-                    <RelatedProduct collectionSlug="shop-recommend-items" />
                 </div>
-            </div>
-            <Newletters />
-        </PageContainer>
+            </PageContainer>
+        </>
     );
 };
 

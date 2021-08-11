@@ -1,8 +1,8 @@
+import Link from 'next/link';
 import React from 'react';
 import LazyLoad from 'react-lazyload';
 import { baseUrl } from '~/repositories/Repository';
 import { formatCurrency } from '~/utilities/product-helper';
-import Link from 'next/link';
 
 function getImageURL(source, size) {
     let image, imageURL;
@@ -151,7 +151,9 @@ export default function useProduct() {
                     100
                 ).toFixed(0);
                 return (
-                    <div className="ps-product__badge">-{discountPercent}%</div>
+                    <div className="ps-product__badge">
+                        {discountPercent}% off
+                    </div>
                 );
             }
             return view;

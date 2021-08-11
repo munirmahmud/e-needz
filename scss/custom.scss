@@ -2,8 +2,18 @@
     background-color: $color_white;
     padding: 40px 30px;
 
+    .section__header,
     .ps-section__header {
         border-color: #f2f2f2;
+        padding-bottom: 15px;
+    }
+    .section__header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid;
+        border-color: #cccccc;
+        margin-bottom: 35px;
     }
     .ps-product--inner {
         border: 1px solid;
@@ -32,5 +42,117 @@
     }
     .form-control:focus {
         border-color: $color_black;
+    }
+}
+
+.btn-small,
+button.btn-small {
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 400;
+    color: $color-white;
+}
+
+.ps-product {
+    &:hover {
+        .ps-product__content {
+            height: auto;
+        }
+    }
+}
+
+.product-offer-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $color-1st;
+    padding: 6px 12px;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+button.form-btn {
+    padding-right: 20px;
+    padding-left: 20px;
+    color: $color-white;
+    font-weight: 500;
+    border-radius: 0;
+}
+.ps-form--newletter {
+    button.ps-btn:hover,
+    button.ps-btn:active {
+        background-color: #d87b0c;
+    }
+}
+
+.ps-page--product {
+    padding-top: 20px;
+}
+
+.ps-tab-root {
+    .ant-tabs-tab-active {
+        .ant-tabs-tab-btn {
+            color: $color-black;
+        }
+    }
+    .ant-tabs-tab-btn {
+        color: $color-black;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .ant-tabs-tab {
+        color: $color-black;
+
+        &:hover {
+            color: $color-1st;
+        }
+    }
+    .ant-tabs-nav-list {
+        .ant-tabs-ink-bar {
+            background: $color-1st;
+            height: 4px;
+        }
+    }
+    .ant-tabs-nav {
+        margin-bottom: 50px;
+        &::before {
+            bottom: 1px;
+        }
+    }
+}
+
+.ps-customer-bought {
+    &.ps-section--default {
+        margin-bottom: 0;
+    }
+    .ps-product {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 15px;
+        height: 95%;
+
+        &:hover {
+            .ps-product__content {
+                height: 0;
+            }
+        }
+        .ps-product__content {
+            visibility: visible;
+            opacity: 1;
+            &.hover {
+                border: 0px solid transparent;
+            }
+        }
+    }
+    .ps-section__content {
+        .row {
+            margin-right: -8px;
+            margin-left: -8px;
+        }
+        .col-md-2 {
+            padding-right: 8px;
+            padding-left: 8px;
+        }
     }
 }

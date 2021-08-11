@@ -2,7 +2,7 @@
     position: relative;
     padding-right: 2px;
     .ps-product {
-        margin-right: 6px;
+        margin-right: 0px;
         margin-bottom: 5px;
     }
 
@@ -81,11 +81,11 @@
         @media screen and (min-width: 1440px) {
             .slick-arrow {
                 &.slick-prev {
-                    left: -70px;
+                    left: -35px;
                 }
 
                 &.slick-next {
-                    right: -70px;
+                    right: -35px;
                 }
             }
         }
@@ -93,7 +93,7 @@
 
     &.blur {
         .slick-arrow {
-            background-color: rgba(#ccc, .5);
+            background-color: rgba(#ccc, 0.5);
             &:hover {
                 background-color: $color-1st;
             }

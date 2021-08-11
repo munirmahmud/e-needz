@@ -1,21 +1,22 @@
+import Link from 'next/link';
 import React from 'react';
 import { connect } from 'react-redux';
-import Link from 'next/link';
-import Rating from '../Rating';
-import { StrapiProductPriceExpanded } from '~/utilities/product-helper';
 import ModuleProductActions from '~/components/elements/products/modules/ModuleProductActions';
-import ModuleProductProgressbar from '~/components/elements/products/modules/ModuleProductProgressbar';
 import useProduct from '~/hooks/useProduct';
+import { StrapiProductPriceExpanded } from '~/utilities/product-helper';
+import Rating from '../Rating';
 
 const ProductDealOfDay = ({ product }) => {
     const { thumbnailImage, badge, title } = useProduct();
+
     return (
         <div className="ps-product ps-product--inner">
             <div className="ps-product__thumbnail">
                 <Link href="/product/[pid]" as={`/product/${product.id}`}>
                     <a>{thumbnailImage(product)}</a>
                 </Link>
-                {badge(product)}
+                {/* {badge(product)} */}
+                <small className="product-offer-badge">18% off</small>
                 <ModuleProductActions product={product} />
             </div>
             <div className="ps-product__container">
@@ -29,7 +30,7 @@ const ProductDealOfDay = ({ product }) => {
                         <Rating />
                         <span>{product.ratingCount}</span>
                     </div>
-                    <ModuleProductProgressbar product={product} />
+                    <button className="ps-btn btn-small">Buy Now</button>
                 </div>
             </div>
         </div>

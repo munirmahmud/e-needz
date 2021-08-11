@@ -7,7 +7,7 @@ import useGetProducts from '~/hooks/useGetProducts';
 import { carouselFullwidth } from '~/utilities/carousel-helpers';
 import { generateTempArray } from '~/utilities/common-helpers';
 
-const HomeDefaultDealOfDay = ({ collectionSlug }) => {
+const HomeDefaultDealOfDay = ({ collectionSlug, dealTitle }) => {
     const { productItems, loading, getProductsByCollection } = useGetProducts();
 
     useEffect(() => {
@@ -43,17 +43,20 @@ const HomeDefaultDealOfDay = ({ collectionSlug }) => {
             <div className="ps-container">
                 <div className="section-white">
                     <div className="ps-section__header">
-                        <div className="ps-block--countdown-deal">
-                            <div className="ps-block__left">
-                                <h3>Features Products</h3>
+                        {dealTitle && (
+                            <div className="ps-block--countdown-deal">
+                                <div className="ps-block__left">
+                                    <h3>{dealTitle}</h3>
+                                </div>
                             </div>
-                        </div>
+                        )}
+
                         <div className="search-products">
                             <div className="ps-form__input">
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="I'm shopping for..."
+                                    placeholder="Search..."
                                 />
                             </div>
                             <button className="ps-btn">
