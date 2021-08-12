@@ -1,9 +1,8 @@
 import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import Wishlist from '~/components/partials/account/Wishlist';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
 import PageContainer from '~/components/layouts/PageContainer';
-import Newletters from '~/components/partials/commons/Newletters';
+import Wishlist from '~/components/partials/account/Wishlist';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const WishlistPage = () => {
     const breadCrumb = [
@@ -17,12 +16,11 @@ const WishlistPage = () => {
     ];
 
     return (
-        <PageContainer footer={<FooterDefault />} title="Wishlist">
+        <PageContainer footer={<FooterFullwidth />} title="Wishlist">
             <div className="ps-page--simple">
                 <BreadCrumb breacrumb={breadCrumb} />
                 <Wishlist />
             </div>
-            <Newletters layout="container" />
         </PageContainer>
     );
 };

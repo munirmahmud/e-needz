@@ -1,15 +1,8 @@
 import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import ShopItems from '~/components/partials/shop/ShopItems';
-import ProductGroupByCarousel from '~/components/partials/product/ProductGroupByCarousel';
-import ShopCategories from '~/components/partials/shop/ShopCategories';
-import ShopBrands from '~/components/partials/shop/ShopBrands';
-import ShopBanner from '~/components/partials/shop/ShopBanner';
-import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories';
-import WidgetShopBrands from '~/components/shared/widgets/WidgetShopBrands';
-import WidgetShopFilterByPriceRange from '~/components/shared/widgets/WidgetShopFilterByPriceRange';
 import PageContainer from '~/components/layouts/PageContainer';
-import Newletters from '~/components/partials/commons/Newletters';
+import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay';
+import ShopBrands from '~/components/partials/shop/ShopBrands';
 
 const ShopDefaultPage = () => {
     const breadCrumb = [
@@ -18,7 +11,7 @@ const ShopDefaultPage = () => {
             url: '/',
         },
         {
-            text: 'Shop Default',
+            text: 'Shop',
         },
     ];
 
@@ -26,11 +19,11 @@ const ShopDefaultPage = () => {
         <PageContainer title="Shop">
             <div className="ps-page--shop">
                 <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
-                <div className="ps-container">
-                    <ShopBanner />
-                    <ShopBrands />
-                    <ShopCategories />
-                    <div className="ps-layout--shop">
+                <div className="ps-container page-shop">
+                    {/* <ShopBanner /> */}
+                    <ShopBrands title="Shop By Brand" />
+
+                    {/* <div className="ps-layout--shop">
                         <div className="ps-layout__left">
                             <WidgetShopCategories />
                             <WidgetShopBrands />
@@ -47,10 +40,29 @@ const ShopDefaultPage = () => {
                             />
                             <ShopItems columns={6} pageSize={18} />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
+
+                <HomeDefaultDealOfDay
+                    collectionSlug="deal-of-the-day"
+                    dealTitle="All Products"
+                    carousel
+                />
+                <div className="mb-5" />
+
+                <div className="page-shop">
+                    <HomeDefaultDealOfDay
+                        collectionSlug="deal-of-the-day"
+                        dealTitle="Customers who bought this item also bought"
+                    />
+                </div>
+                <div className="mb-5" />
+                <HomeDefaultDealOfDay
+                    collectionSlug="deal-of-the-day"
+                    dealTitle="New Arrival"
+                />
+                <div className="mb-5" />
             </div>
-            <Newletters />
         </PageContainer>
     );
 };

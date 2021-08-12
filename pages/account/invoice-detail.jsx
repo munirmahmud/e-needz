@@ -1,9 +1,8 @@
 import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import InvoiceDetail from '~/components/partials/account/InvoiceDetail';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
 import PageContainer from '~/components/layouts/PageContainer';
+import InvoiceDetail from '~/components/partials/account/InvoiceDetail';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const InvoiceDetailPage = () => {
     const breadCrumb = [
@@ -17,12 +16,11 @@ const InvoiceDetailPage = () => {
     ];
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Invoice detail">
+            <PageContainer footer={<FooterFullwidth />} title="Invoice detail">
                 <div className="ps-page--my-account">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <InvoiceDetail />
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

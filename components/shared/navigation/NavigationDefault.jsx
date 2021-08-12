@@ -8,22 +8,22 @@ import LanguageSwicher from '../headers/modules/LanguageSwicher';
 const menuMarket2 = [
     {
         text: 'Bikes',
-        url: '/bikes',
+        url: '/category/bikes',
         icon: '/static/icons/motorcycle.svg',
     },
     {
         text: 'Mobile Phone',
-        url: '/mobiles',
+        url: '/category/bikes',
         icon: '/static/icons/smartphone.svg',
     },
     {
         text: 'Television',
-        url: '/television',
+        url: '/category/bikes',
         icon: '/static/icons/television.svg',
     },
     {
         text: 'Gadget',
-        url: '/gadget',
+        url: '/category/bikes',
         icon: '/static/icons/webcam.svg',
     },
 ];

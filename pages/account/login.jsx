@@ -1,10 +1,8 @@
 import React from 'react';
-
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import Login from '~/components/partials/account/Login';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
+import Login from '~/components/partials/account/Login';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const LoginPage = () => {
     const breadCrumb = [
@@ -18,12 +16,11 @@ const LoginPage = () => {
     ];
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Login">
+            <PageContainer footer={<FooterFullwidth />} title="Login">
                 <div className="ps-page--my-account">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <Login />
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

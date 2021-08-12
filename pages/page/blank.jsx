@@ -1,9 +1,8 @@
 import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import BlankContent from '~/components/partials/page/Blank';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
 import PageContainer from '~/components/layouts/PageContainer';
+import BlankContent from '~/components/partials/page/Blank';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const BlankPage = () => {
     const breadCrumb = [
@@ -17,12 +16,11 @@ const BlankPage = () => {
     ];
 
     return (
-        <PageContainer footer={<FooterDefault />} title="Blank page">
+        <PageContainer footer={<FooterFullwidth />} title="Blank page">
             <div className="ps-page--single">
                 <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
                 <BlankContent />
             </div>
-            <Newletters layout="container" />
         </PageContainer>
     );
 };

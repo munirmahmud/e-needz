@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FaqsContent = () => (
-    <div className="table-responsive">
+    <div className="table-responsive mt-5 mb-5">
         <table className="table ps-table--faqs">
             <tbody>
                 <tr>

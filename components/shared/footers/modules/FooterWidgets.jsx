@@ -54,7 +54,7 @@ const FooterWidgets = () => (
             <h4 className="widget-title">My Account</h4>
             <ul className="ps-list--link">
                 <li>
-                    <Link href="/page/login">
+                    <Link href="/account/login">
                         <a>Login</a>
                     </Link>
                 </li>
@@ -64,12 +64,12 @@ const FooterWidgets = () => (
                     </Link>
                 </li>
                 <li>
-                    <Link href="/page/wishlist">
+                    <Link href="/account/wishlist">
                         <a>My Wishlist</a>
                     </Link>
                 </li>
                 <li>
-                    <Link href="/page/track-order">
+                    <Link href="/account/order-tracking">
                         <a>Track Order</a>
                     </Link>
                 </li>
@@ -128,34 +128,6 @@ const FooterWidgets = () => (
                 </ul>
             </form>
         </aside>
-
-        {/* <aside className="widget widget_footer">
-            <h4 className="widget-title">Newsletter</h4>
-            <form className="d-flex align-items-center mb-5">
-                <div className="ps-form__input">
-                    <input
-                        className="form-control"
-                        type="email"
-                        placeholder="Email Address"
-                    />
-                </div>
-                <button className="ps-btn form-btn">Subscribe</button>
-            </form>
-
-            <h4 className="widget-title">Social Share</h4>
-            <ul className="ps-list--link">
-                <li>
-                    <Link href="/page/about-us">
-                        <a>Our Press</a>
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/account/checkout">
-                        <a>Checkout</a>
-                    </Link>
-                </li>
-            </ul>
-        </aside> */}
     </div>
 );
 

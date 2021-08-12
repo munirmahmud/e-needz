@@ -1,10 +1,8 @@
 import React from 'react';
-
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import EditAddress from '~/components/partials/account/EditAddress';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
 import PageContainer from '~/components/layouts/PageContainer';
+import EditAddress from '~/components/partials/account/EditAddress';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const EditAddressPage = () => {
     const breadCrumb = [
@@ -18,12 +16,11 @@ const EditAddressPage = () => {
     ];
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Edit Address">
+            <PageContainer footer={<FooterFullwidth />} title="Edit Address">
                 <div className="ps-page--my-account">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <EditAddress />
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

@@ -42,7 +42,7 @@ class HeaderMobile extends Component {
                         <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo_light.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>
@@ -59,7 +59,7 @@ class HeaderMobile extends Component {
                             <input
                                 className="form-control"
                                 type="text"
-                                placeholder="Search something..."
+                                placeholder="Search..."
                             />
                             <button>
                                 <i className="icon-magnifier"></i>

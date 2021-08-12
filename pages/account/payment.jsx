@@ -1,12 +1,9 @@
 import React from 'react';
-
-import BreadCrumb from '~/components/elements/BreadCrumb';
-import Payment from '~/components/partials/account/Payment';
 import { connect } from 'react-redux';
-
+import BreadCrumb from '~/components/elements/BreadCrumb';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
+import Payment from '~/components/partials/account/Payment';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const PaymentPage = () => {
     const breadCrumb = [
@@ -29,12 +26,11 @@ const PaymentPage = () => {
 
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Payment">
+            <PageContainer footer={<FooterFullwidth />} title="Payment">
                 <div className="ps-page--simple">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <Payment />
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

@@ -1,11 +1,9 @@
 import React from 'react';
-
 import { connect } from 'react-redux';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import Shipping from '~/components/partials/account/Shipping';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
+import Shipping from '~/components/partials/account/Shipping';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const ShippingPage = () => {
     const breadCrumb = [
@@ -28,12 +26,11 @@ const ShippingPage = () => {
 
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Shipping">
+            <PageContainer footer={<FooterFullwidth />} title="Shipping">
                 <div className="ps-page--simple">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <Shipping />
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

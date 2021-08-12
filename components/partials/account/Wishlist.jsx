@@ -1,7 +1,7 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import useEcomerce from '~/hooks/useEcomerce';
 import ProductCart from '~/components/elements/products/ProductCart';
+import useEcomerce from '~/hooks/useEcomerce';
 
 const Wishlist = ({ ecomerce }) => {
     const { loading, products, getProducts } = useEcomerce();
@@ -83,10 +83,14 @@ const Wishlist = ({ ecomerce }) => {
     return (
         <div className="ps-section--shopping ps-whishlist">
             <div className="container">
-                <div className="ps-section__header">
-                    <h1>Wishlist</h1>
+                <div className="section-white">
+                    <div className="ps-section__header justify-content-center">
+                        <h1>Wishlist</h1>
+                    </div>
+                    <div className="ps-section__content">
+                        {wishlistItemsView}
+                    </div>
                 </div>
-                <div className="ps-section__content">{wishlistItemsView}</div>
             </div>
         </div>
     );

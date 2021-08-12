@@ -1,13 +1,12 @@
+import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import ModuleCartSummary from '~/components/ecomerce/modules/ModuleCartSummary';
+import ModuleEcomerceCartItems from '~/components/ecomerce/modules/ModuleEcomerceCartItems';
 import BreadCrumb from '~/components/elements/BreadCrumb';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
-import { connect } from 'react-redux';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 import useEcomerce from '~/hooks/useEcomerce';
-import ModuleEcomerceCartItems from '~/components/ecomerce/modules/ModuleEcomerceCartItems';
-import Link from 'next/link';
-import ModuleCartSummary from '~/components/ecomerce/modules/ModuleCartSummary';
 
 const ShoppingCartScreen = ({ ecomerce }) => {
     const { products, getProducts } = useEcomerce();
@@ -103,19 +102,20 @@ const ShoppingCartScreen = ({ ecomerce }) => {
 
     return (
         <>
-            <PageContainer footer={<FooterDefault />} title="Shopping Cart">
+            <PageContainer footer={<FooterFullwidth />} title="Shopping Cart">
                 <div className="ps-page--simple">
                     <BreadCrumb breacrumb={breadCrumb} />
                     <div className="ps-section--shopping ps-shopping-cart">
                         <div className="container">
-                            <div className="ps-section__header">
-                                <h1>Shopping Cart</h1>
+                            <div className="section-white">
+                                <div className="ps-section__header justify-content-center">
+                                    <h1>Shopping Cart</h1>
+                                </div>
+                                {contentView}
                             </div>
-                            {contentView}
                         </div>
                     </div>
                 </div>
-                <Newletters layout="container" />
             </PageContainer>
         </>
     );

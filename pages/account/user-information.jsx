@@ -1,10 +1,8 @@
 import React from 'react';
-
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import UserInformation from '~/components/partials/account/UserInformation';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
 import PageContainer from '~/components/layouts/PageContainer';
-import Newletters from '~/components/partials/commons/Newletters';
+import UserInformation from '~/components/partials/account/UserInformation';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const UserInformationPage = () => {
     const breadCrumb = [
@@ -18,12 +16,11 @@ const UserInformationPage = () => {
     ];
 
     return (
-        <PageContainer footer={<FooterDefault />} title="User Information">
+        <PageContainer footer={<FooterFullwidth />} title="User Information">
             <div className="ps-page--my-account">
                 <BreadCrumb breacrumb={breadCrumb} />
                 <UserInformation />
             </div>
-            <Newletters layout="container" />
         </PageContainer>
     );
 };

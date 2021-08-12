@@ -1,9 +1,8 @@
 import React from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import Compare from '~/components/partials/account/Compare';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
 import PageContainer from '~/components/layouts/PageContainer';
+import Compare from '~/components/partials/account/Compare';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const ComparePage = () => {
     const breadCrumb = [
@@ -16,12 +15,11 @@ const ComparePage = () => {
         },
     ];
     return (
-        <PageContainer footer={<FooterDefault />} title="Compare">
+        <PageContainer footer={<FooterFullwidth />} title="Compare">
             <div className="ps-page--simple">
                 <BreadCrumb breacrumb={breadCrumb} />
                 <Compare />
             </div>
-            <Newletters layout="container" />
         </PageContainer>
     );
 };

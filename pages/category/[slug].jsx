@@ -1,14 +1,14 @@
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories';
+import PageContainer from '~/components/layouts/PageContainer';
+import Newletters from '~/components/partials/commons/Newletters';
+import ProductItems from '~/components/partials/product/ProductItems';
+import FooterDefault from '~/components/shared/footers/FooterDefault';
 import WidgetShopBrands from '~/components/shared/widgets/WidgetShopBrands';
+import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories';
 import WidgetShopFilterByPriceRange from '~/components/shared/widgets/WidgetShopFilterByPriceRange';
 import ProductRepository from '~/repositories/ProductRepository';
-import { useRouter } from 'next/router';
-import ProductItems from '~/components/partials/product/ProductItems';
-import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
-import Newletters from '~/components/partials/commons/Newletters';
 
 const ProductCategoryScreen = () => {
     const Router = useRouter();

@@ -309,7 +309,7 @@
 }
 
 .ps-deal-of-day {
-    @extend %list-reset;
+    // @extend %list-reset;
 
     .ps-section__header {
         margin-bottom: 35px;
@@ -1459,7 +1459,7 @@
 }
 
 .ps-my-account {
-    min-height: 100vh;
+    min-height: 70vh;
     background-color: #f1f1f1;
 }
 

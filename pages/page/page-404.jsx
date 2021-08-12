@@ -1,11 +1,11 @@
-import React from 'react';
 import Link from 'next/link';
+import React from 'react';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const Page404 = () => {
     return (
-        <PageContainer footer={<FooterDefault />} title="Page not found.">
+        <PageContainer footer={<FooterFullwidth />} title="Page not found.">
             <div className="ps-page--404">
                 <div className="container">
                     <div className="ps-section__content">

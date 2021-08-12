@@ -7,7 +7,7 @@ import useGetProducts from '~/hooks/useGetProducts';
 import { carouselFullwidth } from '~/utilities/carousel-helpers';
 import { generateTempArray } from '~/utilities/common-helpers';
 
-const HomeDefaultDealOfDay = ({ collectionSlug, dealTitle }) => {
+const HomeDefaultDealOfDay = ({ collectionSlug, dealTitle, carousel }) => {
     const { productItems, loading, getProductsByCollection } = useGetProducts();
 
     useEffect(() => {

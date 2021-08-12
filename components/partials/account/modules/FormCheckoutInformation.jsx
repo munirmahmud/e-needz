@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import { Form, Input } from 'antd';
 import Link from 'next/link';
 import Router from 'next/router';
-import { Form, Input } from 'antd';
+import React, { Component } from 'react';
 
 class FormCheckoutInformation extends Component {
     constructor(props) {
@@ -16,6 +16,7 @@ class FormCheckoutInformation extends Component {
         return (
             <Form
                 className="ps-form__billing-info"
+                autoComplete="off"
                 onFinish={this.handleLoginSubmit}>
                 <h3 className="ps-form__heading">Contact information</h3>
                 <div className="form-group">

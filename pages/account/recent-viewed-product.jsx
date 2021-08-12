@@ -1,10 +1,9 @@
 import React from 'react';
-
 import BreadCrumb from '~/components/elements/BreadCrumb';
-import RecentViewedProducts from '~/components/partials/account/RecentViewedProducts';
 import PageContainer from '~/components/layouts/PageContainer';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
+import RecentViewedProducts from '~/components/partials/account/RecentViewedProducts';
 import Newletters from '~/components/partials/commons/Newletters';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 
 const RecentViewedProductsPage = () => {
     const breadCrumb = [
@@ -19,7 +18,7 @@ const RecentViewedProductsPage = () => {
     return (
         <>
             <PageContainer
-                footer={<FooterDefault />}
+                footer={<FooterFullwidth />}
                 title="Recent Viewed Products">
                 <div className="ps-page--my-account">
                     <BreadCrumb breacrumb={breadCrumb} />
