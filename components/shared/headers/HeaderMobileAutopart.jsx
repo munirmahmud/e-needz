@@ -42,7 +42,7 @@ class HeaderMobileAutopart extends Component {
                         <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-autopart.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

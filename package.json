@@ -1,11 +1,13 @@
 {
     "name": "E-needz_react",
+    "homepage": "https://piktask.bdtask.com",
     "version": "2.1.1",
     "private": true,
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start -p 3003"
+        "start": "next start -p 3003",
+        "export": "npm run build && next export -o _static"
     },
     "dependencies": {
         "antd": "^4.5.2",

@@ -76,10 +76,10 @@ const HeaderElectronic = () => {
             <div className="header__content">
                 <div className="container">
                     <div className="header__content-left">
-                        <Link href="/home/electronic">
+                        <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-electronic.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

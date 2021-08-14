@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import React from 'react';
+import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
 import HeaderMarketPlace2 from '~/components/shared/headers/HeaderMarketPlace2';
 import HeaderMobile from '~/components/shared/headers/HeaderMobile';
-import FooterDefault from '../components/shared/footers/FooterDefault';
 
 function Error({ statusCode }) {
     return (
@@ -27,7 +27,7 @@ function Error({ statusCode }) {
                     </div>
                 </div>
             </div>
-            <FooterDefault />
+            <FooterFullwidth />
         </div>
     );
 }

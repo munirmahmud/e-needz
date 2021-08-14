@@ -110,10 +110,10 @@ const HeaderAutoPart = () => {
             <div className="header__content">
                 <div className="container">
                     <div className="header__content-left">
-                        <Link href="/home/auto-part">
+                        <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-autopart.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

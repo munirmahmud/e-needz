@@ -125,10 +125,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/Suzuki-Gixxer-PNG-Bike-PNG-Image.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Suzuki Gixxer Bike</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -137,10 +137,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/blender.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Blender</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -149,10 +149,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/chair.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>New Chair</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -161,10 +161,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/man-clock.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Man Colck</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -173,10 +173,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/gadget-item.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Gadget Item</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -185,10 +185,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/gaming-instrument.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Gaming World</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -197,10 +197,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/ultra-television.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Ultra Television</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -209,10 +209,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/Image 1.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Wall Mats</p>
                         </div>
                     </div>
                     <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
@@ -221,10 +221,10 @@ const HomeDefaultTopCategories = ({ title }) => (
                                 <a className="ps-block__overlay"></a>
                             </Link>
                             <img
-                                src="/static/img/categories/8.jpg"
+                                src="/static/products/Health & Beauty.png"
                                 alt="E-needz"
                             />
-                            <p>Technology Toys</p>
+                            <p>Health & Beauty</p>
                         </div>
                     </div>
                 </div>

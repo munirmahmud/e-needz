@@ -42,7 +42,7 @@ class HeaderMobileTechnology extends Component {
                         <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-technology.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

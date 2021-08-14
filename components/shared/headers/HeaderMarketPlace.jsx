@@ -49,9 +49,12 @@ const HeaderMarketPlace = () => {
             <div className="header__content">
                 <div className="container">
                     <div className="header__content-left">
-                        <Link href="/home/market-place">
+                        <Link href="/">
                             <a className="ps-logo">
-                                <img src="/static/img/logo.png" alt="E-needz" />
+                                <img
+                                    src="/static/icons/logo.svg"
+                                    alt="E-needz"
+                                />
                             </a>
                         </Link>
 

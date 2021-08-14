@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import Slider from 'react-slick';
 import NextArrow from '~/components/elements/carousel/NextArrow';
 import PrevArrow from '~/components/elements/carousel/PrevArrow';
-import Promotion from '~/components/elements/media/Promotion';
 import MediaRepository from '~/repositories/MediaRepository';
 import { baseUrl } from '~/repositories/Repository';
 import { getItemBySlug } from '~/utilities/product-helper';
@@ -73,29 +72,43 @@ const HomeDefaultBanner = () => {
         <>
             <div className="ps-home-banner ps-home-banner--1">
                 <div className="ps-container">
-                    <div style={{ width: '100%' }}>{mainCarouselView}</div>
+                    <div style={{ width: '100%', height: '100%' }}>
+                        {mainCarouselView}
+                    </div>
                 </div>
             </div>
 
             <div className="ps-container small-banners">
                 <div className="row">
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <Promotion
-                            link="/shop"
-                            image={promotion1 ? promotion1.image : null}
-                        />
+                        <Link href="/shop">
+                            <a>
+                                <img
+                                    src="/static/banners/banner-1.png"
+                                    alt="E-needz"
+                                />
+                            </a>
+                        </Link>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <Promotion
-                            link="/shop"
-                            image={promotion2 ? promotion2.image : null}
-                        />
+                        <Link href="/shop">
+                            <a>
+                                <img
+                                    src="/static/banners/banner-2.png"
+                                    alt="E-needz"
+                                />
+                            </a>
+                        </Link>
                     </div>
                     <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-                        <Promotion
-                            link="/shop"
-                            image={promotion2 ? promotion2.image : null}
-                        />
+                        <Link href="/shop">
+                            <a>
+                                <img
+                                    src="/static/banners/banner-3.png"
+                                    alt="E-needz"
+                                />
+                            </a>
+                        </Link>
                     </div>
                 </div>
             </div>

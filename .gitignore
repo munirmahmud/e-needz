@@ -5,6 +5,8 @@
 !components
 /.pnp
 /utilities
+ /_static/
+
 
 # testing
 /coverage
@@ -30,3 +32,5 @@ package-lock.json
 .now
 
 scss/*
+.eslintrc.json
+.prettierrc

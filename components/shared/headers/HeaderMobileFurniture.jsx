@@ -42,7 +42,7 @@ class HeaderMobileFurniture extends Component {
                         <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-furniture.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

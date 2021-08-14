@@ -30,10 +30,10 @@ const HeaderOrganic = () => {
                                 />
                             </div>
                         </div>
-                        <Link href="/home/organic">
+                        <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-organic.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

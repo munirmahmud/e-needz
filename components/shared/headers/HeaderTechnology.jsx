@@ -92,10 +92,10 @@ const HeaderTechnology = () => {
             <div className="header__content">
                 <div className="container">
                     <div className="header__content-left">
-                        <Link href="/home/technology">
+                        <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-technology.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

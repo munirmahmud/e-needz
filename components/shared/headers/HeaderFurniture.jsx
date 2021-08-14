@@ -20,10 +20,10 @@ const HeaderFurniture = () => {
             <div className="header__top">
                 <div className="container">
                     <div className="header__left">
-                        <Link href="/home/furniture">
+                        <Link href="/">
                             <a className="ps-logo">
                                 <img
-                                    src="/static/img/logo-furniture.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>

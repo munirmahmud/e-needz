@@ -32,11 +32,10 @@ const HeaderMarketPlace3 = () => {
                                 />
                             </div>
                         </div>
-                        <Link href="/home/market-place-3">
+                        <Link href="/">
                             <a className="ps-logo">
-                                q
                                 <img
-                                    src="/static/img/logo_light.png"
+                                    src="/static/icons/logo.svg"
                                     alt="E-needz"
                                 />
                             </a>
