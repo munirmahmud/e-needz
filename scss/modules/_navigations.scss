@@ -1,6 +1,18 @@
 .navigation {
     background-color: $color-1st;
     transition: all 0.25s ease;
+    position: relative;
+    background-image: linear-gradient(90deg, #000000 50%, #fd8b01 50%);
+
+    // &::after {
+    //     content: '';
+    //     position: absolute;
+    //     background-color: $color-1st;
+    //     width: 100%;
+    //     height: 100%;
+    //     top: 0;
+    //     left: 99%;
+    // }
 
     > .ps-container,
     > .container {
@@ -11,18 +23,18 @@
             width: 100%;
         }
     }
-    .nav-container {
-        position: relative;
-        &::after {
-            content: '';
-            position: absolute;
-            background-color: $color-1st;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 99%;
-        }
-    }
+    // .nav-container {
+    //     position: relative;
+    //     &::after {
+    //         content: '';
+    //         position: absolute;
+    //         background-color: $color-1st;
+    //         width: 100%;
+    //         height: 100%;
+    //         top: 0;
+    //         left: 99%;
+    //     }
+    // }
 
     &__extra {
         > li {

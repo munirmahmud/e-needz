@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import NextArrow from '~/components/elements/carousel/NextArrow';
 import PrevArrow from '~/components/elements/carousel/PrevArrow';
 import MediaRepository from '~/repositories/MediaRepository';
-import { baseUrl } from '~/repositories/Repository';
 import { getItemBySlug } from '~/utilities/product-helper';
 
 const HomeDefaultBanner = () => {
@@ -13,11 +12,13 @@ const HomeDefaultBanner = () => {
     const [promotion2, setPromotion2] = useState(null);
 
     async function getBannerItems() {
-        const responseData = await MediaRepository.getBannersBySlug(
-            'banner-home-fullwidth'
+        const response = await fetch(
+            'https://e-needz.com/api/react/website_api/slider_list'
         );
-        if (responseData) {
-            setBannerItems(responseData);
+        const { data } = await response.json();
+
+        if (data) {
+            setBannerItems(data);
         }
     }
 
@@ -51,12 +52,12 @@ const HomeDefaultBanner = () => {
     let mainCarouselView;
     if (bannerItems) {
         const carouseItems = bannerItems.map((item) => (
-            <div className="slide-item" key={item.id}>
-                <Link href="/shop">
+            <div className="slide-item" key={item.slider_id}>
+                <Link href={item.slider_link}>
                     <a
                         className="ps-banner-item--default bg--cover"
                         style={{
-                            backgroundImage: `url(${baseUrl}${item.image.url})`,
+                            backgroundImage: `url(${item.slider_image})`,
                         }}
                     />
                 </Link>

@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import { Form, Input, notification } from 'antd';
 import Link from 'next/link';
 import Router from 'next/router';
-import { login } from '../../../store/auth/action';
-
-import { Form, Input, notification } from 'antd';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { login } from '../../../store/auth/action';
 
 class Login extends Component {
     constructor(props) {
@@ -28,11 +27,10 @@ class Login extends Component {
         });
     }
 
-    handleLoginSubmit = e => {
+    handleLoginSubmit = (e) => {
         console.log('test');
         this.props.dispatch(login());
         Router.push('/');
-
     };
 
     render() {
@@ -54,7 +52,7 @@ class Login extends Component {
                                 </Link>
                             </li>
                         </ul>
-                        <div className="ps-tab active" id="sign-in">
+                        <div className="ps-tab active pb-4" id="sign-in">
                             <div className="ps-form__content">
                                 <h5>Log In Your Account</h5>
                                 <div className="form-group">
@@ -112,51 +110,6 @@ class Login extends Component {
                                     </button>
                                 </div>
                             </div>
-                            <div className="ps-form__footer">
-                                <p>Connect with:</p>
-                                <ul className="ps-list--social">
-                                    <li>
-                                        <a
-                                            className="facebook"
-                                            href="#"
-                                            onClick={e =>
-                                                this.handleFeatureWillUpdate(e)
-                                            }>
-                                            <i className="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="google"
-                                            href="#"
-                                            onClick={e =>
-                                                this.handleFeatureWillUpdate(e)
-                                            }>
-                                            <i className="fa fa-google-plus"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="twitter"
-                                            href="#"
-                                            onClick={e =>
-                                                this.handleFeatureWillUpdate(e)
-                                            }>
-                                            <i className="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a
-                                            className="instagram"
-                                            href="#"
-                                            onClick={e =>
-                                                this.handleFeatureWillUpdate(e)
-                                            }>
-                                            <i className="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </Form>
                 </div>
@@ -164,7 +117,7 @@ class Login extends Component {
         );
     }
 }
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.auth;
 };
 export default connect(mapStateToProps)(Login);
