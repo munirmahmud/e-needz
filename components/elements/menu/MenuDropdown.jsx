@@ -2,7 +2,6 @@ import Link from 'next/link';
 import React from 'react';
 
 const MenuDropdown = ({ source }) => {
-    console.log('menu dropwdown', source);
     return (
         <li className="menu-item-has-children dropdown">
             {

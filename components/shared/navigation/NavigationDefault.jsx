@@ -52,7 +52,6 @@ class NavigationDefault extends Component {
         })
             .then((res) => res.json())
             .then(({ data }) => {
-                console.log('data', data);
                 this.setState({ parentMenu: data });
             });
     }
