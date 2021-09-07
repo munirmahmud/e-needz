@@ -13,11 +13,13 @@ const Menu = ({ source, className }) => {
     //         .then((data) => console.log('retrieve_category_product', data));
     // }, []);
 
+    console.log(className);
+
     // Views
     let menuView;
     if (source) {
         menuView = source.map((item, index) => {
-            if (item.sub_items) {
+            if (item?.sub_items?.length) {
                 return <MenuDropdown source={item} key={index} />;
             } else if (item.megaContent) {
                 return <MegaMenu source={item} key={item.text} />;

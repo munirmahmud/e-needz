@@ -57,6 +57,7 @@ class NavigationDefault extends Component {
     }
 
     render() {
+        console.log(this.state.parentMenu);
         return (
             <nav className="navigation">
                 <div className="ps-container nav-container">
