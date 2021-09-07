@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import { Form, Input } from 'antd';
 import Link from 'next/link';
 import Router from 'next/router';
-import { login } from '../../../store/auth/action';
-
-import { Form, Input } from 'antd';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { login } from '../../../store/auth/action';
 
 class Register extends Component {
     constructor(props) {
@@ -12,7 +11,7 @@ class Register extends Component {
         this.state = {};
     }
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
@@ -43,7 +42,7 @@ class Register extends Component {
                             </li>
                         </ul>
                         <div className="ps-tab active" id="register">
-                            <div className="ps-form__content">
+                            <div className="ps-form__content pb-4">
                                 <h5>Register An Account</h5>
                                 <div className="form-group">
                                     <Form.Item
@@ -87,31 +86,6 @@ class Register extends Component {
                                     </button>
                                 </div>
                             </div>
-                            <div className="ps-form__footer">
-                                <p>Connect with:</p>
-                                <ul className="ps-list--social">
-                                    <li>
-                                        <a className="facebook" href="#">
-                                            <i className="fa fa-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="google" href="#">
-                                            <i className="fa fa-google-plus"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="twitter" href="#">
-                                            <i className="fa fa-twitter"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a className="instagram" href="#">
-                                            <i className="fa fa-instagram"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </Form>
                 </div>
@@ -120,7 +94,7 @@ class Register extends Component {
     }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return state.auth;
 };
 export default connect(mapStateToProps)(Register);

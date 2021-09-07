@@ -4,7 +4,6 @@ import Slider from 'react-slick';
 import NextArrow from '~/components/elements/carousel/NextArrow';
 import PrevArrow from '~/components/elements/carousel/PrevArrow';
 import MediaRepository from '~/repositories/MediaRepository';
-import { baseUrl } from '~/repositories/Repository';
 import { getItemBySlug } from '~/utilities/product-helper';
 
 const HomeDefaultBanner = () => {

@@ -250,7 +250,7 @@
     }
 
     .header__content-center {
-        max-width: 600px;
+        max-width: 100%;
     }
 
     .menu--product-categories {
@@ -263,7 +263,7 @@
     }
 
     .ps-form--quick-search {
-        width: 600px;
+        width: 100%;
 
         button {
             background-color: $color-1st;
@@ -290,6 +290,10 @@
 
     .header__content {
         padding: 20px 0;
+
+        &-right {
+            flex: 0;
+        }
 
         .menu--product-categories {
             .menu__toggle {

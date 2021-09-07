@@ -6,27 +6,25 @@ import MenuDropdown from '~/components/elements/menu/MenuDropdown';
 const Menu = ({ source, className }) => {
     let menuView;
     if (source) {
-        menuView = source.map((item) => {
-            if (item.subMenu) {
-                return <MenuDropdown source={item} key={item.text} />;
+        menuView = source.map((item, index) => {
+            if (item?.sub_items?.length) {
+                return <MenuDropdown source={item} key={index} />;
             } else if (item.megaContent) {
                 return <MegaMenu source={item} key={item.text} />;
             } else {
                 return (
-                    <li key={item.text}>
-                        <Link href={item.url}>
-                            <>
-                                <a>
-                                    {item.icon && (
-                                        <img
-                                            src={item.icon}
-                                            alt={item.text}
-                                            className="mr-3"
-                                        />
-                                    )}
-                                    {item.text}
-                                </a>
-                            </>
+                    <li key={index}>
+                        <Link href={`category/${item.category_id}`}>
+                            <a>
+                                {item.cat_image && (
+                                    <img
+                                        src={item.cat_image}
+                                        alt={item.category_name}
+                                        className="mr-3"
+                                    />
+                                )}
+                                {item.category_name}
+                            </a>
                         </Link>
                     </li>
                 );

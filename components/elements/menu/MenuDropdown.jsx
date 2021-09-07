@@ -5,13 +5,13 @@ const MenuDropdown = ({ source }) => {
     return (
         <li className="menu-item-has-children dropdown">
             {
-                <Link href={source.url}>
-                    <a>{source.text}</a>
+                <Link href={source.category_id}>
+                    <a>{source.category_name}</a>
                 </Link>
             }
-            {source.subMenu && (
+            {source.sub_items && (
                 <ul className={source.subClass}>
-                    {source.subMenu.map((subMenuItem, index) => (
+                    {source.sub_items.map((subMenuItem, index) => (
                         <MenuDropdown source={subMenuItem} key={index} />
                     ))}
                 </ul>
