@@ -21,7 +21,9 @@ const ProductDealOfDay = ({ product }) => {
             </div>
             <div className="ps-product__container">
                 <Link href="/shop">
-                    <a className="ps-product__vendor">{product.vendor}</a>
+                    <a className="ps-product__vendor">
+                        {product.seller_store_name}
+                    </a>
                 </Link>
                 <div className="ps-product__content">
                     {StrapiProductPriceExpanded(product)}

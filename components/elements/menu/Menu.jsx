@@ -4,17 +4,6 @@ import MegaMenu from '~/components/elements/menu/MegaMenu';
 import MenuDropdown from '~/components/elements/menu/MenuDropdown';
 
 const Menu = ({ source, className }) => {
-    // useEffect(() => {
-    //     fetch(`${process.env.NEXT_PUBLIC_API_URL}/retrieve_category_product`, {
-    //         method: 'POST',
-    //         body: JSON.stringify({ per_page: 1 }),
-    //     })
-    //         .then((res) => res.json())
-    //         .then((data) => console.log('retrieve_category_product', data));
-    // }, []);
-
-    console.log(className);
-
     // Views
     let menuView;
     if (source) {

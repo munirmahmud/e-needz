@@ -12,10 +12,17 @@ const HomeDefaultBanner = () => {
     const [promotion2, setPromotion2] = useState(null);
 
     async function getBannerItems() {
-        const response = await fetch(
-            'https://e-needz.com/api/react/website_api/slider_list'
+        const apiCall = await fetch(
+            'http://178.128.30.38/api/react/website_api/slider_list',
+            {
+                method: 'post',
+                body: JSON.stringify({
+                    per_page: '10',
+                }),
+            }
         );
-        const { data } = await response.json();
+
+        const { data } = await apiCall.json();
 
         if (data) {
             setBannerItems(data);
