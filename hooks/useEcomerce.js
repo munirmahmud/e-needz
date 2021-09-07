@@ -102,7 +102,9 @@ export default function useEcomerce() {
         },
 
         addItem: (newItem, items, group) => {
+            console.log('items -', items);
             let newItems = [];
+
             if (items) {
                 newItems = items;
                 const existItem = items.find((item) => item.id === newItem.id);
@@ -116,11 +118,14 @@ export default function useEcomerce() {
             } else {
                 newItems.push(newItem);
             }
+
             if (group === 'cart') {
                 setCookie('cart', newItems, { path: '/' });
                 dispatch(setCartItems(newItems));
             }
             if (group === 'wishlist') {
+                console.log('newItem', newItems);
+
                 setCookie('wishlist', newItems, { path: '/' });
 
                 dispatch(setWishlistTtems(newItems));

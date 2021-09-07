@@ -59,7 +59,7 @@ const ModuleDetailShoppingActions = ({
     const handleAddItemToWishlist = (e) => {
         e.preventDefault();
         addItem(
-            { id: product.prduct_id, category_id: product.category_id },
+            { id: product.product_id, category_id: product.category_id },
             ecomerce.wishlistItems,
             'wishlist'
         );

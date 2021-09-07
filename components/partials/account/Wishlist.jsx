@@ -8,8 +8,17 @@ const Wishlist = ({ ecomerce }) => {
     const { addItem, removeItem } = useEcomerce();
 
     function handleAddItemToCart(e, product) {
+        console.log(product);
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        addItem(
+            {
+                id: product.product_id,
+                category_id: product.category_id,
+                quantity: 1,
+            },
+            ecomerce.cartItems,
+            'cart'
+        );
     }
 
     function handleRemoveWishlistItem(e, product) {
@@ -23,50 +32,75 @@ const Wishlist = ({ ecomerce }) => {
         }
     }, [ecomerce]);
 
+    console.log('w-products', products);
+
     // views
     let wishlistItemsView;
-    if (products && products.length > 0) {
+
+    if (products) {
         wishlistItemsView = (
             <div className="table-responsive">
                 <table className="table ps-table--whishlist">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Product name</th>
-                            <th>Unit Price</th>
-                            <th>Vendor</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {products.map((product) => (
-                            <tr key={product.id}>
-                                <td>
-                                    <a
-                                        href="#"
-                                        onClick={(e) =>
-                                            handleRemoveWishlistItem(e, product)
-                                        }>
-                                        <i className="icon-cross"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <ProductCart product={product} />
-                                </td>
-                                <td className="price">${product.price}</td>
-                                <td>{product.vendor}</td>
-                                <td>
-                                    <a
-                                        className="ps-btn"
-                                        href=""
-                                        onClick={(e) =>
-                                            handleAddItemToCart(e, product)
-                                        }>
-                                        Add to cart
-                                    </a>
-                                </td>
+                    {products.data ? (
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Product name</th>
+                                <th>Unit Price</th>
+                                <th>Vendor</th>
+                                <th></th>
                             </tr>
-                        ))}
+                        </thead>
+                    ) : (
+                        ''
+                    )}
+                    <tbody>
+                        {products.data ? (
+                            products.data.map((product) => (
+                                <tr key={product.category_id}>
+                                    <td>
+                                        <a
+                                            href="#"
+                                            onClick={(e) =>
+                                                handleRemoveWishlistItem(
+                                                    e,
+                                                    product
+                                                )
+                                            }>
+                                            <i className="icon-cross"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <ProductCart product={product} />
+                                    </td>
+                                    <td className="price">${product.price}</td>
+                                    <td>{product.vendor}</td>
+                                    <td>
+                                        <a
+                                            className="ps-btn"
+                                            href=""
+                                            onClick={(e) =>
+                                                handleAddItemToCart(e, product)
+                                            }>
+                                            Add to cart
+                                        </a>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    width: '100%',
+                                }}>
+                                <div
+                                    className="alert alert-danger text-center"
+                                    role="alert">
+                                    Wishlist is empty!
+                                </div>
+                            </div>
+                        )}
                     </tbody>
                 </table>
             </div>
