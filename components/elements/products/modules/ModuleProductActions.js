@@ -23,7 +23,11 @@ const ModuleProductActions = ({ product, ecomerce }) => {
 
     function handleAddItemToWishlist(e) {
         e.preventDefault();
-        addItem({ id: product.product_id }, ecomerce.wishlistItems, 'wishlist');
+        addItem(
+            { id: product.product_id, category_id: product.category_id },
+            ecomerce.wishlistItems,
+            'wishlist'
+        );
         const modal = Modal.success({
             centered: true,
             title: 'Success!',
