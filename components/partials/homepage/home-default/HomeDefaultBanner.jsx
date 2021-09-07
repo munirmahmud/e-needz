@@ -23,7 +23,6 @@ const HomeDefaultBanner = () => {
         );
 
         const { data } = await apiCall.json();
-
         if (data) {
             setBannerItems(data);
         }
