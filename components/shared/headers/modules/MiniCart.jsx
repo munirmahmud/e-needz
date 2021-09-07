@@ -14,7 +14,7 @@ const MiniCart = ({ ecomerce }) => {
     }
 
     useEffect(() => {
-        getProducts(ecomerce.cartItems, 'cart');
+        getProducts(ecomerce.cartItems, 'cart'); /** Have to look here... **/
     }, [ecomerce]);
 
     let cartItemsView;

@@ -18,11 +18,13 @@ export default function useGetPosts() {
         getPostsByCollection: async (payload) => {
             let responseData;
             setLoading(true);
-            responseData = await PostRepository.SPGetPostItemOfCollectionBySlug(payload);
+            responseData = await PostRepository.SPGetPostItemOfCollectionBySlug(
+                payload
+            );
 
             if (responseData) {
                 setTimeout(
-                    function() {
+                    function () {
                         setPosts(responseData);
                         setLoading(false);
                     }.bind(this),
@@ -39,7 +41,7 @@ export default function useGetPosts() {
 
             if (responseData) {
                 setTimeout(
-                    function() {
+                    function () {
                         setPosts(responseData);
                         setLoading(false);
                     }.bind(this),
@@ -48,6 +50,6 @@ export default function useGetPosts() {
             } else {
                 setLoading(false);
             }
-        }
+        },
     };
 }

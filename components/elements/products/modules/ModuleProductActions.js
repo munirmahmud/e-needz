@@ -10,12 +10,20 @@ const ModuleProductActions = ({ product, ecomerce }) => {
 
     function handleAddItemToCart(e) {
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        addItem(
+            {
+                id: product.product_id,
+                category_id: product.category_id,
+                quantity: 1,
+            },
+            ecomerce.cartItems,
+            'cart'
+        );
     }
 
     function handleAddItemToWishlist(e) {
         e.preventDefault();
-        addItem({ id: product.id }, ecomerce.wishlistItems, 'wishlist');
+        addItem({ id: product.product_id }, ecomerce.wishlistItems, 'wishlist');
         const modal = Modal.success({
             centered: true,
             title: 'Success!',
@@ -26,7 +34,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
 
     function handleAddItemToCompare(e) {
         e.preventDefault();
-        addItem({ id: product.id }, ecomerce.compareItems, 'compare');
+        addItem({ id: product.product_id }, ecomerce.compareItems, 'compare');
         const modal = Modal.success({
             centered: true,
             title: 'Success!',

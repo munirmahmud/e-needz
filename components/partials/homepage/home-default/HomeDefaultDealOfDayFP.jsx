@@ -1,18 +1,16 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-import Slider from 'react-slick';
 import ProductDealOfDay from '~/components/elements/products/ProductDealOfDay';
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct';
 import useGetProducts from '~/hooks/useGetProducts';
-import { carouselFullwidth } from '~/utilities/carousel-helpers';
 import { generateTempArray } from '~/utilities/common-helpers';
 
-const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
+const HomeDefaultDealOfDayFP = ({ dealTitle, endPoint }) => {
     const { productItems, loading, getProductsByCollection } = useGetProducts();
     const [prod, setProd] = useState();
 
     useEffect(() => {
-        getProductsByCollection({ endPoint: endPoint, perPage: 10 });
+        getProductsByCollection({ endPoint: endPoint, perPage: 100 });
     }, [endPoint]);
 
     useEffect(() => {
@@ -25,13 +23,11 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
     if (!loading) {
         if (productItems && prod.length > 0) {
             const slideItems = prod.map((item, id) => (
-                <ProductDealOfDay product={item} key={id} />
+                <div className="col-xl-2 col-lg-3 col-sm-3 col-6 mb-3">
+                    <ProductDealOfDay product={item} key={id} />
+                </div>
             ));
-            productItemsView = (
-                <Slider {...carouselFullwidth} className="ps-carousel outside">
-                    {slideItems}
-                </Slider>
-            );
+            productItemsView = <> {slideItems} </>;
         } else {
             productItemsView = <p>No product(s) found.</p>;
         }
@@ -82,7 +78,7 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
                                     alt="Search Products"
                                 />
                             </button>
-                            <Link href={`${_link}`}>
+                            <Link href="/shop">
                                 <a className="ps-btn view-all">View all</a>
                             </Link>
                         </div>
@@ -91,7 +87,7 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
                     {/* Showing the products */}
 
                     <div className="ps-section__content">
-                        {productItemsView}
+                        <div className="row">{productItemsView}</div>
                     </div>
                 </div>
             </div>
@@ -99,4 +95,4 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
     );
 };
 
-export default HomeDefaultDealOfDay;
+export default HomeDefaultDealOfDayFP;

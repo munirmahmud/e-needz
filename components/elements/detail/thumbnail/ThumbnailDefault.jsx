@@ -22,10 +22,15 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
 
     useEffect(() => {
         let images = [];
-        if (product && product.images.length > 0) {
-            product.images.map((item) => {
-                images.push(`${baseUrl}${item.url}`);
-            });
+        // if (product && product.images.length > 0) {
+        //     product.images.map((item) => {
+        //         images.push(`${baseUrl}${item.url}`);
+        //     });
+        //     setProductImages(images);
+        // }
+
+        if (product) {
+            images.push(product.image_path);
             setProductImages(images);
         }
         setGallery(galleryCarousel.current);

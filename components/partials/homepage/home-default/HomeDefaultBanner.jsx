@@ -13,11 +13,19 @@ const HomeDefaultBanner = () => {
     const [promotion2, setPromotion2] = useState(null);
 
     async function getBannerItems() {
-        const responseData = await MediaRepository.getBannersBySlug(
-            'banner-home-fullwidth'
+        const apiCall = await fetch(
+            'http://178.128.30.38/api/react/website_api/slider_list',
+            {
+                method: 'post',
+                body: JSON.stringify({
+                    per_page: '10',
+                }),
+            }
         );
-        if (responseData) {
-            setBannerItems(responseData);
+
+        const { data } = await apiCall.json();
+        if (data) {
+            setBannerItems(data);
         }
     }
 
@@ -50,13 +58,13 @@ const HomeDefaultBanner = () => {
     // Views
     let mainCarouselView;
     if (bannerItems) {
-        const carouseItems = bannerItems.map((item) => (
-            <div className="slide-item" key={item.id}>
+        const carouseItems = bannerItems.map((item, id) => (
+            <div className="slide-item" key={id}>
                 <Link href="/shop">
                     <a
                         className="ps-banner-item--default bg--cover"
                         style={{
-                            backgroundImage: `url(${baseUrl}${item.image.url})`,
+                            backgroundImage: `url(${item.slider_image})`,
                         }}
                     />
                 </Link>

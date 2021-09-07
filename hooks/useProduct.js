@@ -46,13 +46,13 @@ export default function useProduct() {
     return {
         thumbnailImage: (payload) => {
             if (payload) {
-                if (payload.thumbnail) {
+                if (payload.image_path) {
                     return (
                         <>
                             <LazyLoad>
                                 <img
-                                    src={getImageURL(payload.thumbnail)}
-                                    alt={getImageURL(payload.thumbnail)}
+                                    src={payload.image_path}
+                                    alt={getImageURL(payload.image_path)}
                                 />
                             </LazyLoad>
                         </>
