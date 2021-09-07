@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const HomeDefaultTopCategories = ({ title, endpoint }) => {
     const [catProds, setCatProducts] = useState();
