@@ -6,7 +6,11 @@ const ModuleDetailActionsMobile = ({ ecomerce, product }) => {
     const { addItem } = useEcomerce();
     const handleAddItemToCart = (e) => {
         e.preventDefault();
-        addItem({ id: product.id, quantity: 1 }, ecomerce.cartItems, 'cart');
+        addItem(
+            { id: product.id, category_id: product.category_id, quantity: 1 },
+            ecomerce.cartItems,
+            'cart'
+        );
     };
 
     return (

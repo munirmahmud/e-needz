@@ -21,20 +21,38 @@ const ProductDefaultPage = () => {
 
     async function getProduct(pid) {
         setLoading(true);
-        const responseData = await ProductRepository.getProductsById(pid);
-        if (responseData) {
-            setProduct(responseData);
-            setTimeout(
-                function () {
-                    setLoading(false);
-                }.bind(this),
-                250
+
+        if (pid) {
+            let responseData = await fetch(
+                `http://178.128.30.38/api/react/website_api/product_details`,
+                {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        product_id: pid.split('-')[0],
+                        category_id: pid.split('-')[1],
+                    }),
+                }
             );
+
+            responseData = await responseData.json();
+            console.log(responseData);
+
+            if (responseData) {
+                if (responseData.response_status !== 0) {
+                    setProduct(responseData.data[0]);
+                }
+                setTimeout(
+                    function () {
+                        setLoading(false);
+                    }.bind(this),
+                    250
+                );
+            }
         }
     }
 
     useEffect(() => {
-        getProduct(pid);
+        if (pid) getProduct(pid);
     }, [pid]);
 
     const breadCrumb = [

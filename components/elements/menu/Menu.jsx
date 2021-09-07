@@ -4,7 +4,6 @@ import MegaMenu from '~/components/elements/menu/MegaMenu';
 import MenuDropdown from '~/components/elements/menu/MenuDropdown';
 
 const Menu = ({ source, className }) => {
-    // Views
     let menuView;
     if (source) {
         menuView = source.map((item) => {

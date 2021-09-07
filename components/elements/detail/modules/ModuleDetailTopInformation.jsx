@@ -5,7 +5,7 @@ import Rating from '~/components/elements/Rating';
 const ModuleDetailTopInformation = ({ product }) => {
     // Views
     let priceView;
-
+    console.log('pop up - ', product);
     if (product.is_sale) {
         priceView = (
             <h4 className="ps-product__price sale">
@@ -14,7 +14,7 @@ const ModuleDetailTopInformation = ({ product }) => {
             </h4>
         );
     } else {
-        priceView = <h4 className="ps-product__price">${product.price}</h4>;
+        priceView = <h4 className="ps-product__price">{product.price} TK</h4>;
     }
     return (
         <header>
@@ -23,12 +23,14 @@ const ModuleDetailTopInformation = ({ product }) => {
                 <p>
                     Brand:
                     <Link href="/shop">
-                        <a className="ml-2 text-capitalize">{product.vendor}</a>
+                        <a className="ml-2 text-capitalize">
+                            {product.category_name}
+                        </a>
                     </Link>
                 </p>
                 <div className="ps-product__rating">
                     <Rating />
-                    <span>(1 review)</span>
+                    <span>(* review)</span>
                 </div>
             </div>
             {priceView}

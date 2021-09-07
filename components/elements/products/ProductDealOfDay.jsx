@@ -12,20 +12,29 @@ const ProductDealOfDay = ({ product }) => {
     return (
         <div className="ps-product ps-product--inner">
             <div className="ps-product__thumbnail">
-                <Link href="/product/[pid]" as={`/product/${product.id}`}>
+                <Link
+                    href="/product/[pid]"
+                    as={`/product/${product.product_id}-${product.category_id}`}>
                     <a>{thumbnailImage(product)}</a>
                 </Link>
                 {/* {badge(product)} */}
-                <small className="product-offer-badge">18% off</small>
+                {product.on_sale === 1 ? (
+                    <small className="product-offer-badge">x% off</small>
+                ) : (
+                    ''
+                )}
                 <ModuleProductActions product={product} />
             </div>
             <div className="ps-product__container">
                 <Link href="/shop">
-                    <a className="ps-product__vendor">Young Shop</a>
+                    <a className="ps-product__vendor">
+                        {product.seller_store_name}
+                    </a>
                 </Link>
                 <div className="ps-product__content">
                     {StrapiProductPriceExpanded(product)}
-                    {title(product)}
+                    {/* {title(product)} */}
+                    {product.title}
                     <div className="ps-product__rating">
                         <Rating />
                         <span>{product.ratingCount}</span>

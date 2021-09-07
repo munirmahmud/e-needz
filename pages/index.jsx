@@ -9,45 +9,44 @@ const HomepageDefaultPage = () => {
         <PageContainer title="Multipurpose Marketplace React Ecommerce Template">
             <main id="homepage-1">
                 <HomeDefaultBanner />
-                {/* <SiteFeatures /> */}
+
                 <HomeDefaultDealOfDay
                     collectionSlug="deal-of-the-day"
+                    endPoint="api/react/website_api/featured_products"
                     dealTitle="Features Products"
+                    _link="/FProducts"
                 />
+
                 <HomeDefaultDealOfDay
                     collectionSlug="deal-of-the-day"
+                    endPoint="api/react/website_api/best_selling"
                     dealTitle="Best Selling"
+                    _link="/BestSelling"
                 />
+
                 <HomeDefaultDealOfDay
                     collectionSlug="deal-of-the-day"
-                    dealTitle="New Arrivale"
+                    endPoint="api/react/website_api/new_arrival"
+                    dealTitle="New Arrival"
+                    _link="/New-arrival"
                 />
 
-                {/* <HomeAdsColumns /> */}
-
-                <HomeDefaultTopCategories title="Top Categories Of The Month" />
-                <HomeDefaultTopCategories title="Shop By Store" />
-
-                {/* <HomeDefaultProductListing
-                    collectionSlug="consumer-electronics"
-                    title="Consumer Electronics"
+                <HomeDefaultTopCategories
+                    title="Top Categories Of The Month"
+                    endpoint="top_categories_of_the_month"
                 />
-                <HomeDefaultProductListing
-                    collectionSlug="clothings"
-                    title="Clothings"
+
+                <HomeDefaultTopCategories
+                    title="Shop By Store"
+                    endpoint="shop_by_store"
                 />
-                <HomeDefaultProductListing
-                    collectionSlug="garden-and-kitchen"
-                    title="Garden & Kitchen"
-                /> */}
-                {/* <HomeAds /> */}
+
                 <HomeDefaultDealOfDay
                     collectionSlug="deal-of-the-day"
+                    endPoint="api/react/website_api/recommended_products"
                     dealTitle="Recommended For You"
+                    _link="/Recommended"
                 />
-                {/* <DownLoadApp /> */}
-                {/* <NewArrivals collectionSlug="new-arrivals-products" /> */}
-                {/* <Newletters /> */}
             </main>
         </PageContainer>
     );

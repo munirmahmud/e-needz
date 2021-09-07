@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import ProductRepository from '~/repositories/ProductRepository';
+import { useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useDispatch } from 'react-redux';
 import {
@@ -24,20 +23,31 @@ export default function useEcomerce() {
                 let queries = '';
                 payload.forEach((item) => {
                     if (queries === '') {
-                        queries = `id_in=${item.id}`;
+                        queries = `id_in=${item.id}@@${item.category_id}`;
                     } else {
-                        queries = queries + `&id_in=${item.id}`;
+                        // queries = queries + `&id_in=${item.id}`;
+                        queries =
+                            queries +
+                            `--${item.id}@@${item.category_id}`; /* Changing url structure */
                     }
                 });
-                const responseData = await ProductRepository.getProductsByIds(
-                    queries
+
+                // const responseData = await ProductRepository.getProductsByIds(
+                //     queries
+                // );
+
+                const req = await fetch(
+                    `http://178.128.30.38/api/react/website_api/products?${queries}`
                 );
-                if (responseData && responseData.length > 0) {
+
+                const responseData = await req.json();
+
+                if (responseData && responseData.data.length > 0) {
                     if (group === 'cart') {
-                        let cartItems = responseData;
+                        let cartItems = responseData.data;
                         payload.forEach((item) => {
                             let existItem = cartItems.find(
-                                (val) => val.id === item.id
+                                (val) => val.product_id === item.id
                             );
                             if (existItem) {
                                 existItem.quantity = item.quantity;

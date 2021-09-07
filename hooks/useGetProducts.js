@@ -9,6 +9,7 @@ export default function useGetProducts() {
     const [loading, setLoading] = useState(false);
     const [productItems, setProductItems] = useState(null);
     const [product, setProduct] = useState(null);
+
     return {
         loading,
         productItems,
@@ -23,15 +24,28 @@ export default function useGetProducts() {
 
         getProductsByCollection: async (payload) => {
             setLoading(true);
-            const responseData = await getProductsByCollectionHelper(payload);
-            if (responseData) {
-                setProductItems(responseData.items);
-                setTimeout(
-                    function () {
-                        setLoading(false);
-                    }.bind(this),
-                    250
+            // const responseData = await getProductsByCollectionHelper(payload);
+            if (payload.endPoint) {
+                let responseData = await fetch(
+                    `http://178.128.30.38/${payload.endPoint}`,
+                    {
+                        method: 'post',
+                        body: JSON.stringify({
+                            per_page: payload.perPage,
+                        }),
+                    }
                 );
+
+                responseData = await responseData.json();
+                if (responseData) {
+                    setProductItems(responseData.data);
+                    setTimeout(
+                        function () {
+                            setLoading(false);
+                        }.bind(this),
+                        250
+                    );
+                }
             }
         },
 
