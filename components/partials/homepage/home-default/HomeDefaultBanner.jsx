@@ -58,9 +58,9 @@ const HomeDefaultBanner = () => {
     // Views
     let mainCarouselView;
     if (bannerItems) {
-        const carouseItems = bannerItems.map((item) => (
-            <div className="slide-item" key={item.slider_id}>
-                <Link href={item.slider_link}>
+        const carouseItems = bannerItems.map((item, id) => (
+            <div className="slide-item" key={id}>
+                <Link href="/shop">
                     <a
                         className="ps-banner-item--default bg--cover"
                         style={{
