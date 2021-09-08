@@ -1,108 +1,142 @@
-import { Form, notification } from "antd";
+import { Form, Input } from "antd";
 import Router from "next/router";
-import React, { Component } from "react";
+import React, { useRef, useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../../../store/auth/action";
 
-class ForgetPassword extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+const ForgetPassword = () => {
+  const mobileRef = useRef();
+  const emailRef = useRef();
 
-  static getDerivedStateFromProps(props) {
+  const [isMobileHidden, setMobileHidden] = useState(false);
+  const [isEmailHidden, setEmailHidden] = useState(true);
+
+  const getDerivedStateFromProps = (props) => {
     if (props.isLoggedIn === true) {
       Router.push("/");
     }
     return false;
-  }
+  };
 
-  handleFeatureWillUpdate(e) {
-    e.preventDefault();
-    notification.open({
-      message: "Opp! Something went wrong.",
-      description: "This feature has been updated later!",
-      duration: 500,
-    });
-  }
+  const handleMobileNumber = (e) => {
+    emailRef.current.checked = false;
+    mobileRef.current.checked = true;
 
-  handleLoginSubmit = (e) => {
+    setMobileHidden(true);
+    setEmailHidden(false);
+  };
+
+  const handleEmail = (e) => {
+    emailRef.current.checked = true;
+    mobileRef.current.checked = false;
+
+    setMobileHidden(true);
+    setEmailHidden(false);
+  };
+
+  const handleLoginSubmit = (e) => {
     console.log("test");
     this.props.dispatch(login());
     Router.push("/");
   };
 
-  render() {
-    return (
-      <div className="ps-my-account">
-        <div className="container">
-          <Form
-            className="ps-form--account"
-            onFinish={this.handleLoginSubmit.bind(this)}
-          >
-            <div className="ps-tab active pb-4" id="sign-in">
-              <div className="ps-form__content forget-password">
-                <h5>Select Option</h5>
-                <div className="mb-3 d-flex align-items-center">
-                  <input
-                    className="form-control"
-                    type="radio"
-                    id="mobile"
-                    name="recoverPassword"
-                    value="mobile"
-                    checked
-                  />
-                  <label htmlFor="mobile">Mobile</label>
-                  {/* <div className="ps-checkbox">
-                    <input
-                      className="form-control"
-                      type="radio"
-                      id="remember-me"
-                      name="remember-me"
-                    />
-                    <label htmlFor="remember-me">Rememeber me</label>
-                  </div> */}
+  return (
+    <div className="ps-my-account">
+      <div className="container">
+        <Form className="ps-form--account" onFinish={handleLoginSubmit}>
+          <div className="ps-tab active pb-4" id="sign-in">
+            <div className="ps-form__content forget-password">
+              <h5>Select Option</h5>
 
-                  {/* <Form.Item
-                    name="username"
+              <div className="mb-3">
+                <div className="d-flex align-items-center mb-3">
+                  <label
+                    htmlFor="mobile"
+                    className="d-flex align-items-center"
+                    onClick={handleMobileNumber}
+                  >
+                    <input
+                      className="form-control radio-btn mr-3"
+                      type="radio"
+                      id="mobile"
+                      name="recoverPassword"
+                      value="mobile"
+                      checked={true}
+                      ref={mobileRef}
+                    />
+                    Mobile
+                  </label>
+                </div>
+                {!isMobileHidden && (
+                  <Form.Item
+                    name="mobile"
                     rules={[
                       {
                         required: true,
-                        message: "Please input your email!",
+                        message: "Please insert your mobile number!",
                       },
                     ]}
                   >
                     <Input
                       className="form-control"
-                      type="text"
-                      placeholder="Username or email address"
+                      type="number"
+                      placeholder="Mobile Number"
                     />
-                  </Form.Item> */}
-                </div>
-                <div className="mb-5 d-flex align-items-center">
-                  <input
-                    className="form-control"
-                    type="radio"
-                    id="email"
-                    name="recoverPassword"
-                    value="email"
-                  />
-                  <label htmlFor="email">Email</label>
+                  </Form.Item>
+                )}
+              </div>
+
+              <div className="mb-5">
+                <div className="mb-3">
+                  <label
+                    htmlFor="email"
+                    className="d-flex align-items-center"
+                    onClick={handleEmail}
+                  >
+                    <input
+                      className="form-control radio-btn mr-3"
+                      type="radio"
+                      id="email"
+                      name="recoverPassword"
+                      value="email"
+                      ref={emailRef}
+                    />
+                    Email
+                  </label>
                 </div>
 
-                <div className="form-group submit">
-                  <button type="submit" className="ps-btn ps-btn--fullwidth">
-                    Submit
-                  </button>
-                </div>
+                {!isEmailHidden && (
+                  <Form.Item
+                    name="mobile"
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please insert your mobile number!",
+                      },
+                    ]}
+                  >
+                    <Input
+                      className="form-control"
+                      type="number"
+                      placeholder="Mobile Number"
+                    />
+                  </Form.Item>
+                )}
+              </div>
+
+              <div className="form-group submit">
+                <button type="submit" className="ps-btn ps-btn--fullwidth">
+                  Submit
+                </button>
               </div>
             </div>
-          </Form>
-        </div>
+          </div>
+        </Form>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
+
 const mapStateToProps = (state) => {
   return state.auth;
 };
