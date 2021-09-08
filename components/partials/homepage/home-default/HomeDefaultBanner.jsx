@@ -14,7 +14,7 @@ const HomeDefaultBanner = () => {
 
   async function getBannerItems() {
     const apiCall = await fetch(
-      "http://178.128.30.38/api/react/website_api/slider_list",
+      `${process.env.NEXT_PUBLIC_API_URL}/slider_list`,
       {
         method: "post",
         body: JSON.stringify({
@@ -140,7 +140,7 @@ const HomeDefaultBanner = () => {
       </div>
 
       {/* Campaign Carousel */}
-      {campaignItems.length && (
+      {campaignItems?.length && (
         <div className="ps-home-banner ps-home-banner--1">
           <div className="ps-container">
             <div style={{ width: "100%", height: "100%" }}>
