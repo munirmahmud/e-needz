@@ -10,11 +10,11 @@ const Menu = ({ source, className }) => {
       if (item?.sub_items?.length) {
         return <MenuDropdown source={item} key={index} />;
       } else if (item.megaContent) {
-        return <MegaMenu source={item} key={item.text} />;
+        return <MegaMenu source={item} key={index} />;
       } else {
         return (
           <li key={index}>
-            <Link href={`category/${item.category_id}`}>
+            <Link href={`/category/${item.category_id}`}>
               <a>
                 {item.cat_image && (
                   <img
