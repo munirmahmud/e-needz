@@ -4,7 +4,7 @@ import MegaMenu from "~/components/elements/menu/MegaMenu";
 
 const MenuCategoriesDropdown = () => {
   const [mData, setMdata] = useState([]);
-  const [megaMenu, setMegaMenu] = useState([]);
+  const [megaMenuData, setMegaMenu] = useState([]);
 
   const getCategoryMegaMenu = async () => {
     const response = await fetch(
@@ -45,7 +45,7 @@ const MenuCategoriesDropdown = () => {
         <span>Categories</span>
       </div>
       <div className="menu__content">
-        <Menu source={megaMenu} menuData={mData} className="menu--dropdown" />
+        <Menu source={megaMenuData} className="menu--dropdown" />
       </div>
     </div>
   );
@@ -62,7 +62,7 @@ const Menu = ({ source, className }) => {
       } else {
         return (
           <li key={index}>
-            <Link href={`category/${item.category_id}`}>
+            <Link href={`/category/${item.category_id}`}>
               <a>
                 {item.cat_image && (
                   <img
