@@ -365,9 +365,9 @@
     background-color: #fff;
     border: 1px solid #d3d3d3;
     min-width: 260px;
-    // max-height: 464px;
-    // overflow-y: auto;
-    // overflow-x: hidden;
+    max-height: 475px;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     .menu-item-has-children {
       position: relative;
@@ -399,6 +399,7 @@
       display: block;
       padding: 10px 0;
       color: $color-heading;
+      width: 100%;
 
       img {
         margin-right: 10px;
