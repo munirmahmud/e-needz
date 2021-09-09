@@ -63,3 +63,19 @@
     margin-left: 0.5rem;
   }
 }
+
+.campaign-carousel-wrapepr {
+  margin-bottom: 12px;
+
+  .campaign-carousel {
+    .slick-list {
+      margin-right: -8px;
+      margin-left: -8px;
+    }
+    .campaign-banner-item {
+      margin-right: 8px;
+      margin-left: 8px;
+      display: block;
+    }
+  }
+}
