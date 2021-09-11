@@ -4,8 +4,6 @@ import MegaMenu from "~/components/elements/menu/MegaMenu";
 import PrimaryMegaMenu from "./PrimaryMegaMenu";
 
 const PrimaryMenu = ({ source, className }) => {
-  console.log("primary menu", source);
-  console.log("className", className);
   let menuView;
   if (source) {
     menuView = source.map((item, index) => {
