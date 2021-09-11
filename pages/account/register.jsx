@@ -1,5 +1,4 @@
 import React from 'react';
-import BreadCrumb from '~/components/elements/BreadCrumb';
 import PageContainer from '~/components/layouts/PageContainer';
 import Register from '~/components/partials/account/Register';
 import FooterFullwidth from '~/components/shared/footers/FooterFullwidth';
@@ -19,7 +18,7 @@ const RegisterPage = () => {
         <>
             <PageContainer footer={<FooterFullwidth />} title="Register">
                 <div className="ps-page--my-account">
-                    <BreadCrumb breacrumb={breadCrumb} />
+                    {/* <BreadCrumb breacrumb={breadCrumb} /> */}
                     <Register />
                 </div>
             </PageContainer>
