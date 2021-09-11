@@ -1,8 +1,9 @@
 import Link from "next/link";
 import React from "react";
 
-const MegaMenu = ({ source }) => {
+const PrimaryMegaMenu = ({ source }) => {
   let megaContentView;
+  console.log("PrimaryMegaMenu", source);
 
   if (source) {
     megaContentView = (
@@ -33,4 +34,4 @@ const MegaMenu = ({ source }) => {
   );
 };
 
-export default MegaMenu;
+export default PrimaryMegaMenu;

@@ -1,9 +1,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
-import NextArrow from "~/components/elements/carousel/NextArrow";
-import PrevArrow from "~/components/elements/carousel/PrevArrow";
 import MediaRepository from "~/repositories/MediaRepository";
+import { campaignCarousel } from "~/utilities/carousel-helpers";
 import { getItemBySlug } from "~/utilities/product-helper";
 
 const HomeDefaultBanner = () => {
@@ -73,17 +72,6 @@ const HomeDefaultBanner = () => {
     arrows: false,
   };
 
-  const campaignCarouselSetting = {
-    dots: false,
-    infinite: true,
-    speed: 750,
-    fade: true,
-    slidesToShow: 3,
-    slidesToScroll: 3,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-  };
-
   // Main Slider
   let mainCarouselView;
   if (bannerItems) {
@@ -109,20 +97,17 @@ const HomeDefaultBanner = () => {
   // Campaign carousel
   let campaignCarouselView;
   if (campaignItems) {
-    const carouseItems = campaignItems.map((item, id) => (
-      <div className="slide-item" key={id}>
-        <Link href="/shop">
-          <a
-            className="ps-banner-item--default bg--cover"
-            style={{
-              backgroundImage: `url(${item.slider_image})`,
-            }}
-          />
+    const carouseItems = campaignItems.map((item, index) => (
+      <div className="slide-item" key={index}>
+        <Link href={`/campaign/${item.category_id}`}>
+          <a className="campaign-banner-item">
+            <img src={item.promo_bg_image} alt="" />
+          </a>
         </Link>
       </div>
     ));
     campaignCarouselView = (
-      <Slider {...campaignCarouselSetting} className="ps-carousel">
+      <Slider {...campaignCarousel} className="ps-carousel campaign-carousel">
         {carouseItems}
       </Slider>
     );
@@ -141,40 +126,12 @@ const HomeDefaultBanner = () => {
 
       {/* Campaign Carousel */}
       {campaignItems?.length && (
-        <div className="ps-home-banner ps-home-banner--1">
-          <div className="ps-container">
-            <div style={{ width: "100%", height: "100%" }}>
-              {campaignCarouselView}
-            </div>
+        <div className="ps-container">
+          <div className="campaign-carousel-wrapepr">
+            {campaignCarouselView}
           </div>
         </div>
       )}
-
-      <div className="ps-container small-banners">
-        <div className="row">
-          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <Link href="/shop">
-              <a>
-                <img src="/static/banners/banner-1.png" alt="E-needz" />
-              </a>
-            </Link>
-          </div>
-          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <Link href="/shop">
-              <a>
-                <img src="/static/banners/banner-2.png" alt="E-needz" />
-              </a>
-            </Link>
-          </div>
-          <div className="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <Link href="/shop">
-              <a>
-                <img src="/static/banners/banner-3.png" alt="E-needz" />
-              </a>
-            </Link>
-          </div>
-        </div>
-      </div>
     </>
   );
 };
