@@ -1,9 +1,9 @@
 import { Tabs } from "antd";
 import React from "react";
 import PartialDescription from "~/components/elements/detail/description/PartialDescription";
-import PartialOffer from "~/components/elements/detail/description/PartialOffer";
 import PartialReview from "~/components/elements/detail/description/PartialReview";
 import QuestionsAnswers from "./QuestionsAnswers";
+import RefundPolicy from "./RefundPolicy";
 
 const { TabPane } = Tabs;
 
@@ -21,7 +21,7 @@ const DefaultDescription = () => {
           <QuestionsAnswers />
         </TabPane>
         <TabPane tab="Refund Policy" key="4">
-          <PartialOffer />
+          <RefundPolicy />
         </TabPane>
       </Tabs>
     </div>
