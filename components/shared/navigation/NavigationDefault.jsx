@@ -1,32 +1,9 @@
 import { notification } from 'antd'
 import Link from 'next/link'
 import React, { Component } from 'react'
+import PrimaryMenu from '~/components/elements/menu/PrimaryMenu'
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown'
-import Menu from '../../elements/menu/Menu'
 import LanguageSwicher from '../headers/modules/LanguageSwicher'
-
-// const menuMarket2 = [
-//     {
-//         text: 'Bikes',
-//         url: '/category/bikes',
-//         icon: '/static/icons/motorcycle.svg',
-//     },
-//     {
-//         text: 'Mobile Phone',
-//         url: '/category/bikes',
-//         icon: '/static/icons/smartphone.svg',
-//     },
-//     {
-//         text: 'Television',
-//         url: '/category/bikes',
-//         icon: '/static/icons/television.svg',
-//     },
-//     {
-//         text: 'Gadget',
-//         url: '/category/bikes',
-//         icon: '/static/icons/webcam.svg',
-//     },
-// ];
 
 class NavigationDefault extends Component {
   constructor(props) {
@@ -64,7 +41,7 @@ class NavigationDefault extends Component {
             <MenuCategoriesDropdown />
           </div>
           <div className='navigation__right'>
-            <Menu source={this.state.parentMenu} className='menu' />
+            <PrimaryMenu source={this.state.parentMenu} className='menu' />
 
             <ul className='navigation__extra'>
               <li className='navigation-text'>
