@@ -1,76 +1,98 @@
-import Link from 'next/link';
-import React, { useEffect } from 'react';
-import ElectronicHeaderActions from '~/components/shared/headers/modules/ElectronicHeaderActions';
-import SearchHeader from '~/components/shared/headers/modules/SearchHeader';
-import { stickyHeader } from '~/utilities/common-helpers';
-import NavigationDefault from '../navigation/NavigationDefault';
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import ElectronicHeaderActions from "~/components/shared/headers/modules/ElectronicHeaderActions";
+import SearchHeader from "~/components/shared/headers/modules/SearchHeader";
+import { stickyHeader } from "~/utilities/common-helpers";
+import NavigationDefault from "../navigation/NavigationDefault";
 
 const HeaderMarketPlace2 = () => {
-    useEffect(() => {
-        if (process.browser) {
-            window.addEventListener('scroll', stickyHeader);
-        }
-    }, []);
+  const [mobileNumber, setMobileNumber] = useState("");
+  const [email, setEmail] = useState("");
 
-    return (
-        <header
-            className="header header--standard header--market-place-2"
-            id="headerSticky">
-            <div className="header__top">
-                <div className="ps-container">
-                    <div className="header__left">
-                        <ul className="header__top-links">
-                            <li>
-                                <Link href="tel:09638111666">
-                                    <>
-                                        <img
-                                            src="/static/icons/call.svg"
-                                            alt="Call now"
-                                        />
-                                        <a>09638111666</a>
-                                    </>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="mailto:support@eneeds.com">
-                                    <>
-                                        <img
-                                            src="/static/icons/envelope.svg"
-                                            alt="Support mail"
-                                        />
-                                        <a>support@eneeds.com</a>
-                                    </>
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div className="header__content">
-                <div className="ps-container">
-                    <div className="header__content-left">
-                        <Link href="/">
-                            <a className="ps-logo">
-                                <img
-                                    src="/static/icons/logo.svg"
-                                    alt="E-needz"
-                                />
-                            </a>
-                        </Link>
-                    </div>
-                    <div className="header__content-center">
-                        <SearchHeader />
-                    </div>
-                    <div className="header__content-right">
-                        <ElectronicHeaderActions />
-                    </div>
-                </div>
-            </div>
-
-            <NavigationDefault />
-        </header>
+  const getHeaderTopInfo = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/header_top`,
+      {
+        method: "POST",
+        body: JSON.stringify({}),
+      }
     );
+
+    const apiData = await response.json();
+
+    if (apiData?.response_status === 200) {
+      setMobileNumber(apiData?.data?.mobile);
+      setEmail(apiData?.data?.email);
+    }
+  };
+
+  useEffect(() => {
+    getHeaderTopInfo();
+
+    if (process.browser) {
+      window.addEventListener("scroll", stickyHeader);
+    }
+  }, [mobileNumber, email]);
+
+  return (
+    <header
+      className="header header--standard header--market-place-2"
+      id="headerSticky"
+    >
+      <div className="header__top">
+        <div className="ps-container">
+          <div className="header__left">
+            <ul className="header__top-links d-flex align-items-center">
+              {mobileNumber && (
+                <li>
+                  <Link href={`tel:${mobileNumber}`}>
+                    <a className="d-flex align-items-center">
+                      <img src="/static/icons/call.svg" alt="Call now" />
+                      <span>{mobileNumber}</span>
+                    </a>
+                  </Link>
+                </li>
+              )}
+
+              {email && (
+                <li>
+                  <Link href={`mailto:${email}`}>
+                    <a className="d-flex align-items-center">
+                      <img
+                        src="/static/icons/envelope.svg"
+                        alt="Support mail"
+                      />
+                      <span>{email}</span>
+                    </a>
+                  </Link>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="header__content">
+        <div className="ps-container">
+          <div className="header__content-left">
+            <Link href="/">
+              <a className="ps-logo">
+                <img src="/static/icons/logo.svg" alt="E-needz" />
+              </a>
+            </Link>
+          </div>
+          <div className="header__content-center">
+            <SearchHeader />
+          </div>
+          <div className="header__content-right">
+            <ElectronicHeaderActions />
+          </div>
+        </div>
+      </div>
+
+      <NavigationDefault />
+    </header>
+  );
 };
 
 export default HeaderMarketPlace2;
