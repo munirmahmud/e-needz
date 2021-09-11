@@ -58,7 +58,7 @@ const Menu = ({ source, className }) => {
   if (source) {
     menuView = source.map((item, index) => {
       if (item?.sub_items?.length) {
-        return <MegaMenu source={item} key={item.text} />;
+        return <MegaMenu source={item} key={index} />;
       } else {
         return (
           <li key={index}>

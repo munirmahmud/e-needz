@@ -3,11 +3,10 @@ import React from "react";
 
 const PrimaryMegaMenu = ({ source }) => {
   let megaContentView;
-  console.log("PrimaryMegaMenu", source);
 
   if (source) {
     megaContentView = (
-      <div className="mega-menu__column">
+      <ul className="mega-menu__column">
         {source?.sub_items?.map((item, index) => (
           <li key={index}>
             <Link href={`/category/${item.category_id}`}>
@@ -15,7 +14,7 @@ const PrimaryMegaMenu = ({ source }) => {
             </Link>
           </li>
         ))}
-      </div>
+      </ul>
     );
   }
 
