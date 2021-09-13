@@ -19,7 +19,8 @@ const MiniCart = ({ ecomerce }) => {
 
   let cartItemsView
   if (products && products.length > 0) {
-    const amount = calculateAmount(products)
+    const amount = calculateAmount(products) /** Have to look here... **/
+
     const productItems = products.map((item) => {
       return (
         <ProductOnCart product={item} key={item.id}>
@@ -38,7 +39,7 @@ const MiniCart = ({ ecomerce }) => {
         <div className='ps-cart__footer'>
           <h3>
             Sub Total:
-            <strong>${amount ? amount : 0}</strong>
+            <strong>৳{amount ? amount : 0}</strong>
           </h3>
           <figure>
             <Link href='/account/shopping-cart'>
