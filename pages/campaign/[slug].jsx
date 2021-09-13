@@ -75,7 +75,6 @@ const ProductCategoryScreen = () => {
           <div className="ps-layout--shop ps-shop--category">
             <h3 className="ps-shop__heading">{category && category.name}</h3>
             {productItemsViews}
-            {/* <h1>Campaign Products</h1> */}
           </div>
         </div>
       </div>

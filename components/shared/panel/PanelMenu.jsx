@@ -1,117 +1,124 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-
-import { Menu } from 'antd';
-import { menuPrimary } from '~/public/static/data/menu';
-import menu_data from '~/public/static/data/menu';
-import Link from 'next/link';
+import { Menu } from "antd";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import menu_data from "~/public/static/data/menu";
 
 const { SubMenu } = Menu;
 
-class PanelMenu extends Component {
-    constructor(props) {
-        super(props);
+const PanelMenu = () => {
+  const [rootSubmenuKeys] = useState(["sub1", "sub2", "sub4"]);
+  const [openKeys, setOpenKeys] = useState([]);
+  const [primaryMenus, setPrimaryMenus] = useState([]);
+
+  const onOpenChange = () => {
+    const latestOpenKey = openKeys.find((key) => openKeys.indexOf(key) === -1);
+    if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      setOpenKeys(openKeys);
+    } else {
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
+  };
 
-    rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
+  const getHeaderTopInfo = async () => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/top_menu`,
+      {
+        method: "POST",
+        body: JSON.stringify({}),
+      }
+    );
 
-    state = {
-        openKeys: [],
-    };
+    const apiData = await response.json();
 
-    onOpenChange = (openKeys) => {
-        const latestOpenKey = openKeys.find(
-            (key) => this.state.openKeys.indexOf(key) === -1
-        );
-        if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-            this.setState({ openKeys });
+    console.log("header top", apiData);
+
+    if (apiData?.response_status === 200) {
+      setPrimaryMenus(apiData.data);
+    }
+  };
+
+  useEffect(() => {
+    getHeaderTopInfo();
+  }, []);
+
+  console.log(menu_data);
+
+  return (
+    <Menu
+      mode="inline"
+      openKeys={openKeys}
+      onOpenChange={onOpenChange}
+      className="menu--mobile-2"
+    >
+      {primaryMenus.map((item, index) => {
+        if (item.sub_items) {
+          return (
+            <SubMenu
+              key={index}
+              title={
+                <Link href={`/category/${item.category_id}`}>
+                  <a>{item.category_name}</a>
+                </Link>
+              }
+            >
+              {item.sub_items.map((subItem, index) => (
+                <Menu.Item key={subItem.category_id}>
+                  <Link href={`/category/${subItem.category_id}`}>
+                    <a>{subItem.category_name}</a>
+                  </Link>
+                </Menu.Item>
+              ))}
+            </SubMenu>
+          );
+        } else if (item.megaContent) {
+          return (
+            <SubMenu
+              key={index}
+              title={
+                <Link href={item.url}>
+                  <a>{item.text}</a>
+                </Link>
+              }
+            >
+              {item.megaContent.map((megaItem) => (
+                <SubMenu
+                  key={megaItem.heading}
+                  title={<span>{megaItem.heading}</span>}
+                >
+                  {megaItem.megaItems.map((megaSubItem) => (
+                    <Menu.Item key={megaSubItem.text}>
+                      <Link href={item.url}>
+                        <a>{megaSubItem.text}</a>
+                      </Link>
+                    </Menu.Item>
+                  ))}
+                </SubMenu>
+              ))}
+            </SubMenu>
+          );
         } else {
-            this.setState({
-                openKeys: latestOpenKey ? [latestOpenKey] : [],
-            });
+          return (
+            <Menu.Item key={index}>
+              {item.type === "dynamic" ? (
+                <Link href={`/category/${item.category_id}/[pid]`}>
+                  l<a>{item.category_name}</a>
+                </Link>
+              ) : (
+                <Link href={item.category_id} as={item.alias}>
+                  <a>{item.category_name}</a>
+                </Link>
+              )}
+            </Menu.Item>
+          );
         }
-    };
-
-    render() {
-        return (
-            <Menu
-                mode="inline"
-                openKeys={this.state.openKeys}
-                onOpenChange={this.onOpenChange}
-                className="menu--mobile-2">
-                {menu_data.menuPrimary.menu_1.map((item) => {
-                    if (item.subMenu) {
-                        return (
-                            <SubMenu
-                                key={item.text}
-                                title={
-                                    <Link href={item.url}>
-                                        <a>{item.text}</a>
-                                    </Link>
-                                }>
-                                {item.subMenu.map((subItem) => (
-                                    <Menu.Item key={subItem.text}>
-                                        <Link href={subItem.url}>
-                                            <a>{subItem.text}</a>
-                                        </Link>
-                                    </Menu.Item>
-                                ))}
-                            </SubMenu>
-                        );
-                    } else if (item.megaContent) {
-                        return (
-                            <SubMenu
-                                key={item.text}
-                                title={
-                                    <Link href={item.url}>
-                                        <a>{item.text}</a>
-                                    </Link>
-                                }>
-                                {item.megaContent.map((megaItem) => (
-                                    <SubMenu
-                                        key={megaItem.heading}
-                                        title={<span>{megaItem.heading}</span>}>
-                                        {megaItem.megaItems.map(
-                                            (megaSubItem) => (
-                                                <Menu.Item
-                                                    key={megaSubItem.text}>
-                                                    <Link href={item.url}>
-                                                        <a>
-                                                            {megaSubItem.text}
-                                                        </a>
-                                                    </Link>
-                                                </Menu.Item>
-                                            )
-                                        )}
-                                    </SubMenu>
-                                ))}
-                            </SubMenu>
-                        );
-                    } else {
-                        return (
-                            <Menu.Item key={item.text}>
-                                {item.type === 'dynamic' ? (
-                                    <Link
-                                        href={`${item.url}/[pid]`}
-                                        as={`${item.url}/${item.endPoint}`}>
-                                        l<a>{item.text}</a>
-                                    </Link>
-                                ) : (
-                                    <Link href={item.url} as={item.alias}>
-                                        <a>{item.text}</a>
-                                    </Link>
-                                )}
-                            </Menu.Item>
-                        );
-                    }
-                })}
-            </Menu>
-        );
-    }
-}
+      })}
+    </Menu>
+  );
+};
 
 const mapStateToProps = (state) => {
-    return state.setting;
+  return state.setting;
 };
 
 export default connect(mapStateToProps)(PanelMenu);

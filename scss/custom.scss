@@ -62,6 +62,19 @@
     button.ps-btn {
       display: none;
     }
+    .ps-btn {
+      padding: 8px 18px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .section-white {
+    .section__header,
+    .ps-section__header {
+      flex-direction: column;
+      text-align: center;
+    }
   }
 }
 
