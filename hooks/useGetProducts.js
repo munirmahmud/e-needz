@@ -32,12 +32,11 @@ export default function useGetProducts() {
             method: 'post',
             body: JSON.stringify({
               per_page: payload.perPage,
+              category_id: payload.cat_id,
             }),
           }
         )
-
         responseData = await responseData.json()
-        console.log(responseData)
         if (responseData) {
           setProductItems(responseData.data)
           setTimeout(

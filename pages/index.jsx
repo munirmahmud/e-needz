@@ -14,21 +14,21 @@ const HomepageDefaultPage = () => {
           collectionSlug='deal-of-the-day'
           endPoint='api/react/website_api/featured_products'
           dealTitle='Features Products'
-          _link='/FProducts'
+          _link='product/features-product'
         />
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
           endPoint='api/react/website_api/best_selling'
           dealTitle='Best Selling'
-          _link='/BestSelling'
+          _link='product/best-selling'
         />
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
           endPoint='api/react/website_api/new_arrival'
           dealTitle='New Arrival'
-          _link='/New-arrival'
+          _link='product/new-arrival'
         />
 
         <HomeDefaultTopCategories
@@ -47,7 +47,7 @@ const HomepageDefaultPage = () => {
           collectionSlug='deal-of-the-day'
           endPoint='api/react/website_api/recommended_products'
           dealTitle='Recommended For You'
-          _link='/Recommended'
+          _link='product/recommended-product'
         />
       </main>
     </PageContainer>

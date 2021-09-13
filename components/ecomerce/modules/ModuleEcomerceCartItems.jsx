@@ -14,11 +14,14 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
 
   function handleIncreaseItemQty(e, productId) {
     e.preventDefault()
+
+    // return
     increaseQty({ id: productId }, ecomerce.cartItems)
   }
 
   function handleDecreaseItemQty(e, productId) {
     e.preventDefault()
+    // return
     decreaseQty({ id: productId }, ecomerce.cartItems)
   }
 
@@ -31,19 +34,19 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
           <ProductCart product={item} />
         </td>
         <td data-label='price' className='price'>
-          ${item.price}
+          ৳{item.on_sale === '1' ? item.offer_price : item.price}
         </td>
         <td data-label='quantity'>
           <div className='form-group--number'>
             <button
               className='up'
-              onClick={(e) => handleIncreaseItemQty(e, item.id)}
+              onClick={(e) => handleIncreaseItemQty(e, item.product_id)}
             >
               +
             </button>
             <button
               className='down'
-              onClick={(e) => handleDecreaseItemQty(e, item.id)}
+              onClick={(e) => handleDecreaseItemQty(e, item.product_id)}
             >
               -
             </button>
@@ -56,7 +59,13 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
           </div>
         </td>
         <td data-label='total'>
-          <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+          <strong>
+            ৳
+            {(item.on_sale === '1'
+              ? item.offer_price * item.quantity
+              : item.price * item.quantity
+            ).toFixed(2)}
+          </strong>
         </td>
         <td>
           <a href='#' onClick={(e) => handleRemoveItem(e, item.id)}>

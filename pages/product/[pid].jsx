@@ -6,12 +6,10 @@ import ProductDetailFullwidth from '~/components/elements/detail/ProductDetailFu
 import SkeletonProductDetail from '~/components/elements/skeletons/SkeletonProductDetail'
 import PageContainer from '~/components/layouts/PageContainer'
 import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay'
-import CustomerBought from '~/components/partials/product/CustomerBought'
 import ProductWidgets from '~/components/partials/product/ProductWidgets'
 import HeaderMobileProduct from '~/components/shared/header-mobile/HeaderMobileProduct'
 import HeaderDefault from '~/components/shared/headers/HeaderDefault'
 import HeaderMarketPlace2 from '~/components/shared/headers/HeaderMarketPlace2'
-import ProductRepository from '~/repositories/ProductRepository'
 
 const ProductDefaultPage = () => {
   const router = useRouter()
@@ -107,23 +105,28 @@ const ProductDefaultPage = () => {
               </div>
             </div>
             <div className='ps-page__container section-white mb-5'>
-              <DefaultDescription />
+              <DefaultDescription
+                product_id={product ? product.product_id : ''}
+                category_id={product ? product.category_id : ''}
+              />
             </div>
 
-            {/* <RelatedProduct collectionSlug="shop-recommend-items" /> */}
+            {/* <RelatedProduct collectionSlug='shop-recommend-items' /> */}
           </div>
           <HomeDefaultDealOfDay
-            collectionSlug='deal-of-the-day'
+            endPoint='api/react/website_api/category_wise_product'
             dealTitle='Related Products'
+            _cat={pid ? pid.split('-')[1] : ''}
+            _link='product/recommended-product'
           />
-          <div className='ps-container mt-5'>
+          {/* <div className='ps-container mt-5'>
             <div className='ps-page__container section-white mb-5'>
               <CustomerBought
                 layout='fullwidth'
                 collectionSlug='deal-of-the-day'
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </PageContainer>
     </>
