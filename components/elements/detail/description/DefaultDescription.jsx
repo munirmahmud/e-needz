@@ -9,30 +9,21 @@ import PartialOffer from '~/components/elements/detail/description/PartialOffer'
 
 const { TabPane } = Tabs
 
-const DefaultDescription = ({ product_id, category_id }) => {
+const DefaultDescription = () => {
   return (
     <div className='ps-product__content ps-tab-root'>
       <Tabs defaultActiveKey='1'>
         <TabPane tab='Description' key='1'>
-          <PartialDescription
-            product_id={product_id}
-            category_id={category_id}
-          />
+          <PartialDescription />
         </TabPane>
-        <TabPane tab='Specification' key='2'>
-          <PartialSpecification />
-        </TabPane>
-        <TabPane tab='Vendor' key='3'>
-          <PartialVendor />
-        </TabPane>
-        <TabPane tab='Reviews (1)' key='4'>
+        <TabPane tab='Feedback (1)' key='2'>
           <PartialReview />
         </TabPane>
-        <TabPane tab='Questions and Answers' key='5'>
-          Content of Tab Pane 3
+        <TabPane tab='Questions' key='3'>
+          <QuestionsAnswers />
         </TabPane>
-        <TabPane tab='More Offers' key='6'>
-          <PartialOffer />
+        <TabPane tab='Refund Policy' key='4'>
+          <RefundPolicy />
         </TabPane>
       </Tabs>
     </div>
