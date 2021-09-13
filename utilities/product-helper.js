@@ -1,105 +1,105 @@
-import Link from 'next/link';
-import React from 'react';
-import LazyLoad from 'react-lazyload';
-import { baseUrl } from '~/repositories/Repository';
+import Link from 'next/link'
+import React from 'react'
+import LazyLoad from 'react-lazyload'
+import { baseUrl } from '~/repositories/Repository'
 
 export function formatCurrency(num) {
-    if (num !== undefined) {
-        return parseFloat(num)
-            .toString()
-            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-    } else {
-    }
+  if (num !== undefined) {
+    return parseFloat(num)
+      .toString()
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  } else {
+  }
 }
 
 export function getColletionBySlug(collections, slug) {
-    if (collections.length > 0) {
-        const result = collections.find(
-            (item) => item.slug === slug.toString()
-        );
-        if (result !== undefined) {
-            return result.products;
-        } else {
-            return [];
-        }
+  if (collections.length > 0) {
+    const result = collections.find((item) => item.slug === slug.toString())
+    if (result !== undefined) {
+      return result.products
     } else {
-        return [];
+      return []
     }
+  } else {
+    return []
+  }
 }
 
 export function getItemBySlug(banners, slug) {
-    if (banners.length > 0) {
-        const banner = banners.find((item) => item.slug === slug.toString());
-        if (banner !== undefined) {
-            return banner;
-        } else {
-            return null;
-        }
+  if (banners.length > 0) {
+    const banner = banners.find((item) => item.slug === slug.toString())
+    if (banner !== undefined) {
+      return banner
     } else {
-        return null;
+      return null
     }
+  } else {
+    return null
+  }
 }
 
 export function convertSlugsQueryString(payload) {
-    let query = '';
-    if (payload.length > 0) {
-        payload.forEach((item) => {
-            if (query === '') {
-                query = `slug_in=${item}`;
-            } else {
-                query = query + `&slug_in=${item}`;
-            }
-        });
-    }
-    return query;
+  let query = ''
+  if (payload.length > 0) {
+    payload.forEach((item) => {
+      if (query === '') {
+        query = `slug_in=${item}`
+      } else {
+        query = query + `&slug_in=${item}`
+      }
+    })
+  }
+  return query
 }
 
 export function StrapiProductPriceExpanded(product) {
-    let view;
-    if (product.is_sale === true) {
-        view = (
-            <p className="ps-product__price sale">
-                ${formatCurrency(product.price)}
-                <del className="ml-2">${formatCurrency(product.price)}</del>
-            </p>
-        );
-    } else {
-        view = (
-            <p className="ps-product__price">
-                {/* ${formatCurrency(product.price)} */}${product.price}
-            </p>
-        );
-    }
-    return view;
+  let view
+  if (product.on_sale === '1') {
+    view = (
+      <p className='ps-product__price sale'>
+        <del className='ml-2' style={{ color: 'red' }}>
+          ৳{formatCurrency(product.price)}
+        </del>
+        <span className='ml-2'>৳{formatCurrency(product.offer_price)}</span>
+      </p>
+    )
+  } else {
+    view = (
+      <p className='ps-product__price'>
+        {/* ${formatCurrency(product.price)} */}৳{product.price}
+      </p>
+    )
+  }
+  return view
 }
 
 export function StrapiProductThumbnail(product) {
-    let view;
+  let view
 
-    if (product.thumbnail) {
-        view = (
-            <Link href="/product/[pid]" as={`/product/${product.id}`}>
-                <a>
-                    <LazyLoad>
-                        <img
-                            src={`${baseUrl}${product.thumbnail.url}`}
-                            alt={product.title}
-                        />
-                    </LazyLoad>
-                </a>
-            </Link>
-        );
-    } else {
-        view = (
-            <Link href="/product/[pid]" as={`/product/${product.id}`}>
-                <a>
-                    <LazyLoad>
-                        <img src="/static/img/not-found.jpg" alt="E-needz" />
-                    </LazyLoad>
-                </a>
-            </Link>
-        );
-    }
+  if (product.thumbnail) {
+    view = (
+      <Link href='/product/[pid]' as={`/product/${product.id}`}>
+        <a>
+          <LazyLoad>
+            <img
+              src={`${baseUrl}${product.thumbnail.url}`}
+              alt={product.title}
+            />
+          </LazyLoad>
+        </a>
+      </Link>
+    )
+  } else {
+    view = (
+      <Link href='/product/[pid]' as={`/product/${product.id}`}>
+        <a>
+          <LazyLoad>
+            <img src='/static/img/not-found.jpg' alt='E-needz' />
+          </LazyLoad>
+        </a>
+      </Link>
+    )
+  }
 
-    return view;
+  return view
 }

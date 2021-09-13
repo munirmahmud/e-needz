@@ -1,29 +1,28 @@
-import { useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
 
 const ModuleProductDetailSpecification = ({ product }) => {
-    console.log('product -', product);
-    return (
-        <div className="ps-product__specification">
-            <Link href="/page/blank">
-                <a className="report">Report Abuse</a>
-            </Link>
-            <p>
-                <strong>Seller id:</strong> {product.seller_id}
-            </p>
-            <p className="categories">
-                <strong> Categories:</strong>
-                <Link href="/shop">
-                    <a>{product.category_name}</a>
-                </Link>
-                {/* <Link href="/shop">
+  return (
+    <div className='ps-product__specification'>
+      <Link href='/page/blank'>
+        <a className='report'>Report Abuse</a>
+      </Link>
+      <p>
+        <strong>Seller id:</strong> {product.seller_id}
+      </p>
+      <p className='categories'>
+        <strong> Categories:</strong>
+        <Link href='/shop'>
+          <a>{product.category_name}</a>
+        </Link>
+        {/* <Link href="/shop">
                     <a>Refrigerator</a>
                 </Link>
                 <Link href="/shop">
                     <a>Babies & Moms</a>
                 </Link> */}
-            </p>
-            {/* <p className="tags">
+      </p>
+      {/* <p className="tags">
                 <strong> Tags</strong>
                 <Link href="/shop">
                     <a>sofa</a>
@@ -35,8 +34,8 @@ const ModuleProductDetailSpecification = ({ product }) => {
                     <a>wireless</a>
                 </Link>
             </p> */}
-        </div>
-    );
-};
+    </div>
+  )
+}
 
-export default ModuleProductDetailSpecification;
+export default ModuleProductDetailSpecification
