@@ -80,7 +80,6 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link }) => {
                   alt="Search Products"
                 />
               </button>
-              .0
               <Link href={`${_link}`}>
                 <a className="ps-btn view-all">View all</a>
               </Link>
