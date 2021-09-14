@@ -22,7 +22,7 @@ const ProductDefaultPage = () => {
 
     if (pid) {
       let responseData = await fetch(
-        `http://178.128.30.38/api/react/website_api/product_details`,
+        `${process.env.NEXT_PUBLIC_API_URL}/product_details`,
         {
           method: 'POST',
           body: JSON.stringify({
@@ -114,7 +114,7 @@ const ProductDefaultPage = () => {
             {/* <RelatedProduct collectionSlug='shop-recommend-items' /> */}
           </div>
           <HomeDefaultDealOfDay
-            endPoint='api/react/website_api/category_wise_product'
+            endPoint='/category_wise_product'
             dealTitle='Related Products'
             _cat={pid ? pid.split('-')[1] : ''}
             _link='product/recommended-product'

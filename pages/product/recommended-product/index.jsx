@@ -42,7 +42,7 @@ const ShopDefaultPage = () => {
         <div className='mb-5' />
 
         <HomeDefaultDealOfDayFP
-          endPoint='api/react/website_api/recommended_products'
+          endPoint='/recommended_products'
           dealTitle='Recommended Products'
           carousel
         />

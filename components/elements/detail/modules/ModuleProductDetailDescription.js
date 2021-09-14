@@ -6,7 +6,7 @@ const ModuleProductDetailDescription = ({ product }) => {
 
   useEffect(() => {
     if (product.product_id) {
-      fetch(`http://178.128.30.38/api/react/website_api/product_description`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/product_description`, {
         method: 'POST',
         body: JSON.stringify({
           product_id: product.product_id,
