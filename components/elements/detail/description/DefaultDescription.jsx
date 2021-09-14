@@ -1,11 +1,9 @@
-import React from 'react'
-
-import { Tabs } from 'antd'
-import PartialDescription from '~/components/elements/detail/description/PartialDescription'
-import PartialSpecification from '~/components/elements/detail/description/PartialSpecification'
-import PartialVendor from '~/components/elements/detail/description/PartialVendor'
-import PartialReview from '~/components/elements/detail/description/PartialReview'
-import PartialOffer from '~/components/elements/detail/description/PartialOffer'
+import { Tabs } from "antd";
+import React from "react";
+import PartialDescription from "~/components/elements/detail/description/PartialDescription";
+import PartialReview from "~/components/elements/detail/description/PartialReview";
+import QuestionsAnswers from "~/components/elements/detail/description/QuestionsAnswers";
+import RefundPolicy from "~/components/elements/detail/description/RefundPolicy";
 
 const { TabPane } = Tabs
 
