@@ -24,7 +24,7 @@ class NavigationDefault extends Component {
   }
 
   componentDidMount() {
-    fetch(`http://178.128.30.38/api/react/website_api/top_menu`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/top_menu`, {
       method: 'POST',
     })
       .then((res) => res.json())

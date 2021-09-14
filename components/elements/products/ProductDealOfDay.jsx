@@ -50,7 +50,7 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
         <ModuleProductActions product={product} />
       </div>
       <div className='ps-product__container'>
-        <Link href={`/brands/${product.seller_id}`}>
+        <Link href={`/store/${product.seller_id}`}>
           <a
             className='ps-product__vendor'
             style={{ display: 'flex', justifyContent: 'space-between' }}

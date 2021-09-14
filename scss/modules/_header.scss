@@ -72,7 +72,7 @@
 
   .header__top {
     padding: 25px 0;
-    background-color: #f0f0f0;
+    background-color: $color-1st;
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
 
     .ps-container,
@@ -130,17 +130,6 @@
     display: none;
     &.header--mobile {
       display: block;
-
-      .navigation__extra {
-        li {
-          a {
-            color: #666666;
-          }
-        }
-      }
-      .header__top {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.09);
-      }
     }
   }
 }
@@ -416,7 +405,7 @@
   z-index: 9999;
   text-align: center;
   border-bottom: 0 none;
-  background-color: $color-white;
+  background-color: $color-1st;
   transition: all 0.4s $ease-in-out-quad;
   @include clearfix();
 

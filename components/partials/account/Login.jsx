@@ -19,10 +19,7 @@ const Login = () => {
       redirect: 'follow',
     }
 
-    fetch(
-      'http://178.128.30.38/api/react/website_api/customer_login',
-      requestOptions
-    )
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)

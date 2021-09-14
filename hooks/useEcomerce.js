@@ -33,7 +33,7 @@ export default function useEcomerce() {
         })
 
         const req = await fetch(
-          `http://178.128.30.38/api/react/website_api/products?${queries}`
+          `${process.env.NEXT_PUBLIC_API_URL}/products?${queries}`
         )
 
         const responseData = await req.json()

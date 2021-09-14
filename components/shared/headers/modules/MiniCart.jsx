@@ -1,6 +1,6 @@
-import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import Link from 'next/link'
 import ProductOnCart from '~/components/elements/products/ProductOnCart'
 import useEcomerce from '~/hooks/useEcomerce'
 import { calculateAmount } from '~/utilities/ecomerce-helpers'
@@ -21,9 +21,9 @@ const MiniCart = ({ ecomerce }) => {
   if (products && products.length > 0) {
     const amount = calculateAmount(products) /** Have to look here... **/
 
-    const productItems = products.map((item, index) => {
+    const productItems = products.map((item) => {
       return (
-        <ProductOnCart product={item} key={index}>
+        <ProductOnCart product={item} key={item.id}>
           <a
             className='ps-product__remove'
             onClick={(e) => handleRemoveItem(e)}
