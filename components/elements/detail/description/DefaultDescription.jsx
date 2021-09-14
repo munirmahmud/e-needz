@@ -7,7 +7,7 @@ import RefundPolicy from "~/components/elements/detail/description/RefundPolicy"
 
 const { TabPane } = Tabs;
 
-const DefaultDescription = () => {
+const DefaultDescription = ({ product_id, category_id }) => {
   return (
     <div className="ps-product__content ps-tab-root">
       <Tabs defaultActiveKey="1">
