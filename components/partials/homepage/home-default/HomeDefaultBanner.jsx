@@ -98,10 +98,10 @@ const HomeDefaultBanner = () => {
   let campaignCarouselView;
   if (campaignItems) {
     const carouseItems = campaignItems.map((item, index) => (
-      <div className="slide-item" key={index}>
-        <Link href={`/campaign/${item.category_id}`}>
+      <div className="slide-item" key={item.campaign_id}>
+        <Link href={`/campaign/${item.campaign_id}`}>
           <a className="campaign-banner-item">
-            <img src={item.promo_bg_image} alt="" />
+            <img src={item.campaign_bannar} alt={item.campaign_name} />
           </a>
         </Link>
       </div>

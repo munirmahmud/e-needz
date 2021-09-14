@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Modal } from 'antd'
-import { connect } from 'react-redux'
-import ProductDetailQuickView from '~/components/elements/detail/ProductDetailQuickView'
-import useEcomerce from '~/hooks/useEcomerce'
+import { Modal } from "antd";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import ProductDetailQuickView from "~/components/elements/detail/ProductDetailQuickView";
+import useEcomerce from "~/hooks/useEcomerce";
 
 const ModuleProductActions = ({ product, ecomerce }) => {
-  const [isQuickView, setIsQuickView] = useState(false)
-  const { addItem } = useEcomerce()
+  const [isQuickView, setIsQuickView] = useState(false);
+  const { addItem } = useEcomerce();
 
   function handleAddItemToCart(e) {
-    e.preventDefault()
+    e.preventDefault();
     addItem(
       {
         id: product.product_id,
@@ -17,81 +17,81 @@ const ModuleProductActions = ({ product, ecomerce }) => {
         quantity: 1,
       },
       ecomerce.cartItems,
-      'cart'
-    )
+      "cart"
+    );
   }
 
   function handleAddItemToWishlist(e) {
-    e.preventDefault()
+    e.preventDefault();
     addItem(
       { id: product.product_id, category_id: product.category_id },
       ecomerce.wishlistItems,
-      'wishlist'
-    )
+      "wishlist"
+    );
     const modal = Modal.success({
       centered: true,
-      title: 'Success!',
+      title: "Success!",
       content: `This item has been added to your wishlist`,
-    })
-    modal.update
+    });
+    modal.update;
   }
 
   function handleAddItemToCompare(e) {
-    e.preventDefault()
-    addItem({ id: product.product_id }, ecomerce.compareItems, 'compare')
+    e.preventDefault();
+    addItem({ id: product.product_id }, ecomerce.compareItems, "compare");
     const modal = Modal.success({
       centered: true,
-      title: 'Success!',
+      title: "Success!",
       content: `This product has been added to your compare listing!`,
-    })
-    modal.update
+    });
+    modal.update;
   }
 
   const handleShowQuickView = (e) => {
-    e.preventDefault()
-    setIsQuickView(true)
-  }
+    e.preventDefault();
+    setIsQuickView(true);
+  };
 
   const handleHideQuickView = (e) => {
-    e.preventDefault()
-    setIsQuickView(false)
-  }
+    e.preventDefault();
+    setIsQuickView(false);
+  };
   return (
-    <ul className='ps-product__actions'>
+    <ul className="ps-product__actions">
       <li>
         <a
-          href='#'
-          data-toggle='tooltip'
-          data-placement='top'
-          title='Add To Cart'
+          href="#"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Add To Cart"
           onClick={handleAddItemToCart}
         >
-          <i className='icon-bag2'></i>
+          <i className="icon-bag2"></i>
         </a>
       </li>
       <li>
         <a
-          href='#'
-          data-toggle='tooltip'
-          data-placement='top'
-          title='Quick View'
+          href="#"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Quick View"
           onClick={handleShowQuickView}
         >
-          <i className='icon-eye'></i>
+          <i className="icon-eye"></i>
         </a>
       </li>
       <li>
         <a
-          href='#'
-          data-toggle='tooltip'
-          data-placement='top'
-          title='Add to wishlist'
+          href="#"
+          data-toggle="tooltip"
+          data-placement="top"
+          title="Add to wishlist"
           onClick={handleAddItemToWishlist}
         >
-          <i className='icon-heart'></i>
+          <i className="icon-heart"></i>
         </a>
       </li>
-      <li>
+      {/* <li>
         <a
           href='#'
           data-toggle='tooltip'
@@ -101,20 +101,20 @@ const ModuleProductActions = ({ product, ecomerce }) => {
         >
           <i className='icon-chart-bars'></i>
         </a>
-      </li>
+      </li> */}
       <Modal
         centered
         footer={null}
         width={1024}
         onCancel={(e) => handleHideQuickView(e)}
         visible={isQuickView}
-        closeIcon={<i className='icon icon-cross2'></i>}
+        closeIcon={<i className="icon icon-cross2"></i>}
       >
         <h3>Quickview</h3>
         <ProductDetailQuickView product={product} />
       </Modal>
     </ul>
-  )
-}
+  );
+};
 
-export default connect((state) => state)(ModuleProductActions)
+export default connect((state) => state)(ModuleProductActions);

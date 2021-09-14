@@ -7,7 +7,6 @@ const ProductWide = ({ product }) => {
   const { thumbnailImage, price, title, badge } = useProduct();
   return (
     <div className="ps-product ps-product--wide">
-      <h1>Hello</h1>
       <div className="ps-product__thumbnail">
         <Link href="/product/[pid]" as={`/product/${product.id}`}>
           <a>{thumbnailImage(product)}</a>
