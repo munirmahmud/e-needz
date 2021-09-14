@@ -3,6 +3,7 @@ import React from "react";
 import PartialDescription from "~/components/elements/detail/description/PartialDescription";
 import PartialReview from "~/components/elements/detail/description/PartialReview";
 import QuestionsAnswers from "~/components/elements/detail/description/QuestionsAnswers";
+import RefundPolicy from "~/components/elements/detail/description/RefundPolicy";
 
 const { TabPane } = Tabs;
 
