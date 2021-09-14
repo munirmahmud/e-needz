@@ -2,7 +2,6 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import BreadCrumb from '~/components/elements/BreadCrumb'
 import PageContainer from '~/components/layouts/PageContainer'
-import Newletters from '~/components/partials/commons/Newletters'
 import ProductItems from '~/components/partials/product/ProductItems'
 import FooterDefault from '~/components/shared/footers/FooterDefault'
 import WidgetShopBrands from '~/components/shared/widgets/WidgetShopBrands'
@@ -99,7 +98,6 @@ const ProductsByStore = () => {
           </div>
         </div>
       </div>
-      <Newletters layout='container' />
     </PageContainer>
   )
 }
