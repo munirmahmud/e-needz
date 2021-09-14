@@ -41,7 +41,7 @@ const ShopDefaultPage = () => {
         <div className='mb-5' />
 
         <HomeDefaultDealOfDayFP
-          endPoint='api/react/website_api/featured_products'
+          endPoint='/featured_products'
           dealTitle='Featured Products'
           carousel
         />

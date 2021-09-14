@@ -27,7 +27,7 @@ const ShopDefaultPage = () => {
         <HomeDefaultDealOfDayFP
           collectionSlug='deal-of-the-day'
           dealTitle='All Products'
-          endPoint='api/react/website_api/all_products'
+          endPoint='/all_products'
           carousel
         />
 

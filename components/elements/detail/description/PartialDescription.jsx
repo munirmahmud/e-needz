@@ -5,8 +5,8 @@ const PartialDescription = ({ product_id, category_id }) => {
   const [prodDescription, setProdDescription] = useState(undefined);
 
   useEffect(() => {
-    fetch("http://178.128.30.38/api/react/website_api/product_description", {
-      method: "POST",
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/product_description`, {
+      method: 'POST',
       body: JSON.stringify({
         product_id: product_id,
         category_id: category_id,

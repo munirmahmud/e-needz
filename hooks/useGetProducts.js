@@ -27,7 +27,7 @@ export default function useGetProducts() {
       // const responseData = await getProductsByCollectionHelper(payload);
       if (payload.endPoint) {
         let responseData = await fetch(
-          `http://178.128.30.38/${payload.endPoint}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/${payload.endPoint}`,
           {
             method: 'post',
             body: JSON.stringify({
