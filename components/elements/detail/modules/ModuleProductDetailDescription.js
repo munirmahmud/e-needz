@@ -23,8 +23,9 @@ const ModuleProductDetailDescription = ({ product }) => {
   return (
     <div className='ps-product__desc'>
       <p>
-        <Link href={`/vendor/${product.seller_id}`}>
-          <a>Sold By: {product.seller_store_name}</a>
+        Sold BY:
+        <Link href={`/store/${product.seller_id}`}>
+          <a> {product.seller_store_name}</a>
         </Link>
         {/* <Link href={`/brands/${product.seller_id}`}>
           <a>

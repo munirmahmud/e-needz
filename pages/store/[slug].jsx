@@ -23,6 +23,7 @@ const ProductsByStore = () => {
       })
         .then((response) => response.json())
         .then((result) => {
+          console.log("result", result);
           setCategory(result.data);
           setLoading(false);
         })
