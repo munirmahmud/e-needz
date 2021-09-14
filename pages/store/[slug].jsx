@@ -8,7 +8,6 @@ import FooterDefault from "~/components/shared/footers/FooterDefault";
 import WidgetShopBrands from "~/components/shared/widgets/WidgetShopBrands";
 import WidgetShopCategories from "~/components/shared/widgets/WidgetShopCategories";
 import WidgetShopFilterByPriceRange from "~/components/shared/widgets/WidgetShopFilterByPriceRange";
-import ProductRepository from "~/repositories/ProductRepository";
 
 const ProductsByStore = () => {
   const Router = useRouter();
@@ -19,16 +18,28 @@ const ProductsByStore = () => {
   async function getCategry() {
     setLoading(true);
     if (slug) {
-      const responseData = await ProductRepository.getProductsByCategory(slug);
-      if (responseData) {
-        setCategory(responseData);
-        setTimeout(
-          function () {
-            setLoading(false);
-          }.bind(this),
-          250
-        );
-      }
+      fetch("http://178.128.30.38/api/react/website_api/store_wise_products", {
+        method: "POST",
+        body: JSON.stringify({ store_id: slug, per_page: 10 }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log("result", result);
+          setCategory(result.data);
+          setLoading(false);
+        })
+        .catch((error) => console.log("error", error));
+
+      // const responseData = await ProductRepository.getProductsByCategory(slug);
+      // if (responseData) {
+      //   setCategory(responseData);
+      //   setTimeout(
+      //     function () {
+      //       setLoading(false);
+      //     }.bind(this),
+      //     250
+      //   );
+      // }
     } else {
       await Router.push("/shop");
     }
@@ -56,10 +67,8 @@ const ProductsByStore = () => {
   let productItemsViews;
 
   if (!loading) {
-    if (category && category.products.length > 0) {
-      productItemsViews = (
-        <ProductItems columns={4} products={category.products} />
-      );
+    if (category && category.length > 0) {
+      productItemsViews = <ProductItems columns={4} products={category} />;
     } else {
       productItemsViews = <p>No Product found</p>;
     }
@@ -82,6 +91,7 @@ const ProductsByStore = () => {
               <WidgetShopBrands />
               <WidgetShopFilterByPriceRange />
             </div>
+
             <div className="ps-layout__right">
               <h3 className="ps-shop__heading">{category && category.name}</h3>
               {productItemsViews}
