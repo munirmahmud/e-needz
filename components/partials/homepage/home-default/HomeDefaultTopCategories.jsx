@@ -22,6 +22,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log('data', data)
         setCatProducts(data.data)
         setFilterProds(data.data)
       })
@@ -72,7 +73,11 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
                     key={id}
                   >
                     <div className='ps-block--category'>
-                      <Link href={`${_link}/${data.category_id}`}>
+                      <Link
+                        href={`${_link}/${
+                          data.category_id ? data.category_id : data.brand_id
+                        }`}
+                      >
                         <a className='ps-block__overlay'></a>
                       </Link>
                       <img src={`/static/img/categories/5.jpg`} alt='E-needz' />
