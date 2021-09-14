@@ -2,7 +2,6 @@ import React from 'react'
 import BreadCrumb from '~/components/elements/BreadCrumb'
 import PageContainer from '~/components/layouts/PageContainer'
 import HomeDefaultDealOfDayFP from '~/components/partials/homepage/home-default/HomeDefaultDealOfDayFP'
-import ShopBrands from '~/components/partials/shop/ShopBrands'
 
 const ShopDefaultPage = () => {
   const breadCrumb = [
@@ -11,7 +10,7 @@ const ShopDefaultPage = () => {
       url: '/',
     },
     {
-      text: 'Shop',
+      text: 'New Arrival',
     },
   ]
 
@@ -20,14 +19,31 @@ const ShopDefaultPage = () => {
       <div className='ps-page--shop'>
         <BreadCrumb breacrumb={breadCrumb} layout='fullwidth' />
         {/* <div className='ps-container page-shop'>
-          <ShopBrands title='Shop By Brand' />
+          <div className='ps-layout--shop'>
+            <div className='ps-layout__left'>
+              <WidgetShopCategories />
+              <WidgetShopBrands />
+              <WidgetShopFilterByPriceRange />
+            </div>
+            <div className='ps-layout__right'>
+              <ProductGroupByCarousel
+                collectionSlug='shop-best-seller-items'
+                title='Best Sale Items'
+              />
+              <ProductGroupByCarousel
+                collectionSlug='shop-recommend-items'
+                title='Recommended Items'
+              />
+              <ShopItems columns={6} pageSize={18} />
+            </div>
+          </div>
         </div> */}
+
         <div className='mb-5' />
 
         <HomeDefaultDealOfDayFP
-          collectionSlug='deal-of-the-day'
-          dealTitle='All Products'
-          endPoint='/all_products'
+          endPoint='/new_arrival'
+          dealTitle='New Arrival'
           carousel
         />
 

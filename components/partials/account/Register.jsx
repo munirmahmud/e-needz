@@ -22,7 +22,7 @@ const Register = () => {
     formData.append('customer_email', email)
     formData.append('password', password)
 
-    fetch('http://178.128.30.38/api/react/website_api/customer_signup', {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_signup`, {
       method: 'POST',
       body: formData,
     })

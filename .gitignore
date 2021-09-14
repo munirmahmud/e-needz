@@ -20,7 +20,6 @@
 
 # misc
 .DS_Store
-.env*
 /.idea
 .idea
 # debug
@@ -32,6 +31,5 @@ package-lock.json
 .now
 .next/
 
-scss/*
 .eslintrc.json
 .prettierrc

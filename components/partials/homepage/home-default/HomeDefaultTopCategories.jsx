@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
-const HomeDefaultTopCategories = ({ title, endpoint }) => {
+const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
   const [catProds, setCatProducts] = useState()
   const [filterProds, setFilterProds] = useState()
 
@@ -14,7 +14,7 @@ const HomeDefaultTopCategories = ({ title, endpoint }) => {
   }
 
   useEffect(() => {
-    fetch(`http://178.128.30.38/api/react/website_api/${endpoint}`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, {
       method: 'post',
       body: JSON.stringify({
         per_page: '60',
@@ -57,7 +57,7 @@ const HomeDefaultTopCategories = ({ title, endpoint }) => {
                   alt='Search Products'
                 />
               </button>
-              <Link href='/shop'>
+              <Link href={_link}>
                 <a className='ps-btn view-all'>View all</a>
               </Link>
             </div>
@@ -72,7 +72,7 @@ const HomeDefaultTopCategories = ({ title, endpoint }) => {
                     key={id}
                   >
                     <div className='ps-block--category'>
-                      <Link href='/shop'>
+                      <Link href={`${_link}/${data.category_id}`}>
                         <a className='ps-block__overlay'></a>
                       </Link>
                       <img src={`/static/img/categories/5.jpg`} alt='E-needz' />
@@ -93,186 +93,150 @@ const HomeDefaultTopCategories = ({ title, endpoint }) => {
               ''
             )}
 
-            {/* <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/2.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Clothings</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/3.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Computers</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/4.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Home & Kitchen</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/5.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Health & Beauty</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/6.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Health & Beauty</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/img/categories/7.jpg"
-                                alt="E-needz"
-                            />
-                            <p>Jewelry & Watch</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/Suzuki-Gixxer-PNG-Bike-PNG-Image.png"
-                                alt="E-needz"
-                            />
-                            <p>Suzuki Gixxer Bike</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/blender.png"
-                                alt="E-needz"
-                            />
-                            <p>Blender</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/chair.png"
-                                alt="E-needz"
-                            />
-                            <p>New Chair</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/man-clock.png"
-                                alt="E-needz"
-                            />
-                            <p>Man Colck</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/gadget-item.png"
-                                alt="E-needz"
-                            />
-                            <p>Gadget Item</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/gaming-instrument.png"
-                                alt="E-needz"
-                            />
-                            <p>Gaming World</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/ultra-television.png"
-                                alt="E-needz"
-                            />
-                            <p>Ultra Television</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/Image 1.png"
-                                alt="E-needz"
-                            />
-                            <p>Wall Mats</p>
-                        </div>
-                    </div>
-                    <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
-                        <div className="ps-block--category">
-                            <Link href="/shop">
-                                <a className="ps-block__overlay"></a>
-                            </Link>
-                            <img
-                                src="/static/products/Health & Beauty.png"
-                                alt="E-needz"
-                            />
-                            <p>Health & Beauty</p>
-                        </div>
-                    </div> */}
+            {/* <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/2.jpg' alt='E-needz' />
+                <p>Clothings</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/3.jpg' alt='E-needz' />
+                <p>Computers</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/4.jpg' alt='E-needz' />
+                <p>Home & Kitchen</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/5.jpg' alt='E-needz' />
+                <p>Health & Beauty</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/6.jpg' alt='E-needz' />
+                <p>Health & Beauty</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/img/categories/7.jpg' alt='E-needz' />
+                <p>Jewelry & Watch</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img
+                  src='/static/products/Suzuki-Gixxer-PNG-Bike-PNG-Image.png'
+                  alt='E-needz'
+                />
+                <p>Suzuki Gixxer Bike</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/blender.png' alt='E-needz' />
+                <p>Blender</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/chair.png' alt='E-needz' />
+                <p>New Chair</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/man-clock.png' alt='E-needz' />
+                <p>Man Colck</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/gadget-item.png' alt='E-needz' />
+                <p>Gadget Item</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img
+                  src='/static/products/gaming-instrument.png'
+                  alt='E-needz'
+                />
+                <p>Gaming World</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img
+                  src='/static/products/ultra-television.png'
+                  alt='E-needz'
+                />
+                <p>Ultra Television</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/Image 1.png' alt='E-needz' />
+                <p>Wall Mats</p>
+              </div>
+            </div>
+            <div className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 '>
+              <div className='ps-block--category'>
+                <Link href='/shop'>
+                  <a className='ps-block__overlay'></a>
+                </Link>
+                <img src='/static/products/Health & Beauty.png' alt='E-needz' />
+                <p>Health & Beauty</p>
+              </div>
+            </div> */}
           </div>
         </div>
       </div>

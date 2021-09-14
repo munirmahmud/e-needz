@@ -32,19 +32,17 @@ export default function useEcomerce() {
           }
         })
 
-        // const responseData = await ProductRepository.getProductsByIds(
-        //     queries
-        // );
-
         const req = await fetch(
-          `http://178.128.30.38/api/react/website_api/products?${queries}`
+          `${process.env.NEXT_PUBLIC_API_URL}/products?${queries}`
         )
 
         const responseData = await req.json()
+        // console.log(responseData)
 
         if (responseData && responseData.data.length > 0) {
           if (group === 'cart') {
             let cartItems = responseData.data
+
             payload.forEach((item) => {
               let existItem = cartItems.find(
                 (val) => val.product_id === item.id
@@ -72,10 +70,11 @@ export default function useEcomerce() {
     },
 
     increaseQty: (payload, currentCart) => {
+      console.log(payload, currentCart)
       let cart = []
       if (currentCart) {
         cart = currentCart
-        const existItem = cart.find((item) => item.product_id === payload.id)
+        const existItem = cart.find((item) => item.id === payload.id)
         if (existItem) {
           existItem.quantity = existItem.quantity + 1
         }
@@ -89,7 +88,7 @@ export default function useEcomerce() {
       let cart = []
       if (currentCart) {
         cart = currentCart
-        const existItem = cart.find((item) => item.product_id === payload.id)
+        const existItem = cart.find((item) => item.id === payload.id)
         if (existItem) {
           if (existItem.quantity > 1) {
             existItem.quantity = existItem.quantity - 1

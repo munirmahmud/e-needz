@@ -6,7 +6,7 @@ const MegaMenu = ({ source }) => {
 
   if (source) {
     megaContentView = (
-      <ul className="mega-menu__column">
+      <div className="mega-menu__column">
         {source?.sub_items?.map((item, index) => (
           <li key={index}>
             <Link href={`/category/${item.category_id}`}>
@@ -14,7 +14,7 @@ const MegaMenu = ({ source }) => {
             </Link>
           </li>
         ))}
-      </ul>
+      </div>
     );
   }
 

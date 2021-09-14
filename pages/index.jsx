@@ -12,42 +12,48 @@ const HomepageDefaultPage = () => {
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
-          endPoint='api/react/website_api/featured_products'
+          endPoint='featured_products'
           dealTitle='Features Products'
-          _link='/FProducts'
+          _link='product/features-product'
         />
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
-          endPoint='api/react/website_api/best_selling'
+          endPoint='best_selling'
           dealTitle='Best Selling'
-          _link='/BestSelling'
+          _link='product/best-selling'
         />
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
-          endPoint='api/react/website_api/new_arrival'
+          endPoint='new_arrival'
           dealTitle='New Arrival'
-          _link='/New-arrival'
+          _link='product/new-arrival'
         />
 
         <HomeDefaultTopCategories
           title='Top Categories Of The Month'
           endpoint='top_categories_of_the_month'
+          _link='top-categories'
         />
 
         <HomeDefaultTopCategories
           title='Shop By Store'
           endpoint='shop_by_store'
+          _link='shop-by-store'
         />
 
-        <HomeDefaultTopCategories title='Shop By Brand' endpoint='brand_list' />
+        <HomeDefaultTopCategories
+          title='Shop By Brand'
+          endpoint='brand_list'
+          _link='shop-by-brand'
+        />
 
         <HomeDefaultDealOfDay
           collectionSlug='deal-of-the-day'
-          endPoint='api/react/website_api/recommended_products'
+          endPoint='recommended_products'
           dealTitle='Recommended For You'
-          _link='/Recommended'
+          _link='product/recommended-product'
         />
       </main>
     </PageContainer>

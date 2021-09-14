@@ -19,7 +19,8 @@ const ProductOnCart = ({ product, children }) => {
         {title(product)}
         <p>
           <small>
-            ${product.price} x {product.quantity}
+            ৳ {product.on_sale === '1' ? product.offer_price : product.price} x
+            {product.quantity}
           </small>
         </p>{' '}
         {children}

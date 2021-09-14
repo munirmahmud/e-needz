@@ -27,17 +27,16 @@ export default function useGetProducts() {
       // const responseData = await getProductsByCollectionHelper(payload);
       if (payload.endPoint) {
         let responseData = await fetch(
-          `http://178.128.30.38/${payload.endPoint}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/${payload.endPoint}`,
           {
             method: 'post',
             body: JSON.stringify({
               per_page: payload.perPage,
+              category_id: payload.cat_id,
             }),
           }
         )
-
         responseData = await responseData.json()
-        console.log(responseData)
         if (responseData) {
           setProductItems(responseData.data)
           setTimeout(
