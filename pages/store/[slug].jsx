@@ -4,9 +4,6 @@ import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
 import ProductItems from "~/components/partials/product/ProductItems";
 import FooterDefault from "~/components/shared/footers/FooterDefault";
-import WidgetShopBrands from "~/components/shared/widgets/WidgetShopBrands";
-import WidgetShopCategories from "~/components/shared/widgets/WidgetShopCategories";
-import WidgetShopFilterByPriceRange from "~/components/shared/widgets/WidgetShopFilterByPriceRange";
 
 const ProductsByStore = () => {
   const Router = useRouter();
@@ -23,7 +20,6 @@ const ProductsByStore = () => {
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log("result", result);
           setCategory(result.data);
           setLoading(false);
         })
@@ -40,7 +36,7 @@ const ProductsByStore = () => {
       //   );
       // }
     } else {
-      await Router.push("/shop");
+      await Router.push("/store");
     }
   }
 
@@ -54,7 +50,7 @@ const ProductsByStore = () => {
       url: "/",
     },
     {
-      text: "Shop",
+      text: "Store",
       url: "/",
     },
     {
@@ -83,7 +79,10 @@ const ProductsByStore = () => {
     >
       <div className="ps-page--shop">
         <BreadCrumb breacrumb={breadCrumb} />
-        <div className="container">
+
+        <div className="ps-container">{productItemsViews}</div>
+
+        {/* <div className="container">
           <div className="ps-layout--shop ps-shop--category">
             <div className="ps-layout__left">
               <WidgetShopCategories />
@@ -92,13 +91,13 @@ const ProductsByStore = () => {
             </div>
 
             <div className="ps-layout__right">
-              {/* <h3 className="ps-shop__heading">
+              <h3 className="ps-shop__heading">
                 {category && category.category_name}
-              </h3> */}
+              </h3>
               {productItemsViews}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </PageContainer>
   );
