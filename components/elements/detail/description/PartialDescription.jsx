@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 const PartialDescription = ({ product_id, category_id }) => {
-  console.log(product_id, category_id)
-  const [prodDescription, setProdDescription] = useState(undefined)
+  console.log(product_id, category_id);
+  const [prodDescription, setProdDescription] = useState(undefined);
 
   useEffect(() => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/product_description`, {
@@ -15,20 +15,20 @@ const PartialDescription = ({ product_id, category_id }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.response_status === 200) {
-          setProdDescription(result.data[0].description)
+          setProdDescription(result.data[0].description);
         }
       })
-      .catch((error) => console.log('error', error))
-  }, [product_id, category_id])
+      .catch((error) => console.log("error", error));
+  }, [product_id, category_id]);
 
   return (
-    <div className='ps-document'>
+    <div className="ps-document">
       <div
-        className='content'
+        className="content"
         dangerouslySetInnerHTML={{ __html: prodDescription }}
       ></div>
     </div>
-  )
-}
+  );
+};
 
-export default PartialDescription
+export default PartialDescription;
