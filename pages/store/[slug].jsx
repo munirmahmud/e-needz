@@ -2,7 +2,6 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
-import Newletters from "~/components/partials/commons/Newletters";
 import ProductItems from "~/components/partials/product/ProductItems";
 import FooterDefault from "~/components/shared/footers/FooterDefault";
 import WidgetShopBrands from "~/components/shared/widgets/WidgetShopBrands";
@@ -24,7 +23,6 @@ const ProductsByStore = () => {
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log("result", result);
           setCategory(result.data);
           setLoading(false);
         })
@@ -79,7 +77,7 @@ const ProductsByStore = () => {
   return (
     <PageContainer
       footer={<FooterDefault />}
-      title={category ? category.name : "Category"}
+      title={category ? category.category_name : "Category"}
       boxed={true}
     >
       <div className="ps-page--shop">
@@ -93,13 +91,14 @@ const ProductsByStore = () => {
             </div>
 
             <div className="ps-layout__right">
-              <h3 className="ps-shop__heading">{category && category.name}</h3>
+              {/* <h3 className="ps-shop__heading">
+                {category && category.category_name}
+              </h3> */}
               {productItemsViews}
             </div>
           </div>
         </div>
       </div>
-      <Newletters layout="container" />
     </PageContainer>
   );
 };
