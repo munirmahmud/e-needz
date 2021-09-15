@@ -27,7 +27,7 @@ const ProductDefaultPage = () => {
           method: 'POST',
           body: JSON.stringify({
             product_id: pid.split('-')[0],
-            category_id: pid.split('-')[1],
+            campaign_id: pid.split('-')[1],
           }),
         }
       )

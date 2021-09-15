@@ -18,7 +18,7 @@ const ModuleDetailShoppingActions = ({
     addItem(
       {
         id: product.product_id,
-        category_id: product.category_id,
+        campaign_id: product.campaign_id,
         quantity: quantity,
       },
       ecomerce.cartItems,
@@ -31,7 +31,7 @@ const ModuleDetailShoppingActions = ({
     addItem(
       {
         id: product.product_id,
-        category_id: product.category_id,
+        campaign_id: product.campaign_id,
         quantity: quantity,
       },
       ecomerce.cartItems,
@@ -57,7 +57,7 @@ const ModuleDetailShoppingActions = ({
   const handleAddItemToWishlist = (e) => {
     e.preventDefault()
     addItem(
-      { id: product.product_id, category_id: product.category_id },
+      { id: product.product_id, campaign_id: product.campaign_id },
       ecomerce.wishlistItems,
       'wishlist'
     )
