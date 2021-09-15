@@ -5,7 +5,6 @@ import Rating from '~/components/elements/Rating'
 const ModuleDetailTopInformation = ({ product }) => {
   // Views
   let priceView
-  console.log('pop up - ', product)
   if (product.on_sale === '1') {
     priceView = (
       <h4 className='ps-product__price sale'>

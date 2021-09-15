@@ -16,6 +16,7 @@ const ProductDefaultPage = () => {
   const { pid } = router.query
   const [product, setProduct] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [cat, setCat] = useState()
 
   async function getProduct(pid) {
     setLoading(true)
@@ -37,6 +38,8 @@ const ProductDefaultPage = () => {
       if (responseData) {
         if (responseData.response_status !== 0) {
           setProduct(responseData.data[0])
+          console.log(responseData.data[0].category_id)
+          setCat(responseData.data[0].category_id)
         }
         setTimeout(
           function () {
@@ -113,12 +116,16 @@ const ProductDefaultPage = () => {
 
             {/* <RelatedProduct collectionSlug='shop-recommend-items' /> */}
           </div>
-          <HomeDefaultDealOfDay
-            endPoint='/category_wise_product'
-            dealTitle='Related Products'
-            _cat={pid ? pid.split('-')[1] : ''}
-            _link='product/recommended-product'
-          />
+          {cat ? (
+            <HomeDefaultDealOfDay
+              endPoint='/category_wise_product'
+              dealTitle='Related Products'
+              _cat={cat}
+              _link='product/recommended-product'
+            />
+          ) : (
+            ''
+          )}
           {/* <div className='ps-container mt-5'>
             <div className='ps-page__container section-white mb-5'>
               <CustomerBought

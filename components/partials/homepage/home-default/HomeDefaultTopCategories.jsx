@@ -22,7 +22,6 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log('data', data)
         setCatProducts(data.data)
         setFilterProds(data.data)
       })
@@ -67,30 +66,39 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
           <div className='row'>
             {filterProds ? (
               filterProds.length > 0 ? (
-                filterProds.splice(0, 12).map((data, id) => (
-                  <div
-                    className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6'
-                    key={id}
-                  >
-                    <div className='ps-block--category'>
-                      <Link
-                        href={`${_link}/${
-                          data.category_id ? data.category_id : data.brand_id
-                        }`}
-                      >
-                        <a className='ps-block__overlay'></a>
-                      </Link>
-                      <img src={`/static/img/categories/5.jpg`} alt='E-needz' />
-                      <p>
-                        {data.category_name
-                          ? data.category_name
-                          : data.seller_store_name}
+                filterProds.splice(0, 12).map((data, id) => {
+                  return (
+                    <div
+                      className='col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6'
+                      key={id}
+                    >
+                      <div className='ps-block--category'>
+                        <Link
+                          href={`${_link}/${
+                            data.category_id
+                              ? data.category_id
+                              : data.brand_id
+                              ? data.brand_id
+                              : data.seller_id
+                          }`}
+                        >
+                          <a className='ps-block__overlay'></a>
+                        </Link>
+                        <img
+                          src={`/static/img/categories/5.jpg`}
+                          alt='E-needz'
+                        />
+                        <p>
+                          {data.category_name
+                            ? data.category_name
+                            : data.seller_store_name}
 
-                        {data.brand_name ? data.brand_name : ''}
-                      </p>
+                          {data.brand_name ? data.brand_name : ''}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  )
+                })
               ) : (
                 <p style={{ marginLeft: '10px' }}>No product(s) found.</p>
               )
