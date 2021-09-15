@@ -14,7 +14,7 @@ const HomepageDefaultPage = () => {
           collectionSlug='deal-of-the-day'
           endPoint='featured_products'
           dealTitle='Features Products'
-          _link='/product/features-product'
+          _link='/product/featured'
         />
 
         <HomeDefaultDealOfDay
@@ -34,19 +34,19 @@ const HomepageDefaultPage = () => {
         <HomeDefaultTopCategories
           title='Top Categories Of The Month'
           endpoint='top_categories_of_the_month'
-          _link='/top-categories'
+          _link='/category'
         />
 
         <HomeDefaultTopCategories
           title='Shop By Store'
           endpoint='shop_by_store'
-          _link='/shop-by-store'
+          _link='/store'
         />
 
         <HomeDefaultTopCategories
           title='Shop By Brand'
           endpoint='brand_list'
-          _link='/shop-by-brand'
+          _link='/brand'
         />
 
         <HomeDefaultDealOfDay
