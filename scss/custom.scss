@@ -221,6 +221,11 @@ button.form-btn {
     .section__header {
       flex-direction: column;
     }
+    .search-products {
+      .view-all {
+        display: none;
+      }
+    }
   }
 }
 
@@ -235,6 +240,16 @@ button.form-btn {
   .ps-carousel {
     .slick-dots {
       bottom: -33px;
+    }
+  }
+}
+
+@media (max-width: 1299px) {
+  .header--mobile {
+    .navigation--mobile {
+      .ps-logo {
+        width: 120px;
+      }
     }
   }
 }

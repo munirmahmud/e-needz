@@ -116,7 +116,7 @@ export const carouselFullwidth = {
     {
       breakpoint: 768,
       settings: {
-        slidesToShow: 3,
+        slidesToShow: 2,
         slidesToScroll: 2,
         dots: true,
         arrows: false,
@@ -125,7 +125,8 @@ export const carouselFullwidth = {
     {
       breakpoint: 480,
       settings: {
-        slidesToShow: 2,
+        slidesToShow: 1,
+        slidesToScroll: 1,
         dots: true,
         arrows: false,
       },
