@@ -23,12 +23,12 @@ export default function useEcomerce() {
         let queries = ''
         payload.forEach((item) => {
           if (queries === '') {
-            queries = `id_in=${item.id}@@${item.category_id}`
+            queries = `id_in=${item.id}@@${item.campaign_id}`
           } else {
             // queries = queries + `&id_in=${item.id}`;
             queries =
               queries +
-              `--${item.id}@@${item.category_id}` /* Changing url structure */
+              `--${item.id}@@${item.campaign_id}` /* Changing url structure */
           }
         })
 

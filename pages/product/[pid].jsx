@@ -1,91 +1,91 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import BreadCrumb from "~/components/elements/BreadCrumb";
-import DefaultDescription from "~/components/elements/detail/description/DefaultDescription";
-import ProductDetailFullwidth from "~/components/elements/detail/ProductDetailFullwidth";
-import SkeletonProductDetail from "~/components/elements/skeletons/SkeletonProductDetail";
-import PageContainer from "~/components/layouts/PageContainer";
-import HomeDefaultDealOfDay from "~/components/partials/homepage/home-default/HomeDefaultDealOfDay";
-import ProductWidgets from "~/components/partials/product/ProductWidgets";
-import HeaderMobileProduct from "~/components/shared/header-mobile/HeaderMobileProduct";
-import HeaderDefault from "~/components/shared/headers/HeaderDefault";
-import HeaderMarketPlace2 from "~/components/shared/headers/HeaderMarketPlace2";
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import BreadCrumb from '~/components/elements/BreadCrumb'
+import DefaultDescription from '~/components/elements/detail/description/DefaultDescription'
+import ProductDetailFullwidth from '~/components/elements/detail/ProductDetailFullwidth'
+import SkeletonProductDetail from '~/components/elements/skeletons/SkeletonProductDetail'
+import PageContainer from '~/components/layouts/PageContainer'
+import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay'
+import ProductWidgets from '~/components/partials/product/ProductWidgets'
+import HeaderMobileProduct from '~/components/shared/header-mobile/HeaderMobileProduct'
+import HeaderDefault from '~/components/shared/headers/HeaderDefault'
+import HeaderMarketPlace2 from '~/components/shared/headers/HeaderMarketPlace2'
 
 const ProductDefaultPage = () => {
-  const router = useRouter();
-  const { pid } = router.query;
-  const [product, setProduct] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const router = useRouter()
+  const { pid } = router.query
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   async function getProduct(pid) {
-    setLoading(true);
+    setLoading(true)
 
     if (pid) {
       let responseData = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/product_details`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
-            product_id: pid.split("-")[0],
-            category_id: pid.split("-")[1],
+            product_id: pid.split('-')[0],
+            category_id: pid.split('-')[1],
           }),
         }
-      );
+      )
 
-      responseData = await responseData.json();
+      responseData = await responseData.json()
 
       if (responseData) {
         if (responseData.response_status !== 0) {
-          setProduct(responseData.data[0]);
+          setProduct(responseData.data[0])
         }
         setTimeout(
           function () {
-            setLoading(false);
+            setLoading(false)
           }.bind(this),
           250
-        );
+        )
       }
     }
   }
 
   useEffect(() => {
-    if (pid) getProduct(pid);
-  }, [pid]);
+    if (pid) getProduct(pid)
+  }, [pid])
 
   const breadCrumb = [
     {
-      text: "Home",
-      url: "/",
+      text: 'Home',
+      url: '/',
     },
     {
-      text: "Shop",
-      url: "/shop",
+      text: 'Shop',
+      url: '/shop',
     },
     {
-      text: product ? product.title : "Loading...",
+      text: product ? product.title : 'Loading...',
     },
-  ];
+  ]
   // Views
-  let productView, headerView;
+  let productView, headerView
   if (!loading) {
     if (product) {
-      productView = <ProductDetailFullwidth product={product} />;
+      productView = <ProductDetailFullwidth product={product} />
       headerView = (
         <>
           <HeaderMarketPlace2 />
           <HeaderMobileProduct />
         </>
-      );
+      )
     } else {
       headerView = (
         <>
           <HeaderDefault />
           <HeaderMobileProduct />
         </>
-      );
+      )
     }
   } else {
-    productView = <SkeletonProductDetail />;
+    productView = <SkeletonProductDetail />
   }
 
   return (
@@ -93,31 +93,31 @@ const ProductDefaultPage = () => {
       {/* <HeaderMarketPlace2 /> */}
       <PageContainer
         header={headerView}
-        title={product ? product.title : "Loading..."}
+        title={product ? product.title : 'Loading...'}
       >
-        <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
-        <div className="ps-page--product">
-          <div className="ps-container">
-            <div className="ps-page__container section-white mb-5">
-              <div className="ps-page__left">{productView}</div>
-              <div className="ps-page__right">
+        <BreadCrumb breacrumb={breadCrumb} layout='fullwidth' />
+        <div className='ps-page--product'>
+          <div className='ps-container'>
+            <div className='ps-page__container section-white mb-5'>
+              <div className='ps-page__left'>{productView}</div>
+              <div className='ps-page__right'>
                 <ProductWidgets />
               </div>
             </div>
-            <div className="ps-page__container section-white mb-5">
+            <div className='ps-page__container section-white mb-5'>
               <DefaultDescription
-                product_id={product ? product.product_id : ""}
-                category_id={product ? product.category_id : ""}
+                product_id={product ? product.product_id : ''}
+                category_id={product ? product.category_id : ''}
               />
             </div>
 
             {/* <RelatedProduct collectionSlug='shop-recommend-items' /> */}
           </div>
           <HomeDefaultDealOfDay
-            endPoint="/category_wise_product"
-            dealTitle="Related Products"
-            _cat={pid ? pid.split("-")[1] : ""}
-            _link="product/recommended-product"
+            endPoint='/category_wise_product'
+            dealTitle='Related Products'
+            _cat={pid ? pid.split('-')[1] : ''}
+            _link='product/recommended-product'
           />
           {/* <div className='ps-container mt-5'>
             <div className='ps-page__container section-white mb-5'>
@@ -130,7 +130,7 @@ const ProductDefaultPage = () => {
         </div>
       </PageContainer>
     </>
-  );
-};
+  )
+}
 
-export default ProductDefaultPage;
+export default ProductDefaultPage
