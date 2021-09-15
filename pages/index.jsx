@@ -2,6 +2,7 @@ import React from 'react'
 import PageContainer from '~/components/layouts/PageContainer'
 import HomeDefaultBanner from '~/components/partials/homepage/home-default/HomeDefaultBanner'
 import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay'
+import HomeDefaultDealOfDayFP from '~/components/partials/homepage/home-default/HomeDefaultDealOfDayFP'
 import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories'
 
 const HomepageDefaultPage = () => {

@@ -370,7 +370,7 @@
     overflow-x: hidden;
 
     .menu-item-has-children {
-      position: relative;
+      // position: relative;
     }
   }
 
@@ -411,7 +411,8 @@
       .mega-menu {
         position: absolute;
         top: 0;
-        left: 100%;
+        left: 95%;
+        height: 100%;
         width: auto;
         min-width: 255px;
         @include hidden;
@@ -425,6 +426,25 @@
       &.has-mega-menu {
         .mega-menu {
           @include show;
+        }
+      }
+    }
+  }
+}
+
+.has-mega-menu {
+  .mega-menu {
+    padding: 10px 0;
+
+    .mega-menu__column {
+      padding: 0;
+
+      a {
+        padding: 5px 22px;
+        display: block;
+        &:hover {
+          background-color: $color-1st;
+          color: $color-black;
         }
       }
     }
