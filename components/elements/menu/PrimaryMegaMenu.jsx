@@ -1,12 +1,12 @@
-import Link from 'next/link'
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
 const PrimaryMegaMenu = ({ source }) => {
-  let megaContentView
+  let megaContentView;
 
   if (source) {
     megaContentView = (
-      <div className='mega-menu__column'>
+      <ul className="mega-menu__column">
         {source?.sub_items?.map((item, index) => (
           <li key={index}>
             <Link href={`/category/${item.category_id}`}>
@@ -14,12 +14,12 @@ const PrimaryMegaMenu = ({ source }) => {
             </Link>
           </li>
         ))}
-      </div>
-    )
+      </ul>
+    );
   }
 
   return (
-    <li className='menu-item-has-children has-mega-menu'>
+    <li className="menu-item-has-children has-mega-menu">
       <Link href={`/category/${source.category_id}`}>
         <a>
           {source.cat_image && (
@@ -28,9 +28,9 @@ const PrimaryMegaMenu = ({ source }) => {
           {source.category_name}
         </a>
       </Link>
-      <div className='mega-menu'>{megaContentView}</div>
+      <ul className="mega-menu">{megaContentView}</ul>
     </li>
-  )
-}
+  );
+};
 
-export default PrimaryMegaMenu
+export default PrimaryMegaMenu;
