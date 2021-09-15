@@ -223,3 +223,18 @@ button.form-btn {
     }
   }
 }
+
+@media (max-width: 1024px) {
+  #homepage-1 {
+    .ps-carousel {
+      .slick-list {
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .ps-carousel {
+    .slick-dots {
+      bottom: -33px;
+    }
+  }
+}
