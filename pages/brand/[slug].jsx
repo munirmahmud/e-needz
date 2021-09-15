@@ -1,97 +1,107 @@
-import React, { useEffect, useState } from 'react';
-import BreadCrumb from '~/components/elements/BreadCrumb';
-import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories';
-import WidgetShopBrands from '~/components/shared/widgets/WidgetShopBrands';
-import WidgetShopFilterByPriceRange from '~/components/shared/widgets/WidgetShopFilterByPriceRange';
-import ProductRepository from '~/repositories/ProductRepository';
-import { useRouter } from 'next/router';
-import ProductItems from '~/components/partials/product/ProductItems';
-import PageContainer from '~/components/layouts/PageContainer';
-import Newletters from '~/components/partials/commons/Newletters';
-import FooterDefault from '~/components/shared/footers/FooterDefault';
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import BreadCrumb from '~/components/elements/BreadCrumb'
+import PageContainer from '~/components/layouts/PageContainer'
+import ProductItems from '~/components/partials/product/ProductItems'
+import FooterDefault from '~/components/shared/footers/FooterDefault'
 
-const ProductByBrandScreen = () => {
-    const Router = useRouter();
-    const { slug } = Router.query;
-    const [brand, setCategory] = useState(null);
-    const [loading, setLoading] = useState(false);
+const ProductsByStore = () => {
+  const Router = useRouter()
+  const { slug } = Router.query
+  const [category, setCategory] = useState(null)
+  const [loading, setLoading] = useState(false)
 
-    async function getCategry() {
-        setLoading(true);
-        if (slug) {
-            const responseData = await ProductRepository.getProductsByBrand(
-                slug
-            );
-            if (responseData) {
-                setCategory(responseData);
-                setTimeout(
-                    function () {
-                        setLoading(false);
-                    }.bind(this),
-                    250
-                );
-            }
-        } else {
-            await Router.push('/shop');
-        }
-    }
+  async function getCategry() {
+    setLoading(true)
+    console.log(slug)
+    if (slug) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand_wise_products`, {
+        method: 'POST',
+        body: JSON.stringify({ brand_id: slug, per_page: 10 }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result)
+          setCategory(result.data)
+          setLoading(false)
+        })
+        .catch((error) => console.log('error', error))
 
-    useEffect(() => {
-        getCategry();
-    }, [slug]);
-
-    const breadCrumb = [
-        {
-            text: 'Home',
-            url: '/',
-        },
-        {
-            text: 'Shop',
-            url: '/',
-        },
-        {
-            text: brand ? brand.name : 'Product brand',
-        },
-    ];
-
-    //Views
-    let productItemsViews;
-    if (!loading) {
-        if (brand && brand.products.length > 0) {
-            productItemsViews = (
-                <ProductItems columns={4} products={brand.products} />
-            );
-        } else {
-            productItemsViews = <p>No Product found</p>;
-        }
+      // const responseData = await ProductRepository.getProductsByCategory(slug);
+      // if (responseData) {
+      //   setCategory(responseData);
+      //   setTimeout(
+      //     function () {
+      //       setLoading(false);
+      //     }.bind(this),
+      //     250
+      //   );
+      // }
     } else {
-        productItemsViews = <p>Loading...</p>;
+      await Router.push('/store')
     }
+  }
 
-    return (
-        <PageContainer
-            footer={<FooterDefault />}
-            title={brand ? brand.name : 'Brand'}>
-            <div className="ps-page--shop">
-                <BreadCrumb breacrumb={breadCrumb} />
-                <div className="container">
-                    <div className="ps-layout--shop ps-shop--category">
-                        <div className="ps-layout__left">
-                            <WidgetShopCategories />
-                            <WidgetShopBrands />
-                            <WidgetShopFilterByPriceRange />
-                        </div>
-                        <div className="ps-layout__right">
-                            <h3 className="ps-shop__heading">
-                                Brand: {brand && brand.name}
-                            </h3>
-                            {productItemsViews}
-                        </div>
-                    </div>
-                </div>
+  useEffect(() => {
+    getCategry()
+  }, [slug])
+
+  const breadCrumb = [
+    {
+      text: 'Home',
+      url: '/',
+    },
+    {
+      text: 'Store',
+      url: '/',
+    },
+    {
+      text: category ? category.name : 'Product category',
+    },
+  ]
+
+  //Views
+  let productItemsViews
+
+  if (!loading) {
+    if (category && category.length > 0) {
+      productItemsViews = <ProductItems columns={4} products={category} />
+    } else {
+      productItemsViews = <p>No Product found</p>
+    }
+  } else {
+    productItemsViews = <p>Loading...</p>
+  }
+
+  return (
+    <PageContainer
+      footer={<FooterDefault />}
+      title={category ? category.category_name : 'Category'}
+      boxed={true}
+    >
+      <div className='ps-page--shop'>
+        <BreadCrumb breacrumb={breadCrumb} />
+
+        <div className='ps-container'>{productItemsViews}</div>
+
+        {/* <div className="container">
+          <div className="ps-layout--shop ps-shop--category">
+            <div className="ps-layout__left">
+              <WidgetShopCategories />
+              <WidgetShopBrands />
+              <WidgetShopFilterByPriceRange />
             </div>
-            <Newletters layout="container" />
-        </PageContainer>
-    );
-};
-export default ProductByBrandScreen;
+
+            <div className="ps-layout__right">
+              <h3 className="ps-shop__heading">
+                {category && category.category_name}
+              </h3>
+              {productItemsViews}
+            </div>
+          </div>
+        </div> */}
+      </div>
+    </PageContainer>
+  )
+}
+export default ProductsByStore
