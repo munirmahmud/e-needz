@@ -28,7 +28,7 @@ const MegaMenu = ({ source }) => {
           {source.category_name}
         </a>
       </Link>
-      <div className="mega-menu">{megaContentView}</div>
+      <ul className="mega-menu">{megaContentView}</ul>
     </li>
   );
 };
