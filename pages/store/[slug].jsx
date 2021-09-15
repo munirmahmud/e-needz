@@ -1,29 +1,31 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import BreadCrumb from "~/components/elements/BreadCrumb";
-import PageContainer from "~/components/layouts/PageContainer";
-import ProductItems from "~/components/partials/product/ProductItems";
-import FooterDefault from "~/components/shared/footers/FooterDefault";
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import BreadCrumb from '~/components/elements/BreadCrumb'
+import PageContainer from '~/components/layouts/PageContainer'
+import ProductItems from '~/components/partials/product/ProductItems'
+import FooterDefault from '~/components/shared/footers/FooterDefault'
 
 const ProductsByStore = () => {
-  const Router = useRouter();
-  const { slug } = Router.query;
-  const [category, setCategory] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const Router = useRouter()
+  const { slug } = Router.query
+  const [category, setCategory] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   async function getCategry() {
-    setLoading(true);
+    setLoading(true)
+    console.log(slug)
     if (slug) {
-      fetch("http://178.128.30.38/api/react/website_api/store_wise_products", {
-        method: "POST",
-        body: JSON.stringify({ store_id: slug, per_page: 10 }),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/store_wise_products`, {
+        method: 'POST',
+        body: JSON.stringify({ seller_id: slug, per_page: 10 }),
       })
         .then((response) => response.json())
         .then((result) => {
-          setCategory(result.data);
-          setLoading(false);
+          console.log(result)
+          setCategory(result.data)
+          setLoading(false)
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => console.log('error', error))
 
       // const responseData = await ProductRepository.getProductsByCategory(slug);
       // if (responseData) {
@@ -36,51 +38,51 @@ const ProductsByStore = () => {
       //   );
       // }
     } else {
-      await Router.push("/store");
+      await Router.push('/store')
     }
   }
 
   useEffect(() => {
-    getCategry();
-  }, [slug]);
+    getCategry()
+  }, [slug])
 
   const breadCrumb = [
     {
-      text: "Home",
-      url: "/",
+      text: 'Home',
+      url: '/',
     },
     {
-      text: "Store",
-      url: "/",
+      text: 'Store',
+      url: '/',
     },
     {
-      text: category ? category.name : "Product category",
+      text: category ? category.name : 'Product category',
     },
-  ];
+  ]
 
   //Views
-  let productItemsViews;
+  let productItemsViews
 
   if (!loading) {
     if (category && category.length > 0) {
-      productItemsViews = <ProductItems columns={4} products={category} />;
+      productItemsViews = <ProductItems columns={4} products={category} />
     } else {
-      productItemsViews = <p>No Product found</p>;
+      productItemsViews = <p>No Product found</p>
     }
   } else {
-    productItemsViews = <p>Loading...</p>;
+    productItemsViews = <p>Loading...</p>
   }
 
   return (
     <PageContainer
       footer={<FooterDefault />}
-      title={category ? category.category_name : "Category"}
+      title={category ? category.category_name : 'Category'}
       boxed={true}
     >
-      <div className="ps-page--shop">
+      <div className='ps-page--shop'>
         <BreadCrumb breacrumb={breadCrumb} />
 
-        <div className="ps-container">{productItemsViews}</div>
+        <div className='ps-container'>{productItemsViews}</div>
 
         {/* <div className="container">
           <div className="ps-layout--shop ps-shop--category">
@@ -100,6 +102,6 @@ const ProductsByStore = () => {
         </div> */}
       </div>
     </PageContainer>
-  );
-};
-export default ProductsByStore;
+  )
+}
+export default ProductsByStore
