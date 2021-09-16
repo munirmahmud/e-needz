@@ -36,10 +36,12 @@ const ProductDefaultPage = () => {
       responseData = await responseData.json();
 
       if (responseData) {
-        if (responseData.response_status !== 0) {
+        console.log(responseData.data[0]);
+        if (responseData.response_status === 200) {
           setProduct(responseData.data[0]);
-          console.log(responseData.data[0].category_id);
           setCat(responseData.data[0].category_id);
+        } else {
+          router.push("/");
         }
         setTimeout(
           function () {
@@ -61,8 +63,7 @@ const ProductDefaultPage = () => {
       url: "/",
     },
     {
-      text: "Shop",
-      url: "/shop",
+      text: "Products",
     },
     {
       text: product ? product.title : "Loading...",
@@ -111,6 +112,7 @@ const ProductDefaultPage = () => {
               <DefaultDescription
                 product_id={product ? product.product_id : ""}
                 category_id={product ? product.category_id : ""}
+                seller_id={product ? product.seller_id : ""}
               />
             </div>
 

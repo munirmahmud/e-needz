@@ -43,7 +43,7 @@ const Register = () => {
         }
 
         if (response.response_status === 200) {
-          toast.success(response.message, {
+          toast.success(response.data, {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
