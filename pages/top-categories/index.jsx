@@ -35,7 +35,7 @@ const TopCategories = () => {
     },
     {
       text: "Top Categories Of The Month",
-      url: "/top-categories",
+      // url: "/top-categories",
     },
   ];
 
@@ -51,7 +51,6 @@ const TopCategories = () => {
                   <h3>Top Categories</h3>
                 </div>
               </div>
-
               <div className="search-products">
                 <div className="ps-form__input">
                   <input
