@@ -13,7 +13,6 @@ const ProductsByStore = () => {
 
   async function getCategry() {
     setLoading(true)
-    console.log(slug)
     if (slug) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand_wise_products`, {
         method: 'POST',
