@@ -20,17 +20,16 @@ const ProductCategoryScreen = () => {
     setLoading(true)
     if (slug) {
       const responseData = await ProductRepository.getProductsByCategory(slug)
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/store_wise_products`, {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/category_wise_product`, {
         method: 'post',
         body: JSON.stringify({
           per_page: 10,
           page_offset: 0,
-          seller_id: slug,
+          category_id: slug,
         }),
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           if (data.response_status === 200) {
             setCategory(data)
             setLoading(false)
@@ -62,11 +61,11 @@ const ProductCategoryScreen = () => {
       url: '/',
     },
     {
-      text: 'Shop By Store',
+      text: 'Top Category Products',
       url: '/',
     },
     {
-      text: category ? category.name : 'Shop By Store',
+      text: category ? category.name : 'Product category',
     },
   ]
 

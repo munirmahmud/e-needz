@@ -35,7 +35,7 @@ const HomepageDefaultPage = () => {
         <HomeDefaultTopCategories
           title='Top Categories Of The Month'
           endpoint='top_categories_of_the_month'
-          _link='/category'
+          _link='/top-categories'
         />
 
         <HomeDefaultTopCategories
