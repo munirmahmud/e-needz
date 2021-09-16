@@ -65,7 +65,6 @@ const Login = ({ auth }) => {
         draggable={false}
         pauseOnHover={false}
       />
-      <ToastContainer />
       <div className='container'>
         <Form className='ps-form--account'>
           <ul className='ps-tab-list'>
