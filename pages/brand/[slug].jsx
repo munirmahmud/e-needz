@@ -1,30 +1,32 @@
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import BreadCrumb from '~/components/elements/BreadCrumb'
-import PageContainer from '~/components/layouts/PageContainer'
-import ProductItems from '~/components/partials/product/ProductItems'
-import FooterDefault from '~/components/shared/footers/FooterDefault'
+import { Rate } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import PageContainer from "~/components/layouts/PageContainer";
+import ProductItems from "~/components/partials/product/ProductItems";
+import FooterDefault from "~/components/shared/footers/FooterDefault";
 
-const ProductsByStore = () => {
-  const Router = useRouter()
-  const { slug } = Router.query
-  const [category, setCategory] = useState(null)
-  const [loading, setLoading] = useState(false)
+const ProductsByBrand = () => {
+  const Router = useRouter();
+  const { slug } = Router.query;
+  const [category, setCategory] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [brandInfo, setBrandInfo] = useState(null);
 
   async function getCategry() {
-    setLoading(true)
+    setLoading(true);
     if (slug) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/brand_wise_products`, {
-        method: 'POST',
-        body: JSON.stringify({ brand_id: slug, per_page: 10 }),
+        method: "POST",
+        body: JSON.stringify({ brand_id: slug, per_page: 2000 }),
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log(result)
-          setCategory(result.data)
-          setLoading(false)
+          setCategory(result.data);
+          setBrandInfo(result?.info);
+          setLoading(false);
         })
-        .catch((error) => console.log('error', error))
+        .catch((error) => console.log("error", error));
 
       // const responseData = await ProductRepository.getProductsByCategory(slug);
       // if (responseData) {
@@ -37,53 +39,97 @@ const ProductsByStore = () => {
       //   );
       // }
     } else {
-      await Router.push('/store')
+      await Router.push("/brand");
     }
   }
 
   useEffect(() => {
-    getCategry()
-  }, [slug])
+    getCategry();
+  }, [slug]);
 
   const breadCrumb = [
     {
-      text: 'Home',
-      url: '/',
+      text: "Home",
+      url: "/",
     },
     {
-      text: 'Store',
-      url: '/',
+      text: "Brand",
+      url: "/brand",
     },
     {
-      text: category ? category.name : 'Product category',
+      text: category ? category.name : "Product category",
     },
-  ]
+  ];
 
   //Views
-  let productItemsViews
+  let productItemsViews;
 
   if (!loading) {
     if (category && category.length > 0) {
-      productItemsViews = <ProductItems columns={4} products={category} />
+      productItemsViews = <ProductItems columns={4} products={category} />;
     } else {
-      productItemsViews = <p>No Product found</p>
+      productItemsViews = <p>No Product found</p>;
     }
   } else {
-    productItemsViews = <p>Loading...</p>
+    productItemsViews = <p>Loading...</p>;
   }
+
+  // const rating = Number(Number(brandInfo?.store_rating).toFixed());
+  const rating = 3;
 
   return (
     <PageContainer
       footer={<FooterDefault />}
-      title={category ? category.category_name : 'Category'}
+      title={category ? category.category_name : "Category"}
       boxed={true}
     >
-      <div className='ps-page--shop'>
-        <BreadCrumb breacrumb={breadCrumb} />
+      <div className="ps-page--shop">
+        {/* <BreadCrumb breacrumb={breadCrumb} /> */}
 
-        <div className='ps-container'>{productItemsViews}</div>
+        <div className="ps-shop--category">
+          <div className="ps-container">
+            <div className="ps-shopping__header p-4 mb-4 bg-white rounded shop-header">
+              <div className="brand-wrapper">
+                {brandInfo?.brand_image && (
+                  <div className="brand-logo">
+                    <img
+                      src={brandInfo?.brand_image}
+                      alt={brandInfo?.brand_name}
+                    />
+                  </div>
+                )}
+                <div className="d-flex flex-column brand-info">
+                  <h3 className="ps-shop__heading">
+                    {brandInfo && brandInfo.brand_name}
+                  </h3>
+                  {brandInfo && (
+                    <p>
+                      <Link href={brandInfo.website}>
+                        <a target="_blank">Visit Us</a>
+                      </Link>
+                    </p>
+                  )}
+                  {brandInfo?.store_rating && (
+                    <Rate
+                      allowHalf
+                      defaultValue={rating}
+                      disabled
+                      style={{ color: "#fd8b01" }}
+                    />
+                  )}
+                </div>
+              </div>
 
-        {/* <div className="container">
+              {/* <div className="ps-shopping__actions">
+                <div className="ps-shopping__view">
+                </div>
+              </div> */}
+            </div>
+            <h3>All Products</h3>
+
+            {productItemsViews}
+
+            {/* <div className="container">
           <div className="ps-layout--shop ps-shop--category">
             <div className="ps-layout__left">
               <WidgetShopCategories />
@@ -99,8 +145,10 @@ const ProductsByStore = () => {
             </div>
           </div>
         </div> */}
+          </div>
+        </div>
       </div>
     </PageContainer>
-  )
-}
-export default ProductsByStore
+  );
+};
+export default ProductsByBrand;
