@@ -20,15 +20,32 @@ const ProductCategoryScreen = () => {
     setLoading(true)
     if (slug) {
       const responseData = await ProductRepository.getProductsByCategory(slug)
-      if (responseData) {
-        setCategory(responseData)
-        setTimeout(
-          function () {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/category_wise_product`, {
+        method: 'post',
+        body: JSON.stringify({
+          per_page: 10,
+          page_offset: 0,
+          category_id: slug,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.response_status === 200) {
+            setCategory(data)
             setLoading(false)
-          }.bind(this),
-          250
-        )
-      }
+          }
+          // setFilterProds(data.data)
+        })
+
+      // if (responseData) {
+      //   setCategory(responseData)
+      //   setTimeout(
+      //     function () {
+      //       setLoading(false)
+      //     }.bind(this),
+      //     250
+      //   )
+      // }
     } else {
       await Router.push('/shop')
     }
@@ -44,7 +61,7 @@ const ProductCategoryScreen = () => {
       url: '/',
     },
     {
-      text: 'Shop',
+      text: 'Top Category Products',
       url: '/',
     },
     {
@@ -56,10 +73,8 @@ const ProductCategoryScreen = () => {
   let productItemsViews
 
   if (!loading) {
-    if (category && category.products.length > 0) {
-      productItemsViews = (
-        <ProductItems columns={4} products={category.products} />
-      )
+    if (category) {
+      productItemsViews = <ProductItems columns={4} products={category.data} />
     } else {
       productItemsViews = <p>No Product found</p>
     }

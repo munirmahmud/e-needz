@@ -86,7 +86,7 @@ const index = () => {
                       >
                         <div className='ps-block--category'>
                           <Link
-                            href={`top-categories/${
+                            href={`store/${
                               data.category_id
                                 ? data.category_id
                                 : data.brand_id

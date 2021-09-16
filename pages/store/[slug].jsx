@@ -2,10 +2,15 @@ import { useRouter } from 'next/router'
 import React, { useEffect, useState } from 'react'
 import BreadCrumb from '~/components/elements/BreadCrumb'
 import PageContainer from '~/components/layouts/PageContainer'
+import Newletters from '~/components/partials/commons/Newletters'
 import ProductItems from '~/components/partials/product/ProductItems'
 import FooterDefault from '~/components/shared/footers/FooterDefault'
+import WidgetShopBrands from '~/components/shared/widgets/WidgetShopBrands'
+import WidgetShopCategories from '~/components/shared/widgets/WidgetShopCategories'
+import WidgetShopFilterByPriceRange from '~/components/shared/widgets/WidgetShopFilterByPriceRange'
+import ProductRepository from '~/repositories/ProductRepository'
 
-const ProductsByStore = () => {
+const ProductCategoryScreen = () => {
   const Router = useRouter()
   const { slug } = Router.query
   const [category, setCategory] = useState(null)
@@ -13,32 +18,37 @@ const ProductsByStore = () => {
 
   async function getCategry() {
     setLoading(true)
-    console.log(slug)
     if (slug) {
+      const responseData = await ProductRepository.getProductsByCategory(slug)
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/store_wise_products`, {
-        method: 'POST',
-        body: JSON.stringify({ seller_id: slug, per_page: 10 }),
+        method: 'post',
+        body: JSON.stringify({
+          per_page: 10,
+          page_offset: 0,
+          seller_id: slug,
+        }),
       })
-        .then((response) => response.json())
-        .then((result) => {
-          console.log(result)
-          setCategory(result.data)
-          setLoading(false)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+          if (data.response_status === 200) {
+            setCategory(data)
+            setLoading(false)
+          }
+          // setFilterProds(data.data)
         })
-        .catch((error) => console.log('error', error))
 
-      // const responseData = await ProductRepository.getProductsByCategory(slug);
       // if (responseData) {
-      //   setCategory(responseData);
+      //   setCategory(responseData)
       //   setTimeout(
       //     function () {
-      //       setLoading(false);
+      //       setLoading(false)
       //     }.bind(this),
       //     250
-      //   );
+      //   )
       // }
     } else {
-      await Router.push('/store')
+      await Router.push('/shop')
     }
   }
 
@@ -52,11 +62,11 @@ const ProductsByStore = () => {
       url: '/',
     },
     {
-      text: 'Store',
+      text: 'Shop By Store',
       url: '/',
     },
     {
-      text: category ? category.name : 'Product category',
+      text: category ? category.name : 'Shop By Store',
     },
   ]
 
@@ -64,8 +74,8 @@ const ProductsByStore = () => {
   let productItemsViews
 
   if (!loading) {
-    if (category && category.length > 0) {
-      productItemsViews = <ProductItems columns={4} products={category} />
+    if (category) {
+      productItemsViews = <ProductItems columns={4} products={category.data} />
     } else {
       productItemsViews = <p>No Product found</p>
     }
@@ -76,32 +86,27 @@ const ProductsByStore = () => {
   return (
     <PageContainer
       footer={<FooterDefault />}
-      title={category ? category.category_name : 'Category'}
+      title={category ? category.name : 'Top Category'}
       boxed={true}
     >
       <div className='ps-page--shop'>
         <BreadCrumb breacrumb={breadCrumb} />
-
-        <div className='ps-container'>{productItemsViews}</div>
-
-        {/* <div className="container">
-          <div className="ps-layout--shop ps-shop--category">
-            <div className="ps-layout__left">
+        <div className='container'>
+          <div className='ps-layout--shop ps-shop--category'>
+            <div className='ps-layout__left'>
               <WidgetShopCategories />
               <WidgetShopBrands />
               <WidgetShopFilterByPriceRange />
             </div>
-
-            <div className="ps-layout__right">
-              <h3 className="ps-shop__heading">
-                {category && category.category_name}
-              </h3>
+            <div className='ps-layout__right'>
+              <h3 className='ps-shop__heading'>{category && category.name}</h3>
               {productItemsViews}
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
+      <Newletters layout='container' />
     </PageContainer>
   )
 }
-export default ProductsByStore
+export default ProductCategoryScreen
