@@ -1,11 +1,25 @@
 import { Form, Input } from 'antd'
+import { connect, useDispatch } from 'react-redux'
+import { useCookies } from 'react-cookie'
+
 import Link from 'next/link'
+
+import { useRouter } from 'next/router'
 import { useState } from 'react'
+
+import { loginSuccess } from '~/store/auth/action'
+
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Login = () => {
-  const [phone, setPhone] = useState('')
+const Login = ({ auth }) => {
+  console.log(auth)
+  const router = useRouter()
+  const dispatch = useDispatch()
+
+  const [authCookie, setAuthCookie] = useCookies(['auth'])
+
+  const [phone, setPhone] = useState('01776967480')
   const [password, setPassword] = useState('')
 
   const handleSubmit = () => {
@@ -24,26 +38,15 @@ const Login = () => {
       .then((result) => {
         console.log(result)
         if (result.response_status === 0) {
-          toast.error(result.message, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
+          toast.error(result.message)
         }
         if (result.response_status === 200) {
-          toast.success(result.message, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
+          toast.success('Login successful')
+          setAuthCookie('auth', result.data.customer_id, { path: '/' })
+          setTimeout(() => {
+            dispatch(loginSuccess())
+            router.push('/')
+          }, 3000)
         }
       })
       .catch((error) => console.log('error', error))
@@ -58,11 +61,10 @@ const Login = () => {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
       />
-      <ToastContainer />
       <div className='container'>
         <Form className='ps-form--account'>
           <ul className='ps-tab-list'>
@@ -147,4 +149,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default connect((state) => state)(Login)

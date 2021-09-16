@@ -1,11 +1,36 @@
-import React from 'react'
+import { useEffect } from 'react'
+import { useCookies } from 'react-cookie'
+
+import { useDispatch } from 'react-redux'
+
+import { loginSuccess } from '~/store/auth/action'
+
 import PageContainer from '~/components/layouts/PageContainer'
 import HomeDefaultBanner from '~/components/partials/homepage/home-default/HomeDefaultBanner'
 import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay'
-import HomeDefaultDealOfDayFP from '~/components/partials/homepage/home-default/HomeDefaultDealOfDayFP'
 import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories'
 
 const HomepageDefaultPage = () => {
+  const [authCookie] = useCookies(['auth'])
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (authCookie.auth !== undefined) {
+      let formdata = new FormData()
+      formdata.append('customer_id', authCookie.auth)
+      fetch(`${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/is_valid_customer`, {
+        method: 'POST',
+        body: formdata,
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.response_status === 200) {
+            dispatch(loginSuccess())
+          }
+        })
+    }
+  }, [authCookie])
+
   return (
     <PageContainer title='Multi vendor biggest ecommerce platform in Bangladesh'>
       <main id='homepage-1'>
