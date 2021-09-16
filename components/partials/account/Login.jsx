@@ -1,10 +1,15 @@
 import { Form, Input } from 'antd'
+import { useCookies } from 'react-cookie'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const Login = () => {
+  const router = useRouter()
+  const [authCookie, setAuthCookie] = useCookies(['auth'])
+
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
 
@@ -24,26 +29,16 @@ const Login = () => {
       .then((result) => {
         console.log(result)
         if (result.response_status === 0) {
-          toast.error(result.message, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
+          toast.error(result.message)
         }
         if (result.response_status === 200) {
-          toast.success(result.message, {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
+          toast.success('Login successful')
+          let customer_id = result.data
+          customer_id = customer_id.split(':')[1].trim()
+          setAuthCookie('auth', customer_id, { path: '/' })
+          setTimeout(() => {
+            router.push('/')
+          }, 3000)
         }
       })
       .catch((error) => console.log('error', error))
@@ -58,9 +53,9 @@ const Login = () => {
         newestOnTop={false}
         closeOnClick
         rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
       />
       <ToastContainer />
       <div className='container'>
