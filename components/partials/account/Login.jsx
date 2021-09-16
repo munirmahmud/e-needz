@@ -1,16 +1,25 @@
 import { Form, Input } from 'antd'
+import { connect, useDispatch } from 'react-redux'
 import { useCookies } from 'react-cookie'
+
 import Link from 'next/link'
+
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+
+import { loginSuccess } from '~/store/auth/action'
+
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
-const Login = () => {
+const Login = ({ auth }) => {
+  console.log(auth)
   const router = useRouter()
+  const dispatch = useDispatch()
+
   const [authCookie, setAuthCookie] = useCookies(['auth'])
 
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState('01776967480')
   const [password, setPassword] = useState('')
 
   const handleSubmit = () => {
@@ -33,10 +42,9 @@ const Login = () => {
         }
         if (result.response_status === 200) {
           toast.success('Login successful')
-          let customer_id = result.data
-          customer_id = customer_id.split(':')[1].trim()
-          setAuthCookie('auth', customer_id, { path: '/' })
+          setAuthCookie('auth', result.data.customer_id, { path: '/' })
           setTimeout(() => {
+            dispatch(loginSuccess())
             router.push('/')
           }, 3000)
         }
@@ -142,4 +150,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default connect((state) => state)(Login)
