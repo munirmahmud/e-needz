@@ -77,7 +77,7 @@ const HomeDefaultBanner = () => {
   if (bannerItems) {
     const carouseItems = bannerItems.map((item, id) => (
       <div className="slide-item" key={id}>
-        <Link href="/shop">
+        <Link href={`${item.slider_link}`}>
           <a
             className="ps-banner-item--default bg--cover"
             style={{

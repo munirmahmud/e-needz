@@ -253,3 +253,28 @@ button.form-btn {
     }
   }
 }
+
+.shop-header {
+  .brand-wrapper {
+    display: flex;
+  }
+  .brand-logo {
+    width: 75px;
+    margin-right: 2rem;
+
+    img {
+      width: 100%;
+    }
+  }
+  .ps-shop__heading {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .brand-info {
+    p {
+      margin-bottom: 0;
+    }
+  }
+}
