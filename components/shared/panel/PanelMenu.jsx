@@ -10,12 +10,14 @@ const PanelMenu = () => {
   const [openKeys, setOpenKeys] = useState([]);
   const [primaryMenus, setPrimaryMenus] = useState([]);
 
-  const onOpenChange = () => {
-    const latestOpenKey = openKeys.find((key) => openKeys.indexOf(key) === -1);
+  const onOpenChange = (e) => {
+    const latestOpenKey = primaryMenus.find(
+      (key) => primaryMenus.indexOf(key) === -1
+    );
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      setOpenKeys(openKeys);
+      setPrimaryMenus(primaryMenus);
     } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+      setPrimaryMenus(latestOpenKey ? [latestOpenKey] : []);
     }
   };
 
@@ -42,7 +44,7 @@ const PanelMenu = () => {
   return (
     <Menu
       mode="inline"
-      openKeys={openKeys}
+      openKeys={primaryMenus}
       onOpenChange={onOpenChange}
       className="menu--mobile-2"
     >
