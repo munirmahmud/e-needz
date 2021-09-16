@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
 
-const index = () => {
+const TopCategories = () => {
   const [catProds, setCatProducts] = useState();
   const [filterProds, setFilterProds] = useState();
 
@@ -125,4 +125,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default TopCategories;
