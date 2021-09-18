@@ -1,84 +1,82 @@
-import Link from 'next/link'
-import React from 'react'
-import LazyLoad from 'react-lazyload'
-import { baseUrl } from '~/repositories/Repository'
+import Link from "next/link";
+import React from "react";
+import LazyLoad from "react-lazyload";
+import { baseUrl } from "~/repositories/Repository";
 
 export function formatCurrency(num) {
   if (num !== undefined) {
     return parseFloat(num)
       .toString()
-      .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+      .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
   } else {
   }
 }
 
 export function getColletionBySlug(collections, slug) {
   if (collections.length > 0) {
-    const result = collections.find((item) => item.slug === slug.toString())
+    const result = collections.find((item) => item.slug === slug.toString());
     if (result !== undefined) {
-      return result.products
+      return result.products;
     } else {
-      return []
+      return [];
     }
   } else {
-    return []
+    return [];
   }
 }
 
 export function getItemBySlug(banners, slug) {
   if (banners.length > 0) {
-    const banner = banners.find((item) => item.slug === slug.toString())
+    const banner = banners.find((item) => item.slug === slug.toString());
     if (banner !== undefined) {
-      return banner
+      return banner;
     } else {
-      return null
+      return null;
     }
   } else {
-    return null
+    return null;
   }
 }
 
 export function convertSlugsQueryString(payload) {
-  let query = ''
+  let query = "";
   if (payload.length > 0) {
     payload.forEach((item) => {
-      if (query === '') {
-        query = `slug_in=${item}`
+      if (query === "") {
+        query = `slug_in=${item}`;
       } else {
-        query = query + `&slug_in=${item}`
+        query = query + `&slug_in=${item}`;
       }
-    })
+    });
   }
-  return query
+  return query;
 }
 
 export function StrapiProductPriceExpanded(product) {
-  let view
-  if (product.on_sale === '1') {
+  let view;
+  if (product.on_sale === "1") {
     view = (
-      <p className='ps-product__price sale'>
-        <del className='ml-2' style={{ color: 'red' }}>
-          ৳{formatCurrency(product.price)}
-        </del>
-        <span className='ml-2'>৳{formatCurrency(product.offer_price)}</span>
+      <p className="ps-product__price sale">
+        <del className="ml-2">৳{formatCurrency(product.price)}</del>
+        <span className="ml-2">৳{formatCurrency(product.offer_price)}</span>
       </p>
-    )
+    );
   } else {
     view = (
-      <p className='ps-product__price'>
+      <p className="ps-product__price">
         {/* ${formatCurrency(product.price)} */}৳{product.price}
       </p>
-    )
+    );
   }
-  return view
+  return view;
 }
 
 export function StrapiProductThumbnail(product) {
-  let view
+  let view;
 
   if (product.thumbnail) {
     view = (
-      <Link href='/product/[pid]' as={`/product/${product.id}`}>
+      <Link href="/product/[pid]" as={`/product/${product.id}`}>
         <a>
           <LazyLoad>
             <img
@@ -88,18 +86,18 @@ export function StrapiProductThumbnail(product) {
           </LazyLoad>
         </a>
       </Link>
-    )
+    );
   } else {
     view = (
-      <Link href='/product/[pid]' as={`/product/${product.id}`}>
+      <Link href="/product/[pid]" as={`/product/${product.id}`}>
         <a>
           <LazyLoad>
-            <img src='/static/img/not-found.jpg' alt='E-needz' />
+            <img src="/static/img/not-found.jpg" alt="E-needz" />
           </LazyLoad>
         </a>
       </Link>
-    )
+    );
   }
 
-  return view
+  return view;
 }

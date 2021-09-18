@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import { connect } from 'react-redux'
-import { useRouter } from 'next/router'
-import { Modal } from 'antd'
-import useEcomerce from '~/hooks/useEcomerce'
+import { Modal } from "antd";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { connect } from "react-redux";
+import useEcomerce from "~/hooks/useEcomerce";
 
 const ModuleDetailShoppingActions = ({
   ecomerce,
   product,
   extended = false,
 }) => {
-  const [quantity, setQuantity] = useState(1)
-  const Router = useRouter()
-  const { addItem } = useEcomerce()
+  const [quantity, setQuantity] = useState(1);
+  const Router = useRouter();
+  const { addItem } = useEcomerce();
 
   function handleAddItemToCart(e) {
-    e.preventDefault()
+    e.preventDefault();
     addItem(
       {
         id: product.product_id,
@@ -22,12 +22,12 @@ const ModuleDetailShoppingActions = ({
         quantity: quantity,
       },
       ecomerce.cartItems,
-      'cart'
-    )
+      "cart"
+    );
   }
 
   function handleBuynow(e) {
-    e.preventDefault()
+    e.preventDefault();
     addItem(
       {
         id: product.product_id,
@@ -35,137 +35,137 @@ const ModuleDetailShoppingActions = ({
         quantity: quantity,
       },
       ecomerce.cartItems,
-      'cart'
-    )
+      "cart"
+    );
     setTimeout(function () {
-      Router.push('/account/checkout')
-    }, 1000)
+      Router.push("/account/checkout");
+    }, 1000);
   }
 
   const handleAddItemToCompare = (e) => {
-    e.preventDefault()
-    e.preventDefault()
-    addItem({ id: product.prduct_id }, ecomerce.compareItems, 'compare')
+    e.preventDefault();
+    e.preventDefault();
+    addItem({ id: product.prduct_id }, ecomerce.compareItems, "compare");
     const modal = Modal.success({
       centered: true,
-      title: 'Success!',
+      title: "Success!",
       content: `This product has been added to compare listing!`,
-    })
-    modal.update
-  }
+    });
+    modal.update;
+  };
 
   const handleAddItemToWishlist = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     addItem(
       { id: product.product_id, campaign_id: product.campaign_id },
       ecomerce.wishlistItems,
-      'wishlist'
-    )
+      "wishlist"
+    );
     const modal = Modal.success({
       centered: true,
-      title: 'Success!',
+      title: "Success!",
       content: `This item has been added to your wishlist`,
-    })
-    modal.update
-  }
+    });
+    modal.update;
+  };
 
   function handleIncreaseItemQty(e) {
-    e.preventDefault()
-    setQuantity(quantity + 1)
+    e.preventDefault();
+    setQuantity(quantity + 1);
   }
 
   function handleDecreaseItemQty(e) {
-    e.preventDefault()
+    e.preventDefault();
     if (quantity > 1) {
-      setQuantity(quantity - 1)
+      setQuantity(quantity - 1);
     }
   }
   if (!extended) {
     return (
-      <div className='ps-product__shopping'>
+      <div className="ps-product__shopping">
         <figure>
           <figcaption>Quantity</figcaption>
-          <div className='form-group--number'>
-            <button className='up' onClick={(e) => handleIncreaseItemQty(e)}>
-              <i className='fa fa-plus'></i>
+          <div className="form-group--number">
+            <button className="up" onClick={(e) => handleIncreaseItemQty(e)}>
+              <i className="fa fa-plus"></i>
             </button>
-            <button className='down' onClick={(e) => handleDecreaseItemQty(e)}>
-              <i className='fa fa-minus'></i>
+            <button className="down" onClick={(e) => handleDecreaseItemQty(e)}>
+              <i className="fa fa-minus"></i>
             </button>
             <input
-              className='form-control'
-              type='text'
+              className="form-control"
+              type="text"
               placeholder={quantity}
               disabled
             />
           </div>
         </figure>
         <a
-          className='ps-btn ps-btn--black'
-          href='#'
+          className="ps-btn ps-btn--black"
+          href="#"
           onClick={(e) => handleAddItemToCart(e)}
         >
           Add to cart
         </a>
-        <a className='ps-btn' href='#' onClick={(e) => handleBuynow(e)}>
+        <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
           Buy Now
         </a>
-        <div className='ps-product__actions'>
-          <a href='#' onClick={(e) => handleAddItemToWishlist(e)}>
-            <i className='icon-heart'></i>
+        <div className="ps-product__actions">
+          <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
+            <i className="icon-heart"></i>
           </a>
-          <a href='#' onClick={(e) => handleAddItemToCompare(e)}>
-            <i className='icon-chart-bars'></i>
-          </a>
+          {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+            <i className="icon-chart-bars"></i>
+          </a> */}
         </div>
       </div>
-    )
+    );
   } else {
     return (
-      <div className='ps-product__shopping extend'>
-        <div className='ps-product__btn-group'>
+      <div className="ps-product__shopping extend">
+        <div className="ps-product__btn-group">
           <figure>
             <figcaption>Quantity</figcaption>
-            <div className='form-group--number'>
-              <button className='up' onClick={(e) => handleIncreaseItemQty(e)}>
-                <i className='fa fa-plus'></i>
+            <div className="form-group--number">
+              <button className="up" onClick={(e) => handleIncreaseItemQty(e)}>
+                <i className="fa fa-plus"></i>
               </button>
               <button
-                className='down'
+                className="down"
                 onClick={(e) => handleDecreaseItemQty(e)}
               >
-                <i className='fa fa-minus'></i>
+                <i className="fa fa-minus"></i>
               </button>
               <input
-                className='form-control'
-                type='text'
+                className="form-control"
+                type="text"
                 placeholder={quantity}
                 disabled
               />
             </div>
           </figure>
           <a
-            className='ps-btn ps-btn--black'
-            href='#'
+            className="ps-btn ps-btn--black"
+            href="#"
             onClick={(e) => handleAddItemToCart(e)}
           >
             Add to cart
           </a>
-          <div className='ps-product__actions'>
-            <a href='#' onClick={(e) => handleAddItemToWishlist(e)}>
-              <i className='icon-heart'></i>
+          <div className="ps-product__actions">
+            <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
+              <i className="icon-heart"></i>
             </a>
-            <a href='#' onClick={(e) => handleAddItemToCompare(e)}>
-              <i className='icon-chart-bars'></i>
-            </a>
+            {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+              <i className="icon-chart-bars"></i>
+            </a> */}
           </div>
         </div>
-        <a className='ps-btn' href='#' onClick={(e) => handleBuynow(e)}>
+        <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
           Buy Now
         </a>
       </div>
-    )
+    );
   }
-}
+};
 
-export default connect((state) => state)(ModuleDetailShoppingActions)
+export default connect((state) => state)(ModuleDetailShoppingActions);

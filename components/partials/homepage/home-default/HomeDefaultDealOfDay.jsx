@@ -75,7 +75,7 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
             )}
 
             <div className="search-products">
-              <div className="ps-form__input">
+              {/* <div className="ps-form__input">
                 <input
                   type="text"
                   className="form-control"
@@ -90,14 +90,14 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
                     );
                   }}
                 />
-              </div>
+              </div> */}
               {/* <div className="d-flex"> */}
-              <button className="ps-btn">
+              {/* <button className="ps-btn">
                 <img
                   src="/static/icons/magnifiying-glass.svg"
                   alt="Search Products"
                 />
-              </button>
+              </button> */}
               <Link href={`${_link}`}>
                 <a className="ps-btn view-all">View all</a>
               </Link>

@@ -64,19 +64,25 @@ export default function useProduct() {
       let view;
       if (payload.sale_price) {
         view = (
-          <p className="ps-product__price sale">
-            <span>$</span>
+          <p className="ps-product__price sale d-flex">
+            <span className="d-flex">
+              <img src="/static/icons/currency-bdt.svg" alt="bdt" />
+            </span>
             {formatCurrency(payload.sale_price)}
-            <del className="ml-2" style={{ color: "#aeaeae" }}>
-              <span>$</span>
+            <del className="ml-2 d-flex" style={{ color: "#aeaeae" }}>
+              <span className="d-flex">
+                <img src="/static/icons/currency-bdt.svg" alt="bdt" />
+              </span>
               {formatCurrency(payload.price)}
             </del>
           </p>
         );
       } else {
         view = (
-          <p className="ps-product__price">
-            <span>$</span>
+          <p className="ps-product__price d-flex">
+            <span className="d-flex">
+              <img src="/static/icons/currency-bdt.svg" alt="bdt" />
+            </span>
             {formatCurrency(payload.price)}
           </p>
         );
