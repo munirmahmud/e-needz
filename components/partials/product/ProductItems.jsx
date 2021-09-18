@@ -15,6 +15,7 @@ import { StrapiProductPriceExpanded } from "~/utilities/product-helper";
  * */
 
 const ProductItems = ({ products, columns = 4 }) => {
+  console.log("products", products);
   const { thumbnailImage } = useProduct();
   const [listView, setListView] = useState(true);
   const [productItems, setProductItems] = useState(null);
@@ -61,7 +62,10 @@ const ProductItems = ({ products, columns = 4 }) => {
     if (productItems && productItems.length > 0) {
       if (listView) {
         const items = productItems.map((product) => (
-          <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={product.id}>
+          <div
+            className="col-xl-2 col-lg-3 col-sm-3 col-6"
+            key={product.product_id}
+          >
             {/* <Product product={item} /> */}
             <div className="ps-product ps-product--inner">
               <div className="ps-product__thumbnail">

@@ -37,8 +37,8 @@ export default function useEcomerce() {
         );
 
         const responseData = await req.json();
-        // console.log(responseData)
-        if (responseData && responseData.data.length > 0) {
+        // console.log("responseData", responseData);
+        if (responseData && responseData?.data?.length > 0) {
           if (group === "cart") {
             let cartItems = responseData.data;
 
