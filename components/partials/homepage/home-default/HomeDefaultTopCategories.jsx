@@ -41,7 +41,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
             )}
 
             <div className="search-products">
-              <div className="ps-form__input">
+              {/* <div className="ps-form__input">
                 <input
                   type="text"
                   className="form-control"
@@ -56,7 +56,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
                   src="/static/icons/magnifiying-glass.svg"
                   alt="Search Products"
                 />
-              </button>
+              </button> */}
               <Link href={_link}>
                 <a className="ps-btn view-all">View all</a>
               </Link>
