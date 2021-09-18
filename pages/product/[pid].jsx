@@ -123,7 +123,7 @@ const ProductDefaultPage = () => {
               endPoint="/category_wise_product"
               dealTitle="Related Products"
               _cat={cat}
-              _link="product/recommended-product"
+              _link="/product/recommended-product"
             />
           ) : (
             ""
