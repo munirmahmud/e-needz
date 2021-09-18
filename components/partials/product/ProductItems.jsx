@@ -15,7 +15,6 @@ import { StrapiProductPriceExpanded } from "~/utilities/product-helper";
  * */
 
 const ProductItems = ({ products, columns = 4 }) => {
-  console.log("products", products);
   const { thumbnailImage } = useProduct();
   const [listView, setListView] = useState(true);
   const [productItems, setProductItems] = useState(null);

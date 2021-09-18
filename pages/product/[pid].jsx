@@ -36,7 +36,6 @@ const ProductDefaultPage = () => {
       responseData = await responseData.json();
 
       if (responseData) {
-        console.log(responseData.data[0]);
         if (responseData.response_status === 200) {
           setProduct(responseData.data[0]);
           setCat(responseData.data[0].category_id);
@@ -63,7 +62,8 @@ const ProductDefaultPage = () => {
       url: "/",
     },
     {
-      text: "Products",
+      text: "Shop",
+      url: "/shop",
     },
     {
       text: product ? product.title : "Loading...",

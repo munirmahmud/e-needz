@@ -35,10 +35,10 @@ const ProductsByCategory = () => {
           // setFilterProds(data.data)
         });
     } else {
-      await Router.push("/category");
+      await Router.push("/");
     }
   }
-  console.log("categoryInfo", categoryInfo);
+
   useEffect(() => {
     getCategry();
   }, [id]);
