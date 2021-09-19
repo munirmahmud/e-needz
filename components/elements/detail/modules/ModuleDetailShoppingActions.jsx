@@ -82,43 +82,59 @@ const ModuleDetailShoppingActions = ({
   }
   if (!extended) {
     return (
-      <div className="ps-product__shopping">
-        <figure>
-          <figcaption>Quantity</figcaption>
-          <div className="form-group--number">
-            <button className="up" onClick={(e) => handleIncreaseItemQty(e)}>
-              <i className="fa fa-plus"></i>
-            </button>
-            <button className="down" onClick={(e) => handleDecreaseItemQty(e)}>
-              <i className="fa fa-minus"></i>
-            </button>
-            <input
-              className="form-control"
-              type="text"
-              placeholder={quantity}
-              disabled
-            />
-          </div>
-        </figure>
-        <a
-          className="ps-btn ps-btn--black"
-          href="#"
-          onClick={(e) => handleAddItemToCart(e)}
-        >
-          Add to cart
-        </a>
-        <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
-          Buy Now
-        </a>
-        <div className="ps-product__actions">
-          <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
-            <i className="icon-heart"></i>
-          </a>
-          {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+      <>
+        <p>
+          {Number(product.quantity) > 0
+            ? `Only ${product.quantity} items left`
+            : `No items are left`}
+        </p>
+        <div className="ps-product__shopping">
+          <figure>
+            <figcaption>Quantity</figcaption>
+            <div className="form-group--number">
+              <button className="up" onClick={(e) => handleIncreaseItemQty(e)}>
+                <i className="fa fa-plus"></i>
+              </button>
+              <button
+                className="down"
+                onClick={(e) => handleDecreaseItemQty(e)}
+              >
+                <i className="fa fa-minus"></i>
+              </button>
+              <input
+                className="form-control"
+                type="text"
+                placeholder={quantity}
+                disabled
+              />
+            </div>
+          </figure>
+          <button
+            type="button"
+            className="ps-btn ps-btn--black"
+            onClick={(e) => handleAddItemToCart(e)}
+            disabled={Number(product.quantity) === 0}
+          >
+            Add to cart
+          </button>
+          <button
+            type="button"
+            className="ps-btn"
+            onClick={(e) => handleBuynow(e)}
+            disabled={Number(product.quantity) === 0}
+          >
+            Buy Now
+          </button>
+          <div className="ps-product__actions">
+            <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
+              <i className="icon-heart"></i>
+            </a>
+            {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
             <i className="icon-chart-bars"></i>
           </a> */}
+          </div>
         </div>
-      </div>
+      </>
     );
   } else {
     return (
