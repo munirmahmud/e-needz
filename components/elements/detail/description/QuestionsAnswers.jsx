@@ -5,12 +5,13 @@ import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
-  const [reviews, setReviews] = useState([])
+  const [reviews, setReviews] = useState([]);
+  const [qu, setQu] = useState(true);
 
   useEffect(() => {
-    var formdata = new FormData()
-    formdata.append('product_id', '15931')
-    formdata.append('seller_id', 'WKFRJM18')
+    var formdata = new FormData();
+    formdata.append("product_id", product_id);
+    formdata.append("seller_id", seller_id);
 
     var requestOptions = {
       method: 'POST',
@@ -29,8 +30,8 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
         }
         console.log(result)
       })
-      .catch((error) => console.log('error', error))
-  }, [seller_id, product_id])
+      .catch((error) => console.log("error", error));
+  }, [seller_id, product_id, qu]);
 
   const [uCookie] = useCookies(['auth'])
   const [question, setQuestion] = useState('')
@@ -43,10 +44,7 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
     formdata.append('category_id', category_id)
     formdata.append('customer_id', uCookie.auth)
 
-    formdata.append(
-      'question_details',
-      'Is there any discount of this product?'
-    )
+    formdata.append("question_details", question);
 
     var requestOptions = {
       method: 'POST',
@@ -61,7 +59,12 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
       .then((response) => response.json())
       .then((result) => {
         if (result.response_status === 200) {
+<<<<<<< HEAD
           toast.success('Your Question Has been submited')
+=======
+          toast.success("Your Question Has been submited");
+          setQu(!qu);
+>>>>>>> cc87b895acde86694ba8f3a98a9360a90e3af14d
         } else {
           toast.warning('Something went wrong')
         }
@@ -88,10 +91,14 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
       {reviews.map((data, index) => (
         <div key={index}>
           <h4>
+<<<<<<< HEAD
             Q{index + 1}. {data.details[0].question_details}{' '}
+=======
+            Q{index + 1}. {data.details[index].question_details}{" "}
+>>>>>>> cc87b895acde86694ba8f3a98a9360a90e3af14d
           </h4>
-          {data.details[0].question_answer ? (
-            <h5>Ans - {data.details[0].question_answer} </h5>
+          {data.details[index].question_answer ? (
+            <h5>Ans - {data.details[index].question_answer} </h5>
           ) : (
             ''
           )}
