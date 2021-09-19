@@ -84,16 +84,14 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
       />
       <h3>Questions </h3>
 
-      {reviews.map((data, index) => (
+      {reviews?.map((data, index) => (
         <div key={index}>
-          <h4>
-            Q{index + 1}. {data.details[index].question_details}{' '}
-          </h4>
-          {data.details[index].question_answer ? (
-            <h5>Ans - {data.details[index].question_answer} </h5>
-          ) : (
-            ''
-          )}
+          {data?.details?.map((item) => (
+            <>
+              <h5>Question: {item.question_details}</h5>
+              <p>Ans: {item.question_answer}</p>
+            </>
+          ))}
         </div>
       ))}
 
