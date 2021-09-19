@@ -5,6 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
+  console.log(category_id);
   const [reviews, setReviews] = useState([]);
   const [qu, setQu] = useState(true);
 
@@ -43,7 +44,6 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
     formdata.append("seller_id", seller_id);
     formdata.append("category_id", category_id);
     formdata.append("customer_id", uCookie.auth);
-
     formdata.append("question_details", question);
 
     var requestOptions = {
@@ -84,7 +84,7 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
       />
       <h3>Questions </h3>
 
-      {reviews.map((data, index) => (
+      {/* {reviews.map((data, index) => (
         <div key={index}>
           <h4>
             Q{index + 1}. {data.details[index].question_details}{" "}
@@ -95,6 +95,10 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
             ""
           )}
         </div>
+      ))} */}
+
+      {reviews?.map((data, index) => (
+        <div key={index}>{<GetAns data={data} />}</div>
       ))}
 
       {auth.isLoggedIn ? (
@@ -131,3 +135,15 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
 };
 
 export default connect((state) => state)(QuestionsAnswers);
+
+const GetAns = ({ data }) => {
+  console.log("ans", data);
+  return data?.details?.map((item) => (
+    <>
+      <h5>Question: {item.question_details}</h5>
+      <p>Ans: {item.question_answer}</p>
+    </>
+  ));
+
+  // return <></>;
+};

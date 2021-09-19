@@ -97,7 +97,7 @@ const HomepageDefaultPage = () => {
               key={item.block_id}
               collectionSlug="deal-of-the-day"
               products={item.product_list}
-              dealTitle={item.category_name}
+              dealTitle={item.block_name}
               _link={`/category/${item.block_cat_id}`}
             />
           ))}
