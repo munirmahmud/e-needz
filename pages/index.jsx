@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import PageContainer from "~/components/layouts/PageContainer";
 import HomeDefaultBanner from "~/components/partials/homepage/home-default/HomeDefaultBanner";
+import HomeDefaultBlockProducts from "~/components/partials/homepage/home-default/HomeDefaultBlockProducts";
 import HomeDefaultDealOfDay from "~/components/partials/homepage/home-default/HomeDefaultDealOfDay";
 import HomeDefaultTopCategories from "~/components/partials/homepage/home-default/HomeDefaultTopCategories";
 import { loginSuccess } from "~/store/auth/action";
@@ -10,6 +11,8 @@ import { loginSuccess } from "~/store/auth/action";
 const HomepageDefaultPage = () => {
   const [authCookie] = useCookies(["auth"]);
   const dispatch = useDispatch();
+  const [blockItems, setBlockItems] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     if (authCookie.auth !== undefined) {
@@ -23,6 +26,22 @@ const HomepageDefaultPage = () => {
         .then((res) => {
           if (res.response_status === 200) {
             dispatch(loginSuccess());
+          }
+        });
+
+      // Block Products
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/block_products`, {
+        method: "POST",
+        body: JSON.stringify({
+          per_page: 20,
+          page_offset: 0,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.response_status === 200) {
+            setLoading(!isLoading);
+            setBlockItems(res.data);
           }
         });
     }
@@ -71,6 +90,17 @@ const HomepageDefaultPage = () => {
           endpoint="brand_list"
           _link="/brand"
         />
+
+        {blockItems?.length &&
+          blockItems.map((item) => (
+            <HomeDefaultBlockProducts
+              key={item.block_id}
+              collectionSlug="deal-of-the-day"
+              products={item.product_list}
+              dealTitle={item.category_name}
+              _link={`/category/${item.block_cat_id}`}
+            />
+          ))}
 
         <HomeDefaultDealOfDay
           collectionSlug="deal-of-the-day"
