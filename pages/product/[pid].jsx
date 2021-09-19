@@ -118,16 +118,16 @@ const ProductDefaultPage = () => {
 
             {/* <RelatedProduct collectionSlug='shop-recommend-items' /> */}
           </div>
-          {cat ? (
-            <HomeDefaultDealOfDay
-              endPoint="/category_wise_product"
-              dealTitle="Related Products"
-              _cat={cat}
-              _link="/product/recommended-product"
-            />
-          ) : (
-            ""
-          )}
+          <div className="mb-4">
+            {cat && (
+              <HomeDefaultDealOfDay
+                endPoint="/category_wise_product"
+                dealTitle="Related Products"
+                _cat={cat}
+                _link="/product/recommended-product"
+              />
+            )}
+          </div>
           {/* <div className='ps-container mt-5'>
             <div className='ps-page__container section-white mb-5'>
               <CustomerBought
