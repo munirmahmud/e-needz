@@ -17,7 +17,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, {
       method: "post",
       body: JSON.stringify({
-        per_page: "60",
+        per_page: "12",
       }),
     })
       .then((res) => res.json())
@@ -30,7 +30,10 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
   return (
     <div className="ps-top-categories">
       <div className="ps-container">
-        <div className="section-white">
+        <div
+          className="section-white"
+          style={{ paddingRight: 18, paddingLeft: 18 }}
+        >
           <div className="section__header">
             {title && (
               <div className="ps-block--countdown-deal">
@@ -66,7 +69,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
           <div className="row">
             {filterProds ? (
               filterProds.length > 0 ? (
-                filterProds.splice(0, 12).map((data, id) => {
+                filterProds.map((data, id) => {
                   return (
                     <div
                       className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6"

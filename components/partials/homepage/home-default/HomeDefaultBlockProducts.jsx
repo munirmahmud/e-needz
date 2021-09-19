@@ -7,18 +7,10 @@ import useGetProducts from "~/hooks/useGetProducts";
 import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import { generateTempArray } from "~/utilities/common-helpers";
 
-const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
-  const { productItems, loading, getProductsByCollection } = useGetProducts();
+const HomeDefaultBlockProducts = ({ dealTitle, products, _link, _cat }) => {
+  const { loading, getProductsByCollection } = useGetProducts();
   const [prod, setProd] = useState();
   const [deviceLayout, setDeviceLayout] = useState(null);
-
-  useEffect(() => {
-    getProductsByCollection({ endPoint: endPoint, perPage: 10, cat_id: _cat });
-  }, [endPoint]);
-
-  useEffect(() => {
-    setProd(productItems);
-  }, [productItems]);
 
   useEffect(() => {
     setDeviceLayout(window.screen.width);
@@ -28,8 +20,8 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
   let productItemsView;
 
   if (!loading) {
-    if (productItems && prod.length > 0) {
-      const slideItems = prod.map((item, id) => (
+    if (products?.length > 0) {
+      const slideItems = products?.map((item, id) => (
         <ProductDealOfDay product={item} key={id} />
       ));
       productItemsView = (
@@ -63,34 +55,9 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
             )}
 
             <div className="search-products">
-              {/* <div className="ps-form__input">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search..."
-                  onChange={(e) => {
-                    setProd(
-                      productItems.filter((data) =>
-                        data.title
-                          .toLowerCase()
-                          .includes(e.target.value.toLowerCase())
-                      )
-                    );
-                  }}
-                />
-              </div> */}
-              {/* <div className="d-flex"> */}
-              {/* <button className="ps-btn">
-                <img
-                  src="/static/icons/magnifiying-glass.svg"
-                  alt="Search Products"
-                />
-              </button> */}
-
               <Link href={`${_link}`}>
                 <a className="ps-btn view-all">View all</a>
               </Link>
-              {/* </div> */}
             </div>
           </div>
 
@@ -101,8 +68,8 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
               productItemsView
             ) : (
               <div className="row">
-                {prod?.length > 0 &&
-                  prod?.map((item, id) => (
+                {products?.length > 0 &&
+                  products?.map((item, id) => (
                     <div className="col-6 mb-4" key={id}>
                       <ProductDealOfDay product={item} />
                     </div>
@@ -116,8 +83,4 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
   );
 };
 
-export default HomeDefaultDealOfDay;
-
-// prod.length > 0 && ( prod.map((item, id) =>{" "}
-//                 <ProductDealOfDay product={item} key={id} />
-//                 ))
+export default HomeDefaultBlockProducts;
