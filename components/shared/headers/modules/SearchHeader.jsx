@@ -161,8 +161,8 @@ const SearchHeader = () => {
       //     </div>
       //   )
       // }
-      productItemsView = resultItems.map((product) => (
-        <ProductSearchResult product={product} key={product.id} />
+      productItemsView = resultItems.map((product, index) => (
+        <ProductSearchResult product={product} key={index} />
       ));
     } else {
       productItemsView = <p>No product found.</p>;
