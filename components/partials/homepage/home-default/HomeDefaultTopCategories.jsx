@@ -30,7 +30,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
   return (
     <div className="ps-top-categories">
       <div className="ps-container">
-        <div className="section-white top-categories">
+        <div className="section-white section-box">
           <div className="section__header">
             {title && (
               <div className="ps-block--countdown-deal">
