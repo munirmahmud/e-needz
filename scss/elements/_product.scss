@@ -172,9 +172,12 @@
   .ps-product__thumbnail {
     position: relative;
     overflow: hidden;
+    height: 236px;
 
     img {
       width: 100%;
+      height: auto;
+      object-fit: cover;
     }
 
     .ps-product__actions {
@@ -2311,7 +2314,9 @@
   > * {
     flex-basis: 100%;
   }
-
+  .ps-product__thumbnail {
+    height: inherit;
+  }
   .ps-product__title {
     padding-bottom: 0;
     margin-bottom: 0;
