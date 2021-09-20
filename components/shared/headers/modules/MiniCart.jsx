@@ -45,7 +45,7 @@ const MiniCart = ({ ecomerce }) => {
             <Link href="/account/shopping-cart">
               <a className="ps-btn">View Cart</a>
             </Link>
-            <Link href="/account/checkout">
+            <Link href="/account/shopping-cart">
               <a className="ps-btn">Checkout</a>
             </Link>
           </figure>

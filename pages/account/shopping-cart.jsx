@@ -1,5 +1,7 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
 import ModuleCartSummary from "~/components/ecomerce/modules/ModuleCartSummary";
 import ModuleEcomerceCartItems from "~/components/ecomerce/modules/ModuleEcomerceCartItems";
@@ -10,12 +12,21 @@ import useEcomerce from "~/hooks/useEcomerce";
 
 const ShoppingCartScreen = ({ ecomerce }) => {
   const { products, getProducts } = useEcomerce();
+  const Router = useRouter();
+  const [authCookie] = useCookies(["auth"]);
 
   useEffect(() => {
     if (ecomerce.cartItems) {
       getProducts(ecomerce.cartItems, "cart");
     }
   }, [ecomerce]);
+
+  const handleConfirmOrder = () => {
+    if (authCookie.auth !== undefined) {
+      Router.push("/account/confirm-order");
+    }
+    Router.push("/account/login");
+  };
 
   const breadCrumb = [
     {
@@ -66,11 +77,13 @@ const ShoppingCartScreen = ({ ecomerce }) => {
               </div>
               <div className="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 ">
                 <ModuleCartSummary source={products} />
-                <Link href="/account/checkout">
-                  <a className="ps-btn ps-btn--fullwidth">
-                    Proceed to checkout
-                  </a>
-                </Link>
+                <button
+                  type="button"
+                  className="ps-btn ps-btn--fullwidth"
+                  onClick={handleConfirmOrder}
+                >
+                  Confirm Order
+                </button>
               </div>
             </div>
           </div>

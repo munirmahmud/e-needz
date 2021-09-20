@@ -1551,14 +1551,14 @@
         display: block;
         font-size: 20px;
         color: $color-heading;
-        margin-bottom: 35px;
+        margin-bottom: 15px;
 
-        &:after {
-          content: "\e93a";
-          font-family: "Linearicons";
-          @include vertical-align();
-          right: 0;
-        }
+        // &:after {
+        //   content: "\e93a";
+        //   font-family: "Linearicons";
+        //   @include vertical-align();
+        //   right: 0;
+        // }
       }
 
       .form-control {
