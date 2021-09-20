@@ -1,23 +1,23 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import BreadCrumb from "~/components/elements/BreadCrumb";
-import PageContainer from "~/components/layouts/PageContainer";
-import ProductItems from "~/components/partials/product/ProductItems";
-import FooterDefault from "~/components/shared/footers/FooterDefault";
+import { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import BreadCrumb from '~/components/elements/BreadCrumb'
+import PageContainer from '~/components/layouts/PageContainer'
+import ProductItems from '~/components/partials/product/ProductItems'
+import FooterDefault from '~/components/shared/footers/FooterDefault'
 
 const CampaignProducts = () => {
-  const Router = useRouter();
-  const { id } = Router.query;
-  const [campaignProducts, setCampaignProducts] = useState(null);
-  const [campaignInfo, setCampaignInfo] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const Router = useRouter()
+  const { id } = Router.query
+  const [campaignProducts, setCampaignProducts] = useState(null)
+  const [campaignInfo, setCampaignInfo] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   async function getCategry() {
-    console.log(id);
-    setLoading(true);
+    console.log(id)
+    setLoading(true)
     if (id) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/campaign_products`, {
-        method: "POST",
+        method: 'POST',
         body: JSON.stringify({
           campaign_id: id,
           per_page: 20,
@@ -26,12 +26,11 @@ const CampaignProducts = () => {
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log("campaing", result);
-          setCampaignProducts(result.data);
-          setCampaignInfo(result.info);
-          setLoading(false);
+          setCampaignProducts(result.data)
+          setCampaignInfo(result.info)
+          setLoading(false)
         })
-        .catch((error) => console.log("error", error));
+        .catch((error) => console.log('error', error))
 
       // const responseData = await ProductRepository.getProductsBycampaignProducts(slug);
       // if (responseData) {
@@ -47,36 +46,36 @@ const CampaignProducts = () => {
   }
 
   useEffect(() => {
-    getCategry();
-  }, [id]);
+    getCategry()
+  }, [id])
 
   const breadCrumb = [
     {
-      text: "Home",
-      url: "/",
+      text: 'Home',
+      url: '/',
     },
     {
-      text: "Campaigns",
-      url: "/campaign",
+      text: 'Campaigns',
+      url: '/campaign',
     },
     {
-      text: campaignInfo ? campaignInfo.campaign_name : "Campaign Products",
+      text: campaignInfo ? campaignInfo.campaign_name : 'Campaign Products',
     },
-  ];
+  ]
 
   //Views
-  let productItemsViews;
+  let productItemsViews
 
   if (!loading) {
     if (campaignProducts && campaignProducts.length > 0) {
       productItemsViews = (
         <ProductItems columns={4} products={campaignProducts} />
-      );
+      )
     } else {
-      productItemsViews = <p>No Product found</p>;
+      productItemsViews = <p>No Product found</p>
     }
   } else {
-    productItemsViews = <p>Loading...</p>;
+    productItemsViews = <p>Loading...</p>
   }
 
   return (
@@ -85,14 +84,14 @@ const CampaignProducts = () => {
       title={
         campaignInfo
           ? `Campaign for ${campaignInfo.campaign_name}`
-          : "Campaign Products"
+          : 'Campaign Products'
       }
       boxed={true}
     >
-      <div className="ps-page--shop">
+      <div className='ps-page--shop'>
         <BreadCrumb breacrumb={breadCrumb} />
 
-        <div className="ps-container">{productItemsViews}</div>
+        <div className='ps-container'>{productItemsViews}</div>
 
         {/* <div className="container">
           <div className="ps-layout--shop ps-shop--category">
@@ -112,7 +111,7 @@ const CampaignProducts = () => {
         </div> */}
       </div>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default CampaignProducts;
+export default CampaignProducts

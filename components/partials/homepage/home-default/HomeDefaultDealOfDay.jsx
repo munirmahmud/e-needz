@@ -117,7 +117,3 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
 };
 
 export default HomeDefaultDealOfDay;
-
-// prod.length > 0 && ( prod.map((item, id) =>{" "}
-//                 <ProductDealOfDay product={item} key={id} />
-//                 ))
