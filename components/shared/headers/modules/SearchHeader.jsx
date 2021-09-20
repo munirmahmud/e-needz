@@ -66,6 +66,7 @@ const exampleCategories = [
 
 function useDebounce(value, delay) {
   const [debouncedValue, setDebouncedValue] = useState(value)
+
   useEffect(() => {
     // Update debounced value after delay
     const handler = setTimeout(() => {
@@ -82,6 +83,7 @@ function useDebounce(value, delay) {
 
 const SearchHeader = () => {
   const inputEl = useRef(null)
+
   const [isSearch, setIsSearch] = useState(false)
   const [keyword, setKeyword] = useState('')
   const [resultItems, setResultItems] = useState(null)
@@ -103,18 +105,34 @@ const SearchHeader = () => {
     if (debouncedSearchTerm) {
       setLoading(true)
       if (keyword) {
-        const queries = {
-          per_page: 10,
-          page_offset: 0,
-          product_name: keyword,
-          // category_id: category_id ? category_id : '',
-        }
-        const products = ProductRepository.getSearchRecords(queries)
-        products.then((result) => {
-          setLoading(false)
-          setResultItems(result)
-          setIsSearch(true)
+        // const products = ProductRepository.getSearchRecords(queries)
+
+        // products.then((result) => {
+        //   console.log('products -', result)
+        //   setLoading(false)
+        //   setResultItems(result)
+        //   setIsSearch(true)
+        // })
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/retrieve_category_product`, {
+          method: 'POST',
+          body: JSON.stringify({
+            per_page: 10,
+            page_offset: 0,
+            product_name: keyword,
+            category_id: '',
+          }),
         })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result)
+            if (result.response_status === 200) {
+              setLoading(false)
+              setResultItems(result.data)
+              setIsSearch(true)
+            }
+          })
+          .catch((error) => console.log('error', error))
       } else {
         setIsSearch(false)
         setKeyword('')
