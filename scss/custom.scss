@@ -326,6 +326,14 @@ button.form-btn {
     height: 100%;
   }
 }
+.mobile-layout {
+  .ps-product--inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+}
 .ps-shop-items,
 .box-layout {
   .col-xl-2,
