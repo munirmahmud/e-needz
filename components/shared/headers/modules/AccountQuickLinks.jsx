@@ -5,11 +5,13 @@ import { logOut } from '~/store/auth/action'
 
 const AccountQuickLinks = (props) => {
   const dispatch = useDispatch()
-  const [authCookie, setAuthCookie, removeAuthCookie] = useCookies()
+  const [authCookie, setAuthCookie, removeCookie] = useCookies(['auth'])
 
   const handleLogout = (e) => {
     e.preventDefault()
-    removeAuthCookie('auth')
+    removeCookie('auth')
+    document.cookie = 'auth=; path=/;'
+    console.log('log out hitted')
     dispatch(logOut())
   }
 

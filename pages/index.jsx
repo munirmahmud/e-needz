@@ -1,37 +1,18 @@
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
-import PageContainer from "~/components/layouts/PageContainer";
-import HomeDefaultBanner from "~/components/partials/homepage/home-default/HomeDefaultBanner";
-import HomeDefaultBlockProducts from "~/components/partials/homepage/home-default/HomeDefaultBlockProducts";
-import HomeDefaultDealOfDay from "~/components/partials/homepage/home-default/HomeDefaultDealOfDay";
-import HomeDefaultTopCategories from "~/components/partials/homepage/home-default/HomeDefaultTopCategories";
-import { loginSuccess } from "~/store/auth/action";
+import { useEffect, useState } from 'react'
+import PageContainer from '~/components/layouts/PageContainer'
+import HomeDefaultBanner from '~/components/partials/homepage/home-default/HomeDefaultBanner'
+import HomeDefaultBlockProducts from '~/components/partials/homepage/home-default/HomeDefaultBlockProducts'
+import HomeDefaultDealOfDay from '~/components/partials/homepage/home-default/HomeDefaultDealOfDay'
+import HomeDefaultTopCategories from '~/components/partials/homepage/home-default/HomeDefaultTopCategories'
 
 const HomepageDefaultPage = () => {
-  const [authCookie] = useCookies(["auth"]);
-  const dispatch = useDispatch();
-  const [blockItems, setBlockItems] = useState(null);
-  const [isLoading, setLoading] = useState(true);
+  const [blockItems, setBlockItems] = useState(null)
+  const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (authCookie.auth !== undefined) {
-      let formdata = new FormData();
-      formdata.append("customer_id", authCookie.auth);
-      fetch(`${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/is_valid_customer`, {
-        method: "POST",
-        body: formdata,
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.response_status === 200) {
-            dispatch(loginSuccess());
-          }
-        });
-    }
     // Block Products
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/block_products`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         per_page: 20,
         page_offset: 0,
@@ -40,61 +21,61 @@ const HomepageDefaultPage = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.response_status === 200) {
-          setLoading(!isLoading);
-          setBlockItems(res.data);
+          setLoading(!isLoading)
+          setBlockItems(res.data)
         }
-      });
-  }, [authCookie]);
+      })
+  }, [])
 
   return (
-    <PageContainer title="Multi vendor biggest ecommerce platform in Bangladesh">
-      <main id="homepage-1">
+    <PageContainer title='Multi vendor biggest ecommerce platform in Bangladesh'>
+      <main id='homepage-1'>
         <HomeDefaultBanner />
 
         <HomeDefaultDealOfDay
-          collectionSlug="deal-of-the-day"
-          endPoint="featured_products"
-          dealTitle="Featured Products"
-          _link="/product/featured"
+          collectionSlug='deal-of-the-day'
+          endPoint='featured_products'
+          dealTitle='Featured Products'
+          _link='/product/featured'
         />
 
         <HomeDefaultDealOfDay
-          collectionSlug="deal-of-the-day"
-          endPoint="best_selling"
-          dealTitle="Best Selling"
-          _link="/product/best-selling"
+          collectionSlug='deal-of-the-day'
+          endPoint='best_selling'
+          dealTitle='Best Selling'
+          _link='/product/best-selling'
         />
 
         <HomeDefaultDealOfDay
-          collectionSlug="deal-of-the-day"
-          endPoint="new_arrival"
-          dealTitle="New Arrival"
-          _link="/product/new-arrival"
+          collectionSlug='deal-of-the-day'
+          endPoint='new_arrival'
+          dealTitle='New Arrival'
+          _link='/product/new-arrival'
         />
 
         <HomeDefaultTopCategories
-          title="Top Categories Of The Month"
-          endpoint="top_categories_of_the_month"
-          _link="/top-categories"
+          title='Top Categories Of The Month'
+          endpoint='top_categories_of_the_month'
+          _link='/top-categories'
         />
 
         <HomeDefaultTopCategories
-          title="Shop By Store"
-          endpoint="shop_by_store"
-          _link="/store"
+          title='Shop By Store'
+          endpoint='shop_by_store'
+          _link='/store'
         />
 
         <HomeDefaultTopCategories
-          title="Shop By Brand"
-          endpoint="brand_list"
-          _link="/brand"
+          title='Shop By Brand'
+          endpoint='brand_list'
+          _link='/brand'
         />
 
         {blockItems?.length &&
           blockItems.map((item) => (
             <HomeDefaultBlockProducts
               key={item.block_id}
-              collectionSlug="deal-of-the-day"
+              collectionSlug='deal-of-the-day'
               products={item.product_list}
               dealTitle={item.block_name}
               _link={`/category/${item.block_cat_id}`}
@@ -102,14 +83,14 @@ const HomepageDefaultPage = () => {
           ))}
 
         <HomeDefaultDealOfDay
-          collectionSlug="deal-of-the-day"
-          endPoint="recommended_products"
-          dealTitle="Recommended For You"
-          _link="/product/recommended-product"
+          collectionSlug='deal-of-the-day'
+          endPoint='recommended_products'
+          dealTitle='Recommended For You'
+          _link='/product/recommended-product'
         />
       </main>
     </PageContainer>
-  );
-};
+  )
+}
 
-export default HomepageDefaultPage;
+export default HomepageDefaultPage
