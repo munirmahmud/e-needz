@@ -67,7 +67,7 @@ const HomeDefaultBlockProducts = ({ dealTitle, products, _link, _cat }) => {
             {deviceLayout > 768 ? (
               productItemsView
             ) : (
-              <div className="row">
+              <div className="row mobile-layout">
                 {products?.length > 0 &&
                   products?.map((item, id) => (
                     <div className="col-6 mb-4" key={id}>
