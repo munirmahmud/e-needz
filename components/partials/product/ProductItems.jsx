@@ -18,7 +18,7 @@ import { StrapiProductPriceExpanded } from '~/utilities/product-helper'
  * This component just dipslay product items, not fetching data.
  * */
 
-const ProductItems = ({ products, columns = 4, ecomerce }) => {
+const ProductItems = ({ products, columns = 4, ecomerce, categoryId }) => {
   const Router = useRouter()
   const { thumbnailImage } = useProduct()
   const [listView, setListView] = useState(true)
@@ -182,7 +182,10 @@ const ProductItems = ({ products, columns = 4, ecomerce }) => {
         </p>
 
         <div className='ps-shopping__actions'>
-          <ModuleShopSortBy />
+          <ModuleShopSortBy
+            setProductItems={setProductItems}
+            categoryId={categoryId}
+          />
           <div className='ps-shopping__view'>
             <p>View</p>
             <ul className='ps-tab-list'>

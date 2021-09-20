@@ -1,17 +1,67 @@
-import React from 'react';
+const ModuleShopSortBy = ({ setProductItems, categoryId }) => {
+  const filterMyProduct = (val) => {
+    console.log(val)
 
-const ModuleShopSortBy = () => {
-    return (
-        <select
-            className="ps-select form-control"
-            data-placeholder="Sort Items">
-            <option>Sort by latest</option>
-            <option>Sort by popularity</option>
-            <option>Sort by average rating</option>
-            <option>Sort by price: low to high</option>
-            <option>Sort by price: high to low</option>
-        </select>
-    );
-};
+    let bodyReq = ''
 
-export default ModuleShopSortBy;
+    if (val == 1) {
+      console.log('01')
+      bodyReq = JSON.stringify({
+        per_page: 1000,
+        page_offset: 0,
+        category_id: categoryId,
+        latest: '1',
+        price: '',
+      })
+    } else if (val == 2) {
+      console.log('02')
+      bodyReq = JSON.stringify({
+        per_page: 1000,
+        page_offset: 0,
+        category_id: categoryId,
+        latest: '',
+        price: 'low_to_high',
+      })
+    } else if (val == 3) {
+      console.log('03')
+      bodyReq = JSON.stringify({
+        per_page: 1000,
+        page_offset: 0,
+        category_id: categoryId,
+        latest: '',
+        price: 'high_to_low',
+      })
+    }
+
+    console.log(bodyReq)
+
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/category_wise_product`, {
+      method: 'POST',
+      body: bodyReq,
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.response_status === 200) {
+          setProductItems(result.data)
+        }
+      })
+      .catch((error) => console.log('error', error))
+  }
+
+  return (
+    <select
+      className='ps-select form-control'
+      data-placeholder='Sort Items'
+      onChange={(e) => {
+        filterMyProduct(e.target.value)
+      }}
+    >
+      <option value={1}>Sort by latest</option>
+      <option value={2}>Sort by price: low to high</option>
+      <option value={3}>Sort by price: high to low</option>
+    </select>
+  )
+}
+
+export default ModuleShopSortBy
