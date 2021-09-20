@@ -1,18 +1,17 @@
-import { useEffect, useState } from 'react'
-import Link from 'next/link'
+import Link from "next/link";
 
 const ModuleProductDetailSpecification = ({ product }) => {
   return (
-    <div className='ps-product__specification'>
-      <Link href='/page/blank'>
-        <a className='report'>Report Abuse</a>
+    <div className="ps-product__specification">
+      <Link href="/page/blank">
+        <a className="report">Report Abuse</a>
       </Link>
       <p>
         <strong>Seller id:</strong> {product.seller_id}
       </p>
-      <p className='categories'>
+      <p className="categories">
         <strong> Categories:</strong>
-        <Link href='/shop'>
+        <Link href={`/category/${product.category_id}`}>
           <a>{product.category_name}</a>
         </Link>
         {/* <Link href="/shop">
@@ -35,7 +34,7 @@ const ModuleProductDetailSpecification = ({ product }) => {
                 </Link>
             </p> */}
     </div>
-  )
-}
+  );
+};
 
-export default ModuleProductDetailSpecification
+export default ModuleProductDetailSpecification;
