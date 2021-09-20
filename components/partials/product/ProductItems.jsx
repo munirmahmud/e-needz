@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-
 import ModuleProductActions from '~/components/elements/products/modules/ModuleProductActions'
 import ProductWide from '~/components/elements/products/ProductWide'
 import Rating from '~/components/elements/Rating'
 import SkeletonProduct from '~/components/elements/skeletons/SkeletonProduct'
 import ModuleShopSortBy from '~/components/partials/shop/modules/ModuleShopSortBy'
-import useProduct from '~/hooks/useProduct'
 import useEcomerce from '~/hooks/useEcomerce'
+import useProduct from '~/hooks/useProduct'
 import { generateTempArray } from '~/utilities/common-helpers'
 import { StrapiProductPriceExpanded } from '~/utilities/product-helper'
 
@@ -85,7 +84,7 @@ const ProductItems = ({ products, columns = 4, ecomerce, categoryId }) => {
       if (listView) {
         const items = productItems.map((product, index) => (
           <div
-            className='col-xl-2 col-lg-3 col-sm-3 col-6'
+            className='col-xl-2 col-lg-3 col-sm-4 col-6'
             key={product.product_id}
           >
             {/* <Product product={item} /> */}

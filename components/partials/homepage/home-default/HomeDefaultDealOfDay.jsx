@@ -42,7 +42,7 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
     }
   } else {
     const skeletons = generateTempArray(6).map((item, id) => (
-      <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={id}>
+      <div className="col-xl-2 col-lg-3 col-sm-4 col-6" key={id}>
         <SkeletonProduct />
       </div>
     ));
