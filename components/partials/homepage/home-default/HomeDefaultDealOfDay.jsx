@@ -100,7 +100,7 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
             {deviceLayout > 768 ? (
               productItemsView
             ) : (
-              <div className="row">
+              <div className="row mobile-layout">
                 {prod?.length > 0 &&
                   prod?.map((item, id) => (
                     <div className="col-6 mb-4" key={id}>

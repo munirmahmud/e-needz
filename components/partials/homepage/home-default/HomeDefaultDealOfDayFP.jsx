@@ -22,7 +22,7 @@ const HomeDefaultDealOfDayFP = ({ dealTitle, endPoint }) => {
   if (!loading) {
     if (productItems && prod.length > 0) {
       const slideItems = prod.map((item, id) => (
-        <div className="col-xl-2 col-lg-3 col-sm-3 col-6 mb-3">
+        <div className="col-xl-2 col-lg-3 col-sm-3 col-6 mb-4">
           <ProductDealOfDay product={item} key={id} />
         </div>
       ));
@@ -32,7 +32,7 @@ const HomeDefaultDealOfDayFP = ({ dealTitle, endPoint }) => {
     }
   } else {
     const skeletons = generateTempArray(6).map((item, id) => (
-      <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={id}>
+      <div className="col-xl-2 col-lg-3 col-sm-3 col-6 mb-4" key={id}>
         <SkeletonProduct />
       </div>
     ));
@@ -42,7 +42,7 @@ const HomeDefaultDealOfDayFP = ({ dealTitle, endPoint }) => {
   return (
     <div className="ps-deal-of-day">
       <div className="ps-container">
-        <div className="section-white">
+        <div className="section-white box-layout">
           <div className="ps-section__header">
             {dealTitle && (
               <div className="ps-block--countdown-deal">
