@@ -56,7 +56,7 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             {" "}
             <span>{product.seller_store_name}</span>
             {product.quantity === "0" ? (
-              <span style={{ color: "red" }}>Out Of stock</span>
+              <span style={{ color: "#fd8b01" }}>Out Of stock</span>
             ) : (
               ""
             )}
@@ -76,10 +76,11 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             <span>{product.ratingCount}</span>
           </div>
           <button
-            className="ps-btn btn-small"
+            className="ps-btn btn-small adfs"
             onClick={() => {
               handleBuynow();
             }}
+            disabled={product.quantity === "0"}
           >
             Buy Now
           </button>

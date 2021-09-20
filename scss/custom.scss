@@ -382,3 +382,22 @@ button.form-btn {
     color: #fff;
   }
 }
+
+.ps-product--detail {
+  .ps-product__shopping {
+    button.ps-btn:disabled {
+      background-color: $color-gray;
+      cursor: not-allowed;
+      &::hover {
+        background-color: $color-gray;
+      }
+    }
+  }
+}
+button.ps-btn:disabled {
+  cursor: not-allowed;
+  background-color: $color-gray;
+  &::hover {
+    background-color: $color-gray;
+  }
+}
