@@ -38,7 +38,7 @@ const SearchPage = () => {
       url: "/",
     },
     {
-      text: "Search Result",
+      text: "Search Results",
     },
   ];
 
@@ -50,7 +50,7 @@ const SearchPage = () => {
       if (productItems.length > 0) {
         const items = productItems.map((item) => {
           return (
-            <div className="col-xl-2 col-lg-3 col-sm-3 col-6" key={item.id}>
+            <div className="col-xl-2 col-lg-3 col-sm-4 col-6" key={item.id}>
               <ProductDealOfDay product={item} />
             </div>
           );
