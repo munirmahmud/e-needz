@@ -28,23 +28,22 @@ const HomepageDefaultPage = () => {
             dispatch(loginSuccess());
           }
         });
-
-      // Block Products
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/block_products`, {
-        method: "POST",
-        body: JSON.stringify({
-          per_page: 20,
-          page_offset: 0,
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          if (res.response_status === 200) {
-            setLoading(!isLoading);
-            setBlockItems(res.data);
-          }
-        });
     }
+    // Block Products
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/block_products`, {
+      method: "POST",
+      body: JSON.stringify({
+        per_page: 20,
+        page_offset: 0,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.response_status === 200) {
+          setLoading(!isLoading);
+          setBlockItems(res.data);
+        }
+      });
   }, [authCookie]);
 
   return (
