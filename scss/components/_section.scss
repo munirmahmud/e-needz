@@ -2252,19 +2252,23 @@
 
 .ps-shop--search {
   .ps-shop__header {
-    padding: 60px 0 40px;
+    padding: 15px 0 15px;
+    .section-white {
+      padding-right: 15px;
+      padding-left: 15px;
+    }
     h1 {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 500;
     }
   }
 
   @media screen and (min-width: 1200px) {
     .ps-shop__header {
-      padding: 80px 0 40px;
+      padding: 15px 0 15px;
 
       h1 {
-        font-size: 30px;
+        font-size: 22px;
       }
     }
   }

@@ -1,5 +1,11 @@
 .ps-search--mobile {
-    max-width: 450px;
-    margin: 0 auto;
-    padding: 10px 20px;
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+.ps-shop--search {
+  .ps-shop__content {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
 }
