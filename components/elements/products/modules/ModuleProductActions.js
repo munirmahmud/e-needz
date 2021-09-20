@@ -60,7 +60,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
     <ul className='ps-product__actions'>
       <li>
         <a
-          href='#'
+          href='#!'
           data-toggle='tooltip'
           data-placement='top'
           title='Add To Cart'
@@ -71,7 +71,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
       </li>
       <li>
         <a
-          href='#'
+          href='#!'
           data-toggle='tooltip'
           data-placement='top'
           title='Quick View'
@@ -82,7 +82,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
       </li>
       <li>
         <a
-          href='#'
+          href='#!'
           data-toggle='tooltip'
           data-placement='top'
           title='Add to wishlist'
@@ -93,7 +93,7 @@ const ModuleProductActions = ({ product, ecomerce }) => {
       </li>
       {/* <li>
         <a
-          href='#'
+          href='#!'
           data-toggle='tooltip'
           data-placement='top'
           title='Compare'
