@@ -44,7 +44,10 @@ const TopCategories = () => {
       <BreadCrumb breacrumb={breadCrumb} />
       <div className="ps-top-categories mt-4">
         <div className="ps-container">
-          <div className="section-white">
+          <div
+            className="section-white"
+            style={{ paddingLeft: 15, paddingRight: 15 }}
+          >
             <div className="section__header">
               <div className="ps-block--countdown-deal">
                 <div className="ps-block__left">
