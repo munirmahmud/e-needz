@@ -128,11 +128,11 @@ const ProductDefaultPage = () => {
               />
             )}
           </div>
-          {/* <div className='ps-container mt-5'>
-            <div className='ps-page__container section-white mb-5'>
+          {/* <div className="ps-container mt-5">
+            <div className="ps-page__container section-white mb-5">
               <CustomerBought
-                layout='fullwidth'
-                collectionSlug='deal-of-the-day'
+                layout="fullwidth"
+                collectionSlug="deal-of-the-day"
               />
             </div>
           </div> */}

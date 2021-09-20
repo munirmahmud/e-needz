@@ -1,4 +1,5 @@
 import { Rate } from "antd";
+import Link from "next/link";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
@@ -156,7 +157,17 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
         </div>
       ) : (
         <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 ">
-          <h3 className="text-center">Please login for submit your Review</h3>
+          <p>
+            Please{" "}
+            <Link href="/account/login">
+              <a style={{ color: "#fd8b01" }}>Login</a>
+            </Link>{" "}
+            or{" "}
+            <Link href="/account/register">
+              <a style={{ color: "#fd8b01" }}>Register</a>
+            </Link>{" "}
+            to submit your Review
+          </p>
         </div>
       )}
     </div>

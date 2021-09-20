@@ -160,13 +160,13 @@ const ModuleDetailShoppingActions = ({
               />
             </div>
           </figure>
-          <a
+          <button
             className="ps-btn ps-btn--black"
-            href="#"
             onClick={(e) => handleAddItemToCart(e)}
+            disabled={Number(product.quantity) === 0}
           >
             Add to cart
-          </a>
+          </button>
           <div className="ps-product__actions">
             <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
               <i className="icon-heart"></i>
@@ -176,9 +176,13 @@ const ModuleDetailShoppingActions = ({
             </a> */}
           </div>
         </div>
-        <a className="ps-btn" href="#" onClick={(e) => handleBuynow(e)}>
+        <button
+          className="ps-btn"
+          onClick={(e) => handleBuynow(e)}
+          disabled={Number(product.quantity) === 0}
+        >
           Buy Now
-        </a>
+        </button>
       </div>
     );
   }
