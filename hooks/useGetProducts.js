@@ -60,26 +60,63 @@ export default function useGetProducts() {
       }
     },
 
+    // getProducts: async (payload) => {
+    //   setLoading(true)
+    //   let responseData
+    //   if (payload) {
+    //     responseData = await ProductRepository.getProducts(payload)
+    //   } else {
+    //     const queries = {
+    //       _limit: 12,
+    //     }
+    //     responseData = await ProductRepository.getProducts(queries)
+    //   }
+    //   if (responseData) {
+    //     setProductItems(responseData)
+    //     setTimeout(
+    //       function () {
+    //         setLoading(false)
+    //       }.bind(this),
+    //       250
+    //     )
+    //   }
+    // },
+
     getProducts: async (payload) => {
       setLoading(true)
-      let responseData
+      // let responseData
       if (payload) {
-        responseData = await ProductRepository.getProducts(payload)
-      } else {
-        const queries = {
-          _limit: 12,
-        }
-        responseData = await ProductRepository.getProducts(queries)
+        // responseData = await ProductRepository.getProducts(payload)
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/retrieve_category_product`, {
+          method: 'POST',
+          body: JSON.stringify({
+            per_page: 10,
+            page_offset: 0,
+            product_name: payload.title_contains,
+            category_id: '',
+          }),
+        })
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result)
+            if (result.response_status === 200) {
+              setLoading(false)
+              setProductItems(result.data)
+            }
+          })
+          .catch((error) => console.log('error', error))
       }
-      if (responseData) {
-        setProductItems(responseData)
-        setTimeout(
-          function () {
-            setLoading(false)
-          }.bind(this),
-          250
-        )
-      }
+
+      // if (responseData) {
+      //   setProductItems(responseData)
+      //   setTimeout(
+      //     function () {
+      //       setLoading(false)
+      //     }.bind(this),
+      //     250
+      //   )
+      // }
     },
 
     getProductById: async (payload) => {

@@ -154,15 +154,15 @@ const SearchHeader = () => {
     loadMoreView
   if (!loading) {
     if (resultItems && resultItems.length > 0) {
-      if (resultItems.length > 5) {
-        loadMoreView = (
-          <div className='ps-panel__footer text-center'>
-            <Link href='/search'>
-              <a>See all results</a>
-            </Link>
-          </div>
-        )
-      }
+      // if (resultItems.length > 25) {
+      //   loadMoreView = (
+      //     <div className='ps-panel__footer text-center'>
+      //       <Link href='/search'>
+      //         <a>See all results</a>
+      //       </Link>
+      //     </div>
+      //   )
+      // }
       productItemsView = resultItems.map((product) => (
         <ProductSearchResult product={product} key={product.id} />
       ))
