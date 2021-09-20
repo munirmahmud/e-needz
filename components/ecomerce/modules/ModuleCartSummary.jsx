@@ -7,10 +7,13 @@ const ModuleCartSummary = ({ source }) => {
   let productItemsView, amount;
   if (source && source.length > 0) {
     amount = calculateAmount(source);
-    productItemsView = source.map((item) => (
-      <li key={item.id}>
+    productItemsView = source.map((item, index) => (
+      <li key={index}>
         <span className="ps-block__estimate">
-          <Link href="/product/[pid]" as={`/product/${item.id}`}>
+          <Link
+            href="/product/[pid]"
+            as={`/product/${item.product_id}-${item.campaign_id}`}
+          >
             <a className="ps-product__title">
               {item.title}
               <br /> x {item.quantity}

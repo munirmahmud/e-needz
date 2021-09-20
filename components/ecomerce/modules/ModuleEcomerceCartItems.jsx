@@ -1,83 +1,83 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import useEcomerce from '~/hooks/useEcomerce'
-import { Result } from 'antd'
-import ProductCart from '~/components/elements/products/ProductCart'
+import { Result } from "antd";
+import React from "react";
+import { connect } from "react-redux";
+import ProductCart from "~/components/elements/products/ProductCart";
+import useEcomerce from "~/hooks/useEcomerce";
 
 const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
-  const { increaseQty, decreaseQty, removeItem } = useEcomerce()
+  const { increaseQty, decreaseQty, removeItem } = useEcomerce();
 
   function handleRemoveItem(e, productId) {
-    e.preventDefault()
-    removeItem({ id: productId }, ecomerce.cartItems, 'cart')
+    e.preventDefault();
+    removeItem({ id: productId }, ecomerce.cartItems, "cart");
   }
 
   function handleIncreaseItemQty(e, productId) {
-    e.preventDefault()
+    e.preventDefault();
 
     // return
-    increaseQty({ id: productId }, ecomerce.cartItems)
+    increaseQty({ id: productId }, ecomerce.cartItems);
   }
 
   function handleDecreaseItemQty(e, productId) {
-    e.preventDefault()
+    e.preventDefault();
     // return
-    decreaseQty({ id: productId }, ecomerce.cartItems)
+    decreaseQty({ id: productId }, ecomerce.cartItems);
   }
 
   // View
-  let cartItemsViews
+  let cartItemsViews;
   if (cartItems && cartItems.length > 0) {
-    const items = cartItems.map((item) => (
-      <tr key={item.id}>
+    const items = cartItems.map((item, index) => (
+      <tr key={index}>
         <td>
           <ProductCart product={item} />
         </td>
-        <td data-label='price' className='price'>
-          ৳{item.on_sale === '1' ? item.offer_price : item.price}
+        <td data-label="price" className="price">
+          ৳{item.on_sale === "1" ? item.offer_price : item.price}
         </td>
-        <td data-label='quantity'>
-          <div className='form-group--number'>
+        <td data-label="quantity">
+          <div className="form-group--number">
             <button
-              className='up'
+              className="up"
               onClick={(e) => handleIncreaseItemQty(e, item.product_id)}
             >
               +
             </button>
             <button
-              className='down'
+              className="down"
               onClick={(e) => handleDecreaseItemQty(e, item.product_id)}
             >
               -
             </button>
             <input
-              className='form-control'
-              type='text'
+              className="form-control"
+              type="text"
               placeholder={item.quantity}
               disabled={true}
             />
           </div>
         </td>
-        <td data-label='total'>
+        <td data-label="total">
           <strong>
             ৳
-            {(item.on_sale === '1'
+            {(item.on_sale === "1"
               ? item.offer_price * item.quantity
               : item.price * item.quantity
             ).toFixed(2)}
           </strong>
         </td>
         <td>
-          <a href='#' onClick={(e) => handleRemoveItem(e, item.id)}>
-            <i className='icon-cross'></i>
+          <a href="#" onClick={(e) => handleRemoveItem(e, item.id)}>
+            <i className="icon-cross"></i>
           </a>
         </td>
       </tr>
-    ))
+    ));
 
     cartItemsViews = (
       <>
-        <table className='table  ps-table--shopping-cart ps-table--responsive'>
+        <table className="table  ps-table--shopping-cart ps-table--responsive">
           <thead>
             <tr>
               <th>Product</th>
@@ -90,11 +90,11 @@ const ModuleEcomerceCartItems = ({ ecomerce, cartItems }) => {
           <tbody>{items}</tbody>
         </table>
       </>
-    )
+    );
   } else {
-    cartItemsViews = <Result status='warning' title='No product in cart.' />
+    cartItemsViews = <Result status="warning" title="No product in cart." />;
   }
-  return <>{cartItemsViews}</>
-}
+  return <>{cartItemsViews}</>;
+};
 
-export default connect((state) => state)(ModuleEcomerceCartItems)
+export default connect((state) => state)(ModuleEcomerceCartItems);

@@ -26,7 +26,7 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
       "cart"
     );
     setTimeout(function () {
-      Router.push("/account/checkout");
+      Router.push("/account/shopping-cart");
     }, 1000);
   }
 
@@ -56,7 +56,7 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             {" "}
             <span>{product.seller_store_name}</span>
             {product.quantity === "0" ? (
-              <span style={{ color: "#fd8b01" }}>Out Of stock</span>
+              <span style={{ color: "red" }}>Out Of stock</span>
             ) : (
               ""
             )}
@@ -76,11 +76,10 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             <span>{product.ratingCount}</span>
           </div>
           <button
-            className="ps-btn btn-small adfs"
+            className="ps-btn btn-small"
             onClick={() => {
               handleBuynow();
             }}
-            disabled={product.quantity === "0"}
           >
             Buy Now
           </button>
