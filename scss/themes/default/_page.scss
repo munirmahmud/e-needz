@@ -172,21 +172,21 @@
     }
   }
 
-  @include media("<lg") {
-    padding: 60px 0;
-  }
+  // @include media("<lg") {
+  //   padding: 60px 0;
+  // }
 
-  @include media("<md") {
-    padding: 50px 0;
-  }
+  // @include media("<md") {
+  //   padding: 50px 0;
+  // }
 
-  @include media("<sm") {
-    padding: 40px 0;
-  }
+  // @include media("<sm") {
+  //   padding: 40px 0;
+  // }
 
-  @include media("<xs") {
-    padding: 35px 0;
-  }
+  // @include media("<xs") {
+  //   padding: 35px 0;
+  // }
 
   .col-xl-2,
   .col-lg-3,
@@ -203,5 +203,16 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
+  }
+
+  @include media("<xs") {
+    .col-6 {
+      &:nth-child(odd) {
+        padding-left: 0px;
+      }
+      &:nth-child(even) {
+        padding-right: 0px;
+      }
+    }
   }
 }

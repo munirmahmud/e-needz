@@ -38,7 +38,7 @@ const ShopDefaultPage = () => {
             </div>
           </div>
         </div> */}
-        <div className="mb-5" />
+        <div className="mb-4" />
 
         <HomeDefaultDealOfDayFP
           endPoint="/best_selling"
@@ -46,7 +46,7 @@ const ShopDefaultPage = () => {
           carousel
         />
 
-        <div className="mb-5" />
+        <div className="mb-4" />
       </div>
     </PageContainer>
   );

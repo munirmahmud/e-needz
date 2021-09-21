@@ -1,23 +1,23 @@
-import React from 'react'
-import BreadCrumb from '~/components/elements/BreadCrumb'
-import PageContainer from '~/components/layouts/PageContainer'
-import HomeDefaultDealOfDayFP from '~/components/partials/homepage/home-default/HomeDefaultDealOfDayFP'
+import React from "react";
+import BreadCrumb from "~/components/elements/BreadCrumb";
+import PageContainer from "~/components/layouts/PageContainer";
+import HomeDefaultDealOfDayFP from "~/components/partials/homepage/home-default/HomeDefaultDealOfDayFP";
 
 const ShopDefaultPage = () => {
   const breadCrumb = [
     {
-      text: 'Home',
-      url: '/',
+      text: "Home",
+      url: "/",
     },
     {
-      text: 'Featured Products',
+      text: "Featured Products",
     },
-  ]
+  ];
 
   return (
-    <PageContainer title='Shop'>
-      <div className='ps-page--shop'>
-        <BreadCrumb breacrumb={breadCrumb} layout='fullwidth' />
+    <PageContainer title="Shop">
+      <div className="ps-page--shop">
+        <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
         {/* <div className='ps-container page-shop'>
           <div className='ps-layout--shop'>
             <div className='ps-layout__left'>
@@ -38,17 +38,17 @@ const ShopDefaultPage = () => {
             </div>
           </div>
         </div> */}
-        <div className='mb-5' />
+        <div className="mb-4" />
 
         <HomeDefaultDealOfDayFP
-          endPoint='/featured_products'
-          dealTitle='Featured Products'
+          endPoint="/featured_products"
+          dealTitle="Featured Products"
           carousel
         />
 
-        <div className='mb-5' />
+        <div className="mb-4" />
       </div>
     </PageContainer>
-  )
-}
-export default ShopDefaultPage
+  );
+};
+export default ShopDefaultPage;

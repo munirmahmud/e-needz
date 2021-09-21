@@ -109,29 +109,35 @@ const ModuleDetailShoppingActions = ({
               />
             </div>
           </figure>
-          <button
-            type="button"
-            className="ps-btn ps-btn--black"
-            onClick={(e) => handleAddItemToCart(e)}
-            disabled={Number(product.quantity) === 0}
-          >
-            Add to cart
-          </button>
-          <button
-            type="button"
-            className="ps-btn"
-            onClick={(e) => handleBuynow(e)}
-            disabled={Number(product.quantity) === 0}
-          >
-            Buy Now
-          </button>
-          <div className="ps-product__actions">
-            <a href="#" onClick={(e) => handleAddItemToWishlist(e)}>
-              <i className="icon-heart"></i>
-            </a>
-            {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
+          <div className="d-flex align-items-center mr-0">
+            <button
+              type="button"
+              className="ps-btn ps-btn--black mr-3"
+              onClick={(e) => handleAddItemToCart(e)}
+              disabled={Number(product.quantity) === 0}
+            >
+              Add to cart
+            </button>
+            <button
+              type="button"
+              className="ps-btn mr-3"
+              onClick={(e) => handleBuynow(e)}
+              disabled={Number(product.quantity) === 0}
+            >
+              Buy Now
+            </button>
+            <div className="ps-product__actions">
+              <a
+                href="#"
+                className="d-flex "
+                onClick={(e) => handleAddItemToWishlist(e)}
+              >
+                <i className="icon-heart"></i>
+              </a>
+              {/* <a href="#" onClick={(e) => handleAddItemToCompare(e)}>
             <i className="icon-chart-bars"></i>
           </a> */}
+            </div>
           </div>
         </div>
       </>

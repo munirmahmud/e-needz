@@ -516,10 +516,6 @@
     }
   }
 
-  @include media("<lg") {
-    margin-top: 40px;
-  }
-
   @include media("<sm") {
     .ps-shopping__header {
       flex-flow: row nowrap;
