@@ -1701,7 +1701,12 @@
       .ps-btn {
         width: 100%;
         margin-right: 0;
-        display: none;
+        font-weight: 500;
+        display: flex;
+        max-height: 42px;
+        font-size: 16px;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
@@ -2350,6 +2355,17 @@
     }
     .ps-product__content {
       padding-left: 10px;
+    }
+  }
+}
+
+@include media("<xs") {
+  .ps-shopping {
+    .ps-product {
+      .ps-product__price {
+        font-size: 14px;
+        margin-bottom: 0.2rem;
+      }
     }
   }
 }
