@@ -3317,6 +3317,17 @@
 }
 
 .ps-block--checkout-order {
+  .cart-items {
+    display: flex;
+    justify-content: space-between;
+    strong {
+      color: rgb(253, 139, 1);
+
+      span {
+        color: #666666;
+      }
+    }
+  }
   figure {
     margin-bottom: 25px;
     padding-bottom: 25px;
@@ -3392,7 +3403,7 @@
     margin-bottom: 10px;
     border-radius: 4px;
     background-color: #fff;
-    border: 2px solid #eaeaea;
+    // border: 2px solid #eaeaea;
   }
 
   .ps-block__payment-methods {

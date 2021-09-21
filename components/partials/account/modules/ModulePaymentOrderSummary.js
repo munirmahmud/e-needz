@@ -1,4 +1,3 @@
-import Link from "next/link";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import useEcomerce from "~/hooks/useEcomerce";
@@ -19,18 +18,15 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
   if (products && products.length > 0) {
     amount = calculateAmount(products);
     listItemsView = products.map((item) => (
-      <Link href="/" key={item.id}>
-        <a>
-          <strong>
-            {item.title}
-            <span>x{item.quantity}</span>
-          </strong>
-          <small>
-            <img src="/static/icons/currency-bdt.svg" alt="bdt" />{" "}
-            {item.quantity * item.price}
-          </small>
-        </a>
-      </Link>
+      <div key={item.id} className="cart-items">
+        <strong>
+          {item.title} <span>x{item.quantity}</span>
+        </strong>
+        <small>
+          <img src="/static/icons/currency-bdt.svg" alt="bdt" />{" "}
+          {item.quantity * item.price}
+        </small>
+      </div>
     ));
   } else {
     listItemsView = <p>No Product.</p>;

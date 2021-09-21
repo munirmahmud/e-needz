@@ -498,3 +498,10 @@ button.ps-btn:disabled {
     background-color: $color-gray;
   }
 }
+
+.area-group {
+  .form-control {
+    flex: 1;
+    padding: 0 6px;
+  }
+}
