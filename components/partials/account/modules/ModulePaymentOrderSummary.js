@@ -17,8 +17,8 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
   let amount;
   if (products && products.length > 0) {
     amount = calculateAmount(products);
-    listItemsView = products.map((item) => (
-      <div key={item.id} className="cart-items">
+    listItemsView = products.map((item, index) => (
+      <div key={index} className="cart-items">
         <strong>
           {item.title} <span>x{item.quantity}</span>
         </strong>

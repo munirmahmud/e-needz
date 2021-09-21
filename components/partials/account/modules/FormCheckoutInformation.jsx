@@ -7,8 +7,18 @@ import { useCookies } from "react-cookie";
 const FormCheckoutInformation = () => {
   const [authCookie] = useCookies(["auth"]);
 
+  const [values, setValues] = useState({
+    recipientName: "",
+    phoneNo: "",
+    state: "",
+    city: "",
+    area: "",
+    address: "",
+  });
   const [addresses, setAddresses] = useState([]);
   const [divisions, setDivisions] = useState([]);
+  const [cityNames, setCityNames] = useState([]);
+  const [divisionID, setDivisionID] = useState("");
   const [showModal, setShowModal] = useState(false);
 
   const handleLoginSubmit = () => {
@@ -58,10 +68,34 @@ const FormCheckoutInformation = () => {
       }
     );
     const data = await response.json();
-    console.log("state", data);
 
     if (data?.response_status === 200) {
       setDivisions(data?.data);
+    }
+  };
+
+  const getDivision = (e) => {
+    setDivisionID(e.target.value);
+  };
+
+  const handleCity = async (e) => {
+    let formData = new FormData();
+
+    formData.append("customer_id", "1508");
+    formData.append("state_id", divisionID);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/citylist`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+    console.log("city", data);
+
+    if (data?.response_status === 200) {
+      setCityNames(data?.data);
     }
   };
 
@@ -71,7 +105,7 @@ const FormCheckoutInformation = () => {
 
       <div className="d-flex align-items-center">
         <select
-          class="form-control"
+          className="form-control"
           aria-label="Customer Address"
           name="address"
           style={{ flex: 1 }}
@@ -111,10 +145,11 @@ const FormCheckoutInformation = () => {
         </div>
         <div className="area-group form-group d-flex">
           <select
-            class="form-control mr-2"
+            className="form-control mr-2"
             aria-label="Select Division"
             name="division"
             onClick={handleDivision}
+            onChange={getDivision}
           >
             {divisions.length === 0 && (
               <option value="0">Select Division</option>
@@ -127,15 +162,17 @@ const FormCheckoutInformation = () => {
               ))}
           </select>
           <select
-            class="form-control mr-2"
+            className="form-control mr-2"
             aria-label="Select City"
             name="city"
             style={{ flex: 1 }}
+            onClick={handleCity}
           >
-            {addresses.length > 0 &&
-              addresses.map((item) => (
-                <option key={item.address_id} value={item.address_id}>
-                  {item.address}
+            {cityNames.length === 0 && <option value="0">Select City</option>}
+            {cityNames.length > 0 &&
+              cityNames.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
                 </option>
               ))}
           </select>
