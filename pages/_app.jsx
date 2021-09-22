@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { CookiesProvider, useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import MasterLayout from "~/components/layouts/MasterLayout";
 import "~/public/static/css/bootstrap.min.css";
 import "~/public/static/css/slick.min.css";
@@ -45,6 +47,17 @@ function App({ Component, pageProps }) {
 
   return (
     <CookiesProvider>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+      />
       <MasterLayout>
         <Component {...pageProps} />
       </MasterLayout>

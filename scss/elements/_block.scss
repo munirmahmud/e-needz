@@ -3320,17 +3320,25 @@
   .cart-items {
     display: flex;
     justify-content: space-between;
-    strong {
-      color: rgb(253, 139, 1);
+    margin-bottom: 1rem;
+
+    span {
+      color: #8b8b8b;
 
       span {
         color: #666666;
       }
     }
+
+    small {
+      display: flex;
+      align-items: center;
+    }
   }
+
   figure {
-    margin-bottom: 25px;
-    padding-bottom: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
 
     figcaption {

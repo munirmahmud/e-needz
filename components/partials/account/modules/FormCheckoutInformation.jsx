@@ -1,11 +1,18 @@
-import { Form, Input, Modal } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import { Form, Modal, Spin } from "antd";
 import Link from "next/link";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { connect } from "react-redux";
+import { toast } from "react-toastify";
+import useEcomerce from "~/hooks/useEcomerce";
+import { calculateAmount } from "~/utilities/ecomerce-helpers";
 
-const FormCheckoutInformation = () => {
+const FormCheckoutInformation = ({ ecomerce }) => {
   const [authCookie] = useCookies(["auth"]);
+  const [setCookie] = useCookies(["amnt"]);
+  const { products, getProducts } = useEcomerce();
 
   const [values, setValues] = useState({
     recipientName: "",
@@ -19,26 +26,29 @@ const FormCheckoutInformation = () => {
   const [divisions, setDivisions] = useState([]);
   const [cityNames, setCityNames] = useState([]);
   const [divisionID, setDivisionID] = useState("");
+  const [primaryAddress, setPrimaryAddress] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [reRender, setReRender] = useState(false);
+  const [agreeWithTerms, setAgreeWithTerms] = useState(false);
+  const [selectAddress, setSelectAddress] = useState("");
 
-  const handleLoginSubmit = () => {
-    Router.push("/account/shipping");
-  };
+  let amount;
+  if (products && products.length > 0) {
+    amount = calculateAmount(products);
+  }
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleHideModal = () => {
-    setShowModal(false);
-  };
+  useEffect(() => {
+    if (ecomerce.cartItems) {
+      getProducts(ecomerce.cartItems, "cart");
+    }
+  }, [ecomerce]);
 
   useEffect(() => {
     const getCustomerAddress = async () => {
       let formData = new FormData();
 
-      // formData.append("customer_id", authCookie.auth);
-      formData.append("customer_id", "1508");
+      formData.append("customer_id", authCookie.auth);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/customer_address`,
         {
@@ -54,12 +64,29 @@ const FormCheckoutInformation = () => {
     };
 
     getCustomerAddress();
-  }, []);
+  }, [reRender]);
+
+  const handleLoginSubmit = () => {
+    Router.push("/account/shipping");
+  };
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+
+  const handleHideModal = (e) => {
+    setShowModal(false);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({ ...values, [name]: value });
+  };
 
   const handleDivision = async (e) => {
     let formData = new FormData();
 
-    formData.append("customer_id", "1508");
+    formData.append("customer_id", authCookie.auth);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/statelist`,
       {
@@ -81,7 +108,7 @@ const FormCheckoutInformation = () => {
   const handleCity = async (e) => {
     let formData = new FormData();
 
-    formData.append("customer_id", "1508");
+    formData.append("customer_id", authCookie.auth);
     formData.append("state_id", divisionID);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/citylist`,
@@ -92,12 +119,96 @@ const FormCheckoutInformation = () => {
     );
 
     const data = await response.json();
-    console.log("city", data);
 
     if (data?.response_status === 200) {
       setCityNames(data?.data);
     }
   };
+
+  const handleCreateAddress = async (e) => {
+    setLoading(true);
+    var formdata = new FormData();
+
+    const datass = [
+      authCookie.auth,
+      values.recipientName,
+      values.phoneNo,
+      divisionID,
+      values.city,
+      values.area,
+      values.address,
+    ];
+
+    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_name", values.recipientName);
+    formdata.append("customer_phone", values.phoneNo);
+    formdata.append("division", divisionID); //Sate ID
+    formdata.append("city", values.city); //City ID
+    formdata.append("area", values.area);
+    formdata.append("address", values.address);
+
+    try {
+      var requestOptions = {
+        method: "POST",
+        body: formdata,
+      };
+
+      fetch(
+        `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/create_address`,
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response_status === 0) {
+            toast.error(result.message);
+          }
+
+          if (result.response_status === 200) {
+            toast.success("You could successfully added a new address");
+            setLoading(false);
+            setShowModal(false);
+            setReRender(!reRender);
+
+            setValues({
+              recipientName: "",
+              phoneNo: "",
+              state: "",
+              city: "",
+              area: "",
+              address: "",
+            });
+          }
+        });
+    } catch (error) {
+      console.log("Create new address error", error);
+    }
+  };
+
+  const handleConfirmOrder = async (e) => {
+    // localStorage.setItem("amnt", amount);
+
+    let formData = new FormData();
+
+    formData.append("customer_id", authCookie.auth);
+    formData.append("address_id", selectAddress);
+    formData.append("cart_details", authCookie.cart);
+    formData.append("payment_method", payment_method);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/submit_checkout`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const data = await response.json();
+
+    // if (data?.response_status === 200) {
+    //   setAddresses(data?.data?.address_list);
+    // }
+  };
+
+  const getPrimaryAddress = addresses?.find((item) => item.is_primary === "1");
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   return (
     <>
@@ -109,6 +220,7 @@ const FormCheckoutInformation = () => {
           aria-label="Customer Address"
           name="address"
           style={{ flex: 1 }}
+          onChange={(e) => setSelectAddress(e.target.value)}
         >
           {addresses.length > 0 &&
             addresses.map((item) => (
@@ -127,64 +239,104 @@ const FormCheckoutInformation = () => {
         </button>
       </div>
 
+      <div className="primary-address mt-4">
+        {getPrimaryAddress && (
+          <p>{`${getPrimaryAddress.customer_name} 
+          ${getPrimaryAddress.customer_phone} 
+          ${getPrimaryAddress.address} 
+          ${getPrimaryAddress.area} 
+          ${getPrimaryAddress.city} 
+          ${getPrimaryAddress.division}`}</p>
+        )}
+      </div>
+
       <Modal
         title="Add New Address"
         visible={showModal}
-        onOk={handleHideModal}
+        onOk={handleCreateAddress}
         onCancel={handleHideModal}
         okText="Save"
         cancelText="Cancel"
       >
-        <div className="form-group d-flex">
-          <input
-            type="text"
-            className="form-control mr-2"
-            placeholder="Recipient Name"
-          />
-          <input type="text" className="form-control" placeholder="Phone No" />
-        </div>
-        <div className="area-group form-group d-flex">
-          <select
-            className="form-control mr-2"
-            aria-label="Select Division"
-            name="division"
-            onClick={handleDivision}
-            onChange={getDivision}
-          >
-            {divisions.length === 0 && (
-              <option value="0">Select Division</option>
-            )}
-            {divisions.length > 0 &&
-              divisions.map((division) => (
-                <option key={division.id} value={division.id}>
-                  {division.name}
-                </option>
-              ))}
-          </select>
-          <select
-            className="form-control mr-2"
-            aria-label="Select City"
-            name="city"
-            style={{ flex: 1 }}
-            onClick={handleCity}
-          >
-            {cityNames.length === 0 && <option value="0">Select City</option>}
-            {cityNames.length > 0 &&
-              cityNames.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
-          </select>
-          <input type="text" className="form-control" placeholder="Area" />
-        </div>
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Enter Your Address"
-          />
-        </div>
+        <form onSubmit={handleCreateAddress} autoComplete="off">
+          <div className="form-group d-flex">
+            <input
+              type="text"
+              name="recipientName"
+              className="form-control mr-2"
+              placeholder="Recipient Name"
+              value={values.recipientName}
+              onChange={handleChange}
+            />
+            <input
+              type="text"
+              name="phoneNo"
+              className="form-control"
+              placeholder="Phone No"
+              value={values.phoneNo}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="area-group form-group d-flex">
+            <select
+              className="form-control mr-2"
+              aria-label="Select Division"
+              name="division"
+              onClick={handleDivision}
+              onChange={getDivision}
+            >
+              {divisions.length === 0 && (
+                <option value="0">Select Division</option>
+              )}
+              {divisions.length > 0 &&
+                divisions.map((division) => (
+                  <option key={division.id} value={division.id}>
+                    {division.name}
+                  </option>
+                ))}
+            </select>
+            <select
+              className="form-control mr-2"
+              aria-label="Select City"
+              name="city"
+              style={{ flex: 1 }}
+              onClick={handleCity}
+              onChange={handleChange}
+            >
+              {cityNames.length === 0 && <option value="0">Select City</option>}
+              {cityNames.length > 0 &&
+                cityNames.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+            </select>
+            <input
+              type="text"
+              name="area"
+              className="form-control"
+              placeholder="Area"
+              value={values.area}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              name="address"
+              className="form-control"
+              placeholder="Enter Your Address"
+              value={values.address}
+              onChange={handleChange}
+            />
+          </div>
+        </form>
+
+        {isLoading && (
+          <div className="spinner-wrapper">
+            <Spin indicator={antIcon} />
+          </div>
+        )}
       </Modal>
 
       <Form
@@ -192,168 +344,48 @@ const FormCheckoutInformation = () => {
         autoComplete="off"
         onFinish={handleLoginSubmit}
       >
-        <div className="form-group">
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: false,
-                message: "Enter an email or mobile phone number!",
-              },
-            ]}
-          >
-            <Input
-              className="form-control"
-              type="text"
-              placeholder="Email or phone number"
-            />
-          </Form.Item>
-        </div>
-        <div className="form-group">
-          <div className="ps-checkbox">
-            <input className="form-control" type="checkbox" id="keep-update" />
-            <label htmlFor="keep-update">
-              Keep me up to date on news and exclusive offers?
-            </label>
-          </div>
-        </div>
-        <h3 className="ps-form__heading">Shipping address</h3>
-        <div className="row">
-          <div className="col-sm-6">
-            <div className="form-group">
-              <Form.Item
-                name="firstName"
-                rules={[
-                  {
-                    required: false,
-                    message: "Enter your first name!",
-                  },
-                ]}
-              >
-                <Input
-                  className="form-control"
-                  type="text"
-                  placeholder="First Name"
-                />
-              </Form.Item>
-            </div>
-          </div>
-          <div className="col-sm-6">
-            <div className="form-group">
-              <Form.Item
-                name="lastName"
-                rules={[
-                  {
-                    required: false,
-                    message: "Enter your last name!",
-                  },
-                ]}
-              >
-                <Input
-                  className="form-control"
-                  type="text"
-                  placeholder="Last Name"
-                />
-              </Form.Item>
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
-          <Form.Item
-            name="address"
-            rules={[
-              {
-                required: false,
-                message: "Enter an address!",
-              },
-            ]}
-          >
-            <Input className="form-control" type="text" placeholder="Address" />
-          </Form.Item>
-        </div>
-        <div className="form-group">
-          <Form.Item
-            name="apartment"
-            rules={[
-              {
-                required: false,
-                message: "Enter an Apartment!",
-              },
-            ]}
-          >
-            <Input
-              className="form-control"
-              type="text"
-              placeholder="Apartment, suite, etc. (optional)"
-            />
-          </Form.Item>
-        </div>
-        <div className="row">
-          <div className="col-sm-6">
-            <div className="form-group">
-              <Form.Item
-                name="city"
-                rules={[
-                  {
-                    required: false,
-                    message: "Enter a city!",
-                  },
-                ]}
-              >
-                <Input
-                  className="form-control"
-                  type="city"
-                  placeholder="City"
-                />
-              </Form.Item>
-            </div>
-          </div>
-          <div className="col-sm-6">
-            <div className="form-group">
-              <Form.Item
-                name="postalCode"
-                rules={[
-                  {
-                    required: false,
-                    message: "Enter a postal oce!",
-                  },
-                ]}
-              >
-                <Input
-                  className="form-control"
-                  type="postalCode"
-                  placeholder="Postal Code"
-                />
-              </Form.Item>
-            </div>
-          </div>
-        </div>
-        <div className="form-group">
+        <div className="form-group mt-5">
+          <p>* For this order these Order Policy applicable</p>
+          <p>* Price included VAT for VAT applicable products</p>
           <div className="ps-checkbox">
             <input
               className="form-control"
               type="checkbox"
-              id="save-information"
+              id="keep-update"
+              onChange={() => setAgreeWithTerms(!agreeWithTerms)}
             />
-            <label htmlFor="save-information">
-              Save this information for next time
+            <label htmlFor="keep-update">
+              I agree to the{" "}
+              <Link href="#">
+                <a>Terms &amp; Conditions</a>
+              </Link>{" "}
+              and{" "}
+              <Link href="#">
+                <a>Purchasing Policy</a>
+              </Link>{" "}
+              of E-needz.
             </label>
           </div>
         </div>
-        <div className="ps-form__submit">
-          <Link href="/account/cart">
-            <a>
-              <i className="icon-arrow-left mr-2"></i>
-              Return to shopping cart
-            </a>
-          </Link>
+
+        <div className="ps-form__submit d-flex align-items-center justify-content-between">
           <div className="ps-block__footer">
-            <button className="ps-btn">Continue to shipping</button>
+            <Link href="/shop">
+              <a className="ps-btn btn-small">Continue to shipping</a>
+            </Link>
           </div>
+          <button
+            type="button"
+            onClick={handleConfirmOrder}
+            className="ps-btn btn-small"
+            disabled={!agreeWithTerms}
+          >
+            Confirm Order
+          </button>
         </div>
       </Form>
     </>
   );
 };
 
-export default FormCheckoutInformation;
+export default connect((state) => state)(FormCheckoutInformation);

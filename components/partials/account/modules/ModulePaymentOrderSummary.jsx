@@ -19,9 +19,9 @@ const ModulePaymentOrderSummary = ({ ecomerce, shipping }) => {
     amount = calculateAmount(products);
     listItemsView = products.map((item, index) => (
       <div key={index} className="cart-items">
-        <strong>
+        <span>
           {item.title} <span>x{item.quantity}</span>
-        </strong>
+        </span>
         <small>
           <img src="/static/icons/currency-bdt.svg" alt="bdt" />{" "}
           {item.quantity * item.price}

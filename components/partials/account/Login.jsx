@@ -1,61 +1,55 @@
-import { Form, Input } from 'antd'
-import { connect, useDispatch } from 'react-redux'
-import { useCookies } from 'react-cookie'
-
-import Link from 'next/link'
-
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-
-import { loginSuccess } from '~/store/auth/action'
-
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import { Form, Input } from "antd";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import { useCookies } from "react-cookie";
+import { connect, useDispatch } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import { loginSuccess } from "~/store/auth/action";
 
 const Login = ({ auth }) => {
-  console.log(auth)
-  const router = useRouter()
-  const dispatch = useDispatch()
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-  const [authCookie, setAuthCookie] = useCookies(['auth'])
+  const [authCookie, setAuthCookie] = useCookies(["auth"]);
 
-  const [phone, setPhone] = useState('01776967480')
-  const [password, setPassword] = useState('')
+  const [phone, setPhone] = useState("01776967480");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
-    var formdata = new FormData()
-    formdata.append('customer_mobile', phone)
-    formdata.append('password', password)
+    var formdata = new FormData();
+    formdata.append("customer_mobile", phone);
+    formdata.append("password", password);
 
     var requestOptions = {
-      method: 'POST',
+      method: "POST",
       body: formdata,
-      redirect: 'follow',
-    }
+      redirect: "follow",
+    };
 
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result)
+        console.log(result);
         if (result.response_status === 0) {
-          toast.error(result.message)
+          toast.error(result.message);
         }
         if (result.response_status === 200) {
-          toast.success('Login successful')
-          setAuthCookie('auth', result.data.customer_id, { path: '/' })
+          toast.success("Login successful");
+          setAuthCookie("auth", result.data.customer_id, { path: "/" });
           setTimeout(() => {
-            dispatch(loginSuccess())
-            router.push('/')
-          }, 3000)
+            dispatch(loginSuccess());
+            router.push("/");
+          }, 3000);
         }
       })
-      .catch((error) => console.log('error', error))
-  }
+      .catch((error) => console.log("error", error));
+  };
 
   return (
-    <div className='ps-my-account'>
+    <div className="ps-my-account">
       <ToastContainer
-        position='top-right'
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -65,77 +59,77 @@ const Login = ({ auth }) => {
         draggable={false}
         pauseOnHover={false}
       />
-      <div className='container'>
-        <Form className='ps-form--account'>
-          <ul className='ps-tab-list'>
-            <li className='active'>
-              <Link href='/account/login'>
+      <div className="container">
+        <Form className="ps-form--account">
+          <ul className="ps-tab-list">
+            <li className="active">
+              <Link href="/account/login">
                 <a>Login</a>
               </Link>
             </li>
             <li></li>
           </ul>
-          <div className='ps-tab active pb-4' id='sign-in'>
-            <div className='ps-form__content'>
+          <div className="ps-tab active pb-4" id="sign-in">
+            <div className="ps-form__content">
               <h5>Log In Your Account</h5>
-              <div className='form-group'>
+              <div className="form-group">
                 <Form.Item
-                  name='username'
+                  name="username"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your phone number!',
+                      message: "Please input your phone number!",
                     },
                   ]}
                 >
                   <Input
-                    className='form-control'
-                    type='text'
-                    placeholder='Phone Number'
+                    className="form-control"
+                    type="text"
+                    placeholder="Phone Number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                   />
                 </Form.Item>
               </div>
-              <div className='form-group form-forgot'>
+              <div className="form-group form-forgot">
                 <Form.Item
-                  name='password'
+                  name="password"
                   rules={[
                     {
                       required: true,
-                      message: 'Please input your password!',
+                      message: "Please input your password!",
                     },
                   ]}
                 >
                   <Input
-                    className='form-control'
-                    type='password'
-                    placeholder='Password...'
+                    className="form-control"
+                    type="password"
+                    placeholder="Password..."
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Item>
               </div>
-              <div className='form-group d-flex justify-content-between'>
-                <div className='ps-checkbox'>
+              <div className="form-group d-flex justify-content-between">
+                <div className="ps-checkbox">
                   <input
-                    className='form-control'
-                    type='checkbox'
-                    id='remember-me'
-                    name='remember-me'
+                    className="form-control"
+                    type="checkbox"
+                    id="remember-me"
+                    name="remember-me"
                   />
-                  <label htmlFor='remember-me'>Rememeber me</label>
+                  <label htmlFor="remember-me">Rememeber me</label>
                 </div>
-                <div className='ps-checkbox'>
-                  <Link href='/account/forget-password'>
+                <div className="ps-checkbox">
+                  <Link href="/account/forget-password">
                     <a>Forget Password</a>
                   </Link>
                 </div>
               </div>
-              <div className='form-group submit'>
+              <div className="form-group submit">
                 <button
-                  type='submit'
-                  className='ps-btn ps-btn--fullwidth'
+                  type="submit"
+                  className="ps-btn ps-btn--fullwidth"
                   onClick={handleSubmit}
                 >
                   Login
@@ -146,7 +140,7 @@ const Login = ({ auth }) => {
         </Form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default connect((state) => state)(Login)
+export default connect((state) => state)(Login);
