@@ -2,7 +2,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Form, Modal, Spin } from "antd";
 import { remove } from "js-cookie";
 import Link from "next/link";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect, useDispatch } from "react-redux";
@@ -13,6 +13,7 @@ import { calculateAmount } from "~/utilities/ecomerce-helpers";
 
 const FormCheckoutInformation = ({ ecomerce }) => {
   const dispatch = useDispatch();
+  const Router = useRouter();
   const [authCookie, removeCookie] = useCookies(["auth", "cart"]);
   const [setCookie] = useCookies(["amnt"]);
   const { products, getProducts } = useEcomerce();
@@ -248,7 +249,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     );
     const data = await response.json();
 
-    if (response_status === 0) {
+    if (data.response_status === 0) {
       toast.error(data.message);
     } else if (data?.response_status === 200) {
       toast.success("Your order has been placed successfully!");
@@ -259,6 +260,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       setSubmitted(false);
       setSubmitSuccess(!isSubmitSuccess);
       setAgreeWithTerms(false);
+      Router.push("/account/invoices");
     }
   };
 
