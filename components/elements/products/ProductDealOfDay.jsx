@@ -29,7 +29,6 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
       Router.push("/account/shopping-cart");
     }, 1000);
   }
-  console.log("product", product);
 
   return (
     <div className="ps-product ps-product--inner">

@@ -24,6 +24,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
   const handleConfirmOrder = () => {
     if (authCookie.auth !== undefined && authCookie.auth !== "") {
       Router.push("/account/checkout");
+      return;
     }
     Router.push("/account/login");
   };

@@ -5,6 +5,7 @@ const PaymentMethods = () => {
   const [authCookie] = useCookies(["auth"]);
   const [paymentLists, setPaymentLists] = useState([]);
   const [paymentCode, setPaymentCode] = useState("");
+  const [bankPayment, setBankPayment] = useState(false);
 
   useEffect(() => {
     const getPaymentMethodLists = async () => {

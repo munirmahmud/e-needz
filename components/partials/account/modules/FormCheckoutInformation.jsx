@@ -1,18 +1,22 @@
 import { LoadingOutlined } from "@ant-design/icons";
 import { Form, Modal, Spin } from "antd";
+import { remove } from "js-cookie";
 import Link from "next/link";
 import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import useEcomerce from "~/hooks/useEcomerce";
+import { setCartItems } from "~/store/ecomerce/action";
 import { calculateAmount } from "~/utilities/ecomerce-helpers";
 
 const FormCheckoutInformation = ({ ecomerce }) => {
-  const [authCookie] = useCookies(["auth"]);
+  const dispatch = useDispatch();
+  const [authCookie, removeCookie] = useCookies(["auth", "cart"]);
   const [setCookie] = useCookies(["amnt"]);
   const { products, getProducts } = useEcomerce();
+  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const [values, setValues] = useState({
     recipientName: "",
@@ -31,7 +35,8 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   const [isLoading, setLoading] = useState(false);
   const [reRender, setReRender] = useState(false);
   const [agreeWithTerms, setAgreeWithTerms] = useState(false);
-  const [selectAddress, setSelectAddress] = useState("");
+  const [isSubmitted, setSubmitted] = useState(false);
+  const [isSubmitSuccess, setSubmitSuccess] = useState(false);
 
   let amount;
   if (products && products?.length > 0) {
@@ -64,7 +69,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     };
 
     getCustomerAddress();
-  }, [reRender]);
+  }, [reRender, isSubmitSuccess]);
 
   const handleLoginSubmit = () => {
     Router.push("/account/shipping");
@@ -184,10 +189,17 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     }
   };
 
-  const handleConfirmOrder = async (e) => {
-    let formData = new FormData();
+  const getPrimaryAddress = addresses?.find((item) => item.is_primary === "1");
 
+  const [selectedAddress, setSelectedAddress] = useState("");
+
+  const handleConfirmOrder = async (e) => {
+    setSubmitted(true);
+    const payment_method = localStorage.getItem("p_code");
+    const address = selectedAddress || getPrimaryAddress.address_id;
+    let formData = new FormData();
     let newItems = [];
+
     const cartItems = authCookie?.cart?.map((item) => {
       newItems.push({
         product_id: item.id,
@@ -196,10 +208,34 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       });
     });
 
-    const payment_method = localStorage.getItem("p_code");
+    if (!authCookie.auth && authCookie.auth !== undefined) {
+      toast.error("Please login first & then confirm order");
+      setSubmitted(false);
+      return;
+    } else if (!address) {
+      toast.error("Please select your address");
+      setSubmitted(false);
+      return;
+    } else if (!agreeWithTerms) {
+      toast.error("You are not agreed yet with our terms & conditions.");
+      setSubmitted(false);
+      return;
+    } else if (payment_method === undefined && payment_method === "") {
+      toast.error("Please select your payment method");
+      setSubmitted(false);
+      return;
+    } else if (payment_method === "") {
+      toast.error("Please select your payment method");
+      setSubmitted(false);
+      return;
+    } else if (cartItems === undefined) {
+      toast.error("No items in your cart");
+      setSubmitted(false);
+      return;
+    }
 
     formData.append("customer_id", authCookie.auth);
-    formData.append("address_id", selectAddress);
+    formData.append("address_id", address);
     formData.append("cart_details", JSON.stringify(newItems));
     formData.append("payment_method", payment_method);
 
@@ -212,13 +248,19 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     );
     const data = await response.json();
 
-    if (data?.response_status === 200) {
+    if (response_status === 0) {
+      toast.error(data.message);
+    } else if (data?.response_status === 200) {
+      toast.success("Your order has been placed successfully!");
       setAddresses(data?.data?.address_list);
+      localStorage.removeItem("p_code");
+      remove("cart");
+      dispatch(setCartItems([]));
+      setSubmitted(false);
+      setSubmitSuccess(!isSubmitSuccess);
+      setAgreeWithTerms(false);
     }
   };
-
-  const getPrimaryAddress = addresses?.find((item) => item.is_primary === "1");
-  const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   return (
     <>
@@ -230,7 +272,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
           aria-label="Customer Address"
           name="address"
           style={{ flex: 1 }}
-          onChange={(e) => setSelectAddress(e.target.value)}
+          onChange={(e) => setSelectedAddress(e.target.value)}
         >
           {addresses?.length > 0 &&
             addresses.map((item) => (
@@ -388,7 +430,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
             type="button"
             onClick={handleConfirmOrder}
             className="ps-btn btn-small"
-            disabled={!agreeWithTerms}
+            disabled={!agreeWithTerms || isSubmitted}
           >
             Confirm Order
           </button>
