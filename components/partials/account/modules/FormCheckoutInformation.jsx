@@ -34,7 +34,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   const [selectAddress, setSelectAddress] = useState("");
 
   let amount;
-  if (products && products.length > 0) {
+  if (products && products?.length > 0) {
     amount = calculateAmount(products);
   }
 
@@ -185,14 +185,24 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   };
 
   const handleConfirmOrder = async (e) => {
-    // localStorage.setItem("amnt", amount);
-
     let formData = new FormData();
+
+    let newItems = [];
+    const cartItems = authCookie?.cart?.map((item) => {
+      newItems.push({
+        product_id: item.id,
+        campaign_id: item.campaign_id,
+        qty: item.quantity,
+      });
+    });
+
+    const payment_method = localStorage.getItem("p_code");
 
     formData.append("customer_id", authCookie.auth);
     formData.append("address_id", selectAddress);
-    formData.append("cart_details", authCookie.cart);
+    formData.append("cart_details", JSON.stringify(newItems));
     formData.append("payment_method", payment_method);
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/submit_checkout`,
       {
@@ -202,9 +212,9 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     );
     const data = await response.json();
 
-    // if (data?.response_status === 200) {
-    //   setAddresses(data?.data?.address_list);
-    // }
+    if (data?.response_status === 200) {
+      setAddresses(data?.data?.address_list);
+    }
   };
 
   const getPrimaryAddress = addresses?.find((item) => item.is_primary === "1");
@@ -222,7 +232,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
           style={{ flex: 1 }}
           onChange={(e) => setSelectAddress(e.target.value)}
         >
-          {addresses.length > 0 &&
+          {addresses?.length > 0 &&
             addresses.map((item) => (
               <option key={item.address_id} value={item.address_id}>
                 {item.address}
@@ -285,10 +295,10 @@ const FormCheckoutInformation = ({ ecomerce }) => {
               onClick={handleDivision}
               onChange={getDivision}
             >
-              {divisions.length === 0 && (
+              {divisions?.length === 0 && (
                 <option value="0">Select Division</option>
               )}
-              {divisions.length > 0 &&
+              {divisions?.length > 0 &&
                 divisions.map((division) => (
                   <option key={division.id} value={division.id}>
                     {division.name}
