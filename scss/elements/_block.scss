@@ -3319,6 +3319,18 @@
       margin-bottom: 0.4rem;
     }
   }
+  .btns-wrapper {
+    button {
+      font-size: 12px;
+
+      &:first-child {
+        border-color: #fd8b0136;
+        border: 1px solid #ff4d4f42;
+        background: #ff4d4f42;
+        color: #000;
+      }
+    }
+  }
 }
 
 .ps-block--checkout-order {

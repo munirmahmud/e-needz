@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import TableOrdersItems from "~/components/dashboard/TableOrdersItems";
 import { toggleDrawerMenu } from "~/store/app/action";
@@ -12,6 +13,7 @@ const Invoices = () => {
   const [offset, setOffset] = useState(0);
   const [spliceNO, setSpliceNO] = useState(10);
   const [err, setErr] = useState(false);
+  const [authCookie] = useCookies(["auth"]);
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -19,7 +21,7 @@ const Invoices = () => {
 
   useEffect(() => {
     var formdata = new FormData();
-    formdata.append("customer_id", "1508"); /** It has to be dynamic */
+    formdata.append("customer_id", authCookie.auth); /** It has to be dynamic */
 
     var requestOptions = {
       method: "POST",
@@ -33,7 +35,6 @@ const Invoices = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("manage order", result);
         if (result.response_status === 200) {
           setUsrOrderItems(result.data);
           setUsrOrderItemsSpliced(result.data);
@@ -43,12 +44,12 @@ const Invoices = () => {
         }
       })
       .catch((error) => console.log("error", error));
-  }, []);
+  }, [authCookie.auth]);
 
   useEffect(() => {
     if (usrOrderItems.length > 0) {
       const temps = usrOrderItems.map((data, index) => {
-        if (index > offset && index < spliceNO) return data;
+        if (index >= offset && index < spliceNO) return data;
       });
       setUsrOrderItemsSpliced(temps);
     }
@@ -109,7 +110,6 @@ const Invoices = () => {
                     usrOrderItems={usrOrderItemsSpliced}
                     err={err}
                   />
-                  ;
                   {/* <TableInvoices
                     usrOrderItems={usrOrderItemsSpliced}
                     err={err}

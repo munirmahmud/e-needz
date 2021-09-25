@@ -25,6 +25,7 @@ import { wrapper } from "~/store/store";
 function App({ Component, pageProps }) {
   const [authCookie] = useCookies(["auth"]);
   const dispatch = useDispatch();
+
   useEffect(() => {
     setTimeout(function () {
       document.getElementById("__next").classList.add("loaded");

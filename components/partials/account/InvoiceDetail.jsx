@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import TrackOrders from "~/pages/account/invoice-details/TrackOrders";
 import ProductCart from "../../elements/products/ProductCart";
 import AccountMenuSidebar from "./modules/AccountMenuSidebar";
@@ -9,7 +10,6 @@ const InvoiceDetail = () => {
   const Router = useRouter();
   const { pid } = Router.query;
   const [orderInfo, setOrderInfo] = useState([]);
-  const [products, setProducts] = useState([]);
 
   const getOrderDetails = async () => {
     let formData = new FormData();
@@ -27,22 +27,32 @@ const InvoiceDetail = () => {
     let newProduct = {};
     if (apiData?.response_status === 200) {
       setOrderInfo(apiData.data);
-
-      // apiData?.data?.product_information.map((product) => {
-      //   newProduct = {
-      //     id: product.product_id,
-      //     title: product.title,
-      //   };
-      // });
-      // setProducts([...products, newProduct]);
     }
-
-    console.log("details_order", apiData);
   };
 
   useEffect(() => {
     getOrderDetails();
   }, [pid]);
+
+  const handleCancelOrder = async () => {
+    let formData = new FormData();
+
+    formData.append("order_id", pid);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/cancel_order`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const apiData = await response.json();
+
+    if (apiData.response_status === 200) {
+      toast.success(apiData.message);
+    } else {
+      toast.error(apiData.message);
+    }
+  };
 
   const accountLinks = [
     {
@@ -77,42 +87,6 @@ const InvoiceDetail = () => {
       icon: "icon-papers",
     },
   ];
-  const invoiceProducts = [
-    {
-      id: "6",
-      thumbnail: "/static/img/products/shop/5.jpg",
-      title: "Grand Slam Indoor Of Show Jumping Novel",
-      vendor: "Robert's Store",
-      sale: true,
-      price: "32.99",
-      salePrice: "41.00",
-      rating: true,
-      ratingCount: "4",
-      badge: [
-        {
-          type: "sale",
-          value: "-37%",
-        },
-      ],
-    },
-    {
-      id: "7",
-      thumbnail: "/static/img/products/shop/6.jpg",
-      title: "Sound Intone I65 Earphone White Version",
-      vendor: "Youngshop",
-      sale: true,
-      price: "100.99",
-      salePrice: "106.00",
-      rating: true,
-      ratingCount: "5",
-      badge: [
-        {
-          type: "sale",
-          value: "-5%",
-        },
-      ],
-    },
-  ];
 
   return (
     <section className="ps-my-account ps-page--account">
@@ -126,11 +100,18 @@ const InvoiceDetail = () => {
           <div className="col-lg-9">
             <div className="ps-page__content">
               <div className="ps-section--account-setting">
-                <div className="ps-section__header">
+                <div className="ps-section__header d-flex align-items-center justify-content-between">
                   <h3>
                     Invoice No #{pid}
                     {/* -<strong>Successful delivery</strong> */}
                   </h3>
+                  <button
+                    className="ps-btn btn-small"
+                    type="button"
+                    onClick={handleCancelOrder}
+                  >
+                    Cancel Order
+                  </button>
                 </div>
                 <div className="ps-section__content">
                   <div className="row">
@@ -189,7 +170,7 @@ const InvoiceDetail = () => {
                     </div>
                     <div className="col-md-4 col-12">
                       <figure className="ps-block--invoice">
-                        <figcaption>Ordered To</figcaption>
+                        <figcaption>Bills To</figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>
                           <p>
@@ -202,6 +183,14 @@ const InvoiceDetail = () => {
                           <p>
                             <strong>Email:</strong> {orderInfo?.customer_email}
                           </p>
+                        </div>
+                        <div className="btns-wrapper mt-4 d-flex ">
+                          <button className="ps-btn btn-small mr-3">
+                            Report an issue
+                          </button>
+                          <button className="ps-btn btn-black btn-small">
+                            Check Existing Issues
+                          </button>
                         </div>
                       </figure>
                     </div>
@@ -237,13 +226,13 @@ const InvoiceDetail = () => {
                     </table>
                   </div>
                   <Link href="/account/invoices">
-                    <a className="ps-btn ps-btn--sm ">Back to invoices</a>
+                    <a className="ps-btn ps-btn--sm">Back to invoices</a>
                   </Link>
                 </div>
               </div>
             </div>
 
-            <TrackOrders />
+            <TrackOrders order_id={orderInfo?.order_id} />
           </div>
         </div>
       </div>
