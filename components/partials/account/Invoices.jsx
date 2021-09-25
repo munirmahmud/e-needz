@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import TableOrdersItems from "~/components/dashboard/TableOrdersItems";
+import { toggleDrawerMenu } from "~/store/app/action";
 import AccountMenuSidebar from "./modules/AccountMenuSidebar";
-import TableInvoices from "./modules/TableInvoices";
 
 const Invoices = () => {
+  const dispatch = useDispatch();
   const [usrOrderItems, setUsrOrderItems] = useState([]);
   const [usrOrderItemsSpliced, setUsrOrderItemsSpliced] = useState([]);
   const [len, setLen] = useState(0);
   const [offset, setOffset] = useState(0);
   const [spliceNO, setSpliceNO] = useState(10);
   const [err, setErr] = useState(false);
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -27,11 +28,12 @@ const Invoices = () => {
     };
 
     fetch(
-      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/manage_order`, /** @TODO Change this into .env file */,
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/manage_order`,
       requestOptions
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log("manage order", result);
         if (result.response_status === 200) {
           setUsrOrderItems(result.data);
           setUsrOrderItemsSpliced(result.data);
@@ -85,6 +87,7 @@ const Invoices = () => {
       icon: "icon-papers",
     },
   ];
+
   return (
     <section className="ps-my-account ps-page--account">
       <div className="ps-container">
@@ -95,14 +98,22 @@ const Invoices = () => {
             </div>
           </div>
 
-          <div className="col-lg-7">
+          <div className="col-lg-9">
             <div className="ps-page__content">
               <div className="ps-section--account-setting">
                 <div className="ps-section__header">
                   <h3>Invoices</h3>
                 </div>
                 <div className="ps-section__content">
-                  <TableInvoices />
+                  <TableOrdersItems
+                    usrOrderItems={usrOrderItemsSpliced}
+                    err={err}
+                  />
+                  ;
+                  {/* <TableInvoices
+                    usrOrderItems={usrOrderItemsSpliced}
+                    err={err}
+                  /> */}
                 </div>
               </div>
             </div>

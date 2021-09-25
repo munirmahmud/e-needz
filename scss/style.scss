@@ -86,37 +86,7 @@
 /*5. HELPERS */
 @import "elements/helpers";
 
-// Dashboard CSS
-// @import "dashboard-styles/utilies/mixin";
-// @import "dashboard-styles/vendor/media_query";
-// @import "dashboard-styles/vendor/bourbon/bourbon";
-
-// @import "dashboard-styles/utilies/settings";
-
-// @import "dashboard-styles/base/typhography";
-// @import "dashboard-styles/elements/grid";
-// @import "dashboard-styles/elements/button";
-// @import "dashboard-styles/elements/form";
-// @import "dashboard-styles/elements/pagination";
-// @import "dashboard-styles/elements/block";
-
-// @import "dashboard-styles/elements/panel";
-// @import "dashboard-styles/elements/filter";
-// @import "dashboard-styles/elements/table";
-// @import "dashboard-styles/elements/dropdown";
-// @import "dashboard-styles/elements/loader";
-
-// @import "dashboard-styles/components/forms";
-// @import "dashboard-styles/components/section";
-// @import "dashboard-styles/components/pages";
-// @import "dashboard-styles/components/menu";
-
-// @import "dashboard-styles/modules/header";
-// @import "dashboard-styles/modules/footer";
-
-// @import "dashboard-styles/elements/helpers";
-// @import "dashboard-styles/base/custom";
-
 // Custom CSS
+@import "components/timeline";
 @import "react/custom";
 @import "custom";

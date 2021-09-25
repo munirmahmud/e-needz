@@ -3314,6 +3314,11 @@
     color: $color-heading;
     border-bottom: 1px solid #eaeaea;
   }
+  .ps-block__content {
+    p {
+      margin-bottom: 0.4rem;
+    }
+  }
 }
 
 .ps-block--checkout-order {
