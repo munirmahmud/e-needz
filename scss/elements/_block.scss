@@ -3314,12 +3314,48 @@
     color: $color-heading;
     border-bottom: 1px solid #eaeaea;
   }
+  .ps-block__content {
+    p {
+      margin-bottom: 0.4rem;
+    }
+  }
+  .btns-wrapper {
+    button {
+      font-size: 12px;
+
+      &:first-child {
+        border-color: #fd8b0136;
+        border: 1px solid #ff4d4f42;
+        background: #ff4d4f42;
+        color: #000;
+      }
+    }
+  }
 }
 
 .ps-block--checkout-order {
+  .cart-items {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+
+    span {
+      color: #8b8b8b;
+
+      span {
+        color: #666666;
+      }
+    }
+
+    small {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   figure {
-    margin-bottom: 25px;
-    padding-bottom: 25px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
     border-bottom: 1px solid #eaeaea;
 
     figcaption {
@@ -3392,7 +3428,7 @@
     margin-bottom: 10px;
     border-radius: 4px;
     background-color: #fff;
-    border: 2px solid #eaeaea;
+    // border: 2px solid #eaeaea;
   }
 
   .ps-block__payment-methods {

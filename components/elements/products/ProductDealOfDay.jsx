@@ -40,11 +40,15 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
           <a>{thumbnailImage(product)}</a>
         </Link>
         {/* {badge(product)} */}
-        {product.on_sale === "1" && (
+        {product.on_sale === "0" && (
           <small className="product-offer-badge">
             off ৳ {product.discount_amount}
           </small>
         )}
+        {/* {product.discount_percent === "1" && ( */}
+        <small className="product-offer-badge discount">10% Off</small>
+        {/* )} */}
+
         <ModuleProductActions product={product} />
       </div>
       <div className="ps-product__container">
@@ -80,6 +84,7 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             onClick={() => {
               handleBuynow();
             }}
+            disabled={product.quantity === "0"}
           >
             Buy Now
           </button>
