@@ -112,23 +112,6 @@ const TrackOrders = ({ order_id }) => {
                       <p>{dateTimeFormatter(track.date)}</p>
                     </figure>
                   ))}
-
-                <figure className="active">
-                  <figcaption>Packed</figcaption>
-                  <p>
-                    Sep 19, 2020 <small>10:00am</small>
-                  </p>
-                </figure>
-                <figure className="active">
-                  <figcaption>Shipped</figcaption>
-                  <p>
-                    Sep 19, 2020 <small>4:00pm</small>
-                  </p>
-                </figure>
-                <figure>
-                  <figcaption>Delivered</figcaption>
-                  <p>Estimated delivery within 1 day</p>
-                </figure>
               </div>
             </div>
           </div>

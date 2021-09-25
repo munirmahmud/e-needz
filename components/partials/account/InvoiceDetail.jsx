@@ -1,6 +1,8 @@
+import { Modal } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import TrackOrders from "~/pages/account/invoice-details/TrackOrders";
 import ProductCart from "../../elements/products/ProductCart";
@@ -10,6 +12,29 @@ const InvoiceDetail = () => {
   const Router = useRouter();
   const { pid } = Router.query;
   const [orderInfo, setOrderInfo] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
+  const [issueType, setIssueType] = useState([]);
+  const [issueID, setIssueID] = useState("");
+  const [authCookie] = useCookies(["auth"]);
+  const [issueItems, setIssueItems] = useState({
+    issue_type: "",
+    description: "",
+    attachment: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setIssueItems({ ...issueItems, [name]: value });
+  };
+
+  const setModal1Visible = () => {
+    setOpenModal(true);
+  };
+
+  const setModal2Visible = () => {
+    setOpenModal(false);
+  };
 
   const getOrderDetails = async () => {
     let formData = new FormData();
@@ -52,6 +77,52 @@ const InvoiceDetail = () => {
     } else {
       toast.error(apiData.message);
     }
+  };
+
+  const handleOpenModal = async () => {
+    setOpenModal(true);
+    let formData = new FormData();
+
+    formData.append("customer_id", authCookie.auth);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issuetype_list`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const apiData = await response.json();
+
+    if (apiData.response_status === 200) {
+      setIssueType(apiData.data);
+    } else {
+      toast.error(apiData.message);
+    }
+  };
+
+  const handleSubmitIssue = () => {
+    let formData = new FormData();
+
+    // formData.append("issueType_id", authCookie.auth);
+    // formData.append("order_id", authCookie.auth);
+    // formData.append("details", authCookie.auth);
+    // formData.append("submited_by", authCookie.auth);
+    // formData.append("action", authCookie.auth);
+    // formData.append("attachment", authCookie.auth);
+    // const response = await fetch(
+    //   `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   }
+    // );
+    // const apiData = await response.json();
+
+    // if (apiData.response_status === 200) {
+    //   setIssueType(apiData.data);
+    // } else {
+    //   toast.error(apiData.message);
+    // }
   };
 
   const accountLinks = [
@@ -115,7 +186,7 @@ const InvoiceDetail = () => {
                 </div>
                 <div className="ps-section__content">
                   <div className="row">
-                    <div className="col-md-4 col-12">
+                    <div className="col-md-7 col-12">
                       <figure className="ps-block--invoice">
                         <figcaption>Ordered From</figcaption>
                         <div className="ps-block__content">
@@ -144,7 +215,7 @@ const InvoiceDetail = () => {
                         </div>
                       </figure>
                     </div>
-                    <div className="col-md-4 col-12">
+                    {/* <div className="col-md-4 col-12">
                       <figure className="ps-block--invoice">
                         <figcaption>Ordered Info</figcaption>
                         <div className="ps-block__content">
@@ -167,8 +238,8 @@ const InvoiceDetail = () => {
                           </p>
                         </div>
                       </figure>
-                    </div>
-                    <div className="col-md-4 col-12">
+                    </div> */}
+                    <div className="col-md-5 col-12">
                       <figure className="ps-block--invoice">
                         <figcaption>Bills To</figcaption>
                         <div className="ps-block__content">
@@ -185,7 +256,10 @@ const InvoiceDetail = () => {
                           </p>
                         </div>
                         <div className="btns-wrapper mt-4 d-flex ">
-                          <button className="ps-btn btn-small mr-3">
+                          <button
+                            className="ps-btn btn-small mr-3"
+                            onClick={handleOpenModal}
+                          >
                             Report an issue
                           </button>
                           <button className="ps-btn btn-black btn-small">
@@ -236,6 +310,51 @@ const InvoiceDetail = () => {
           </div>
         </div>
       </div>
+
+      <Modal
+        title="Submit an issue"
+        style={{ top: 20 }}
+        centered
+        visible={openModal}
+        onOk={() => setOpenModal(false)}
+        onCancel={() => setOpenModal(false)}
+      >
+        <div className="form-group">
+          <label htmlFor="issue_type">Issue Type</label>
+          <select
+            name="issue_type"
+            placeholder="Select Issue Type"
+            id="issue_type"
+            className="form-control"
+            defaultValue={issueID}
+            onChange={handleChange}
+          >
+            {issueType.length &&
+              issueType.map((issue, index) => (
+                <option value={issue.issueType_id}>{issue.type_name}</option>
+              ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Description</label>
+          <textarea
+            name="description"
+            id="description"
+            cols="30"
+            rows="2"
+            className="form-control"
+          ></textarea>
+        </div>
+        <div className="form-group">
+          <label htmlFor="attachment" className="sr-only">
+            Attachment
+          </label>
+          <input type="file" id="attachment" className="form-control" />
+        </div>
+        <button className="ps-btn" type="button" onClick={handleSubmitIssue}>
+          Submit
+        </button>
+      </Modal>
     </section>
   );
 };
