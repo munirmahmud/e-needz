@@ -580,3 +580,58 @@ button.ps-btn:disabled {
     }
   }
 }
+
+.issues-wrapper {
+  .issue {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 16px;
+    cursor: pointer;
+    padding-top: 16px;
+    cursor: pointer;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+    &:last-child {
+      border-bottom: 0px solid transparent;
+    }
+  }
+  .issue-status {
+    width: 55px;
+    height: 55px;
+    border-radius: 3px;
+    background-color: rgb(164, 224, 164);
+  }
+  .issue-details {
+    width: 100%;
+
+    h5 {
+      margin-bottom: 5px;
+    }
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.badge-btn {
+  padding: 3px 12px;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.alert-error {
+  background-color: rgb(253, 237, 237);
+  color: rgb(95, 33, 32);
+}
+.alert-warning {
+  background-color: rgb(255, 244, 229);
+  color: rgb(102, 60, 0);
+}
+.alert-info {
+  background-color: rgb(229, 246, 253);
+  color: rgb(1, 67, 97);
+}
+.alert-success {
+  background-color: rgb(237, 247, 237);
+  color: rgb(30, 70, 32);
+}
