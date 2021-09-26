@@ -2,7 +2,6 @@ import Link from "next/link";
 import React from "react";
 
 const TableOrdersItems = ({ usrOrderItems, err }) => {
-  console.log("usrOrderItems", usrOrderItems);
   const tableItemsView = usrOrderItems.map((item, index) => {
     if (item === undefined) return;
 
