@@ -27,6 +27,10 @@ const InvoiceDetail = () => {
   const [isIssueDetails, setIsIssueDetails] = useState(false);
   const [issueDetails, setIssueDetails] = useState({});
 
+  const [customerComment, setCustomerComment] = useState("");
+  const [isSubmittedComment, setSubmittedComment] = useState(false);
+  const [issueComments, setIssueComments] = useState([]);
+
   const [issueItems, setIssueItems] = useState({
     issue_type: "",
     description: "",
@@ -177,8 +181,6 @@ const InvoiceDetail = () => {
   };
 
   const handleIssueDetails = async (e) => {
-    console.log(e.currentTarget.dataset.issueid);
-
     const formData = new FormData();
 
     formData.append("issue_id", e.currentTarget.dataset.issueid);
@@ -197,14 +199,43 @@ const InvoiceDetail = () => {
     if (result.response_status === 200) {
       setIsIssueDetails(true);
       setIssueDetails(result.data);
+      setIssueComments(result.data.comment);
     } else {
       toast.error(result.message);
     }
   };
 
   const getBackToIssues = (e) => {
-    console.log(e.currentTarget);
     setIsIssueDetails(false);
+  };
+
+  const handleSubmitComment = async () => {
+    setSubmittedComment(true);
+    const formData = new FormData();
+
+    formData.append("issueType_id", issueDetails.issueType_id);
+    formData.append("order_id", pid);
+    formData.append("issue_id", issueDetails.issue_id);
+    formData.append("details", customerComment);
+    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("action", 2);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+    console.log("comment", result);
+
+    if (result.response_status === 200) {
+      setCustomerComment("");
+      setSubmittedComment(false);
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const accountLinks = [
@@ -534,8 +565,22 @@ const InvoiceDetail = () => {
 
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
-                <p className="mb-2">Munir Mahmud - 26 Sep 2021, 11:37 AM</p>
-                <p>ha h a</p>
+
+                {console.log("issueComments", issueComments)}
+                <div className="comments-wrapper">
+                  {Array.isArray(issueComments) && issueComments.length > 0 ? (
+                    issueComments.map((comment) => (
+                      <div key={comment.msg} className="comment">
+                        <p className="mb-0">
+                          Munir Mahmud - 26 Sep 2021, 11:37 AM
+                        </p>
+                        <p>{comment.msg}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Sorry! No issues found</p>
+                  )}
+                </div>
 
                 <div className="form-group">
                   <label htmlFor="reply" className="sr-only">
@@ -547,9 +592,16 @@ const InvoiceDetail = () => {
                     cols="20"
                     rows="2"
                     className="form-control"
-                  ></textarea>
+                    value={customerComment}
+                    onChange={(e) => setCustomerComment(e.target.value)}
+                  />
                 </div>
-                <button type="button" className="ps-btn btn-small">
+                <button
+                  type="button"
+                  className="ps-btn btn-small"
+                  onClick={handleSubmitComment}
+                  disabled={isSubmittedComment}
+                >
                   Submit
                 </button>
               </div>

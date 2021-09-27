@@ -619,6 +619,12 @@ button.ps-btn:disabled {
     .issue-comments {
       background: #f4f4f4;
       padding: 25px;
+
+      .comment {
+        p {
+          font-size: 1.3rem;
+        }
+      }
     }
   }
 
