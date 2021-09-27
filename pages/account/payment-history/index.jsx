@@ -37,10 +37,17 @@ const PaymentHistory = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("payment_history", result);
         if (result.response_status === 200) {
           setPaymentHistory(result.data);
-          setPaymentHistorySpliced(result.data);
+
+          // Filter the array based on order_no
+          const unique = [
+            ...new Map(
+              result.data.map((item) => [item["order_no"], item])
+            ).values(),
+          ];
+
+          setPaymentHistorySpliced(unique);
           setLen(result.data.length);
 
           //   setUsrOrderItems(result.data);
@@ -97,7 +104,7 @@ const PaymentHistory = () => {
           <strong> {item.payment_id}</strong>
         </td>
         <td>
-          <strong> {item.order_id}</strong>
+          <strong> {item.order_no}</strong>
         </td>
         <td>
           <strong> {item.customer_name}</strong>
@@ -207,7 +214,7 @@ const PaymentHistory = () => {
                           <tr>
                             <th>ID</th>
                             <th>Payment ID</th>
-                            <th>Order ID</th>
+                            <th>Order No</th>
                             <th>Name</th>
                             <th>Amount</th>
                             <th>See Details</th>

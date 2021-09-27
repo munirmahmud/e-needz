@@ -24,6 +24,9 @@ const InvoiceDetail = () => {
   const [attachment, setAttachment] = useState(null);
   const [existingIssues, setExistingIssues] = useState([]);
 
+  const [isIssueDetails, setIsIssueDetails] = useState(false);
+  const [issueDetails, setIssueDetails] = useState({});
+
   const [issueItems, setIssueItems] = useState({
     issue_type: "",
     description: "",
@@ -151,7 +154,6 @@ const InvoiceDetail = () => {
       }
     );
     const apiData = await response.json();
-    console.log("issue_list", apiData);
 
     if (apiData.response_status === 200) {
       setExistingIssues(apiData.data);
@@ -174,8 +176,35 @@ const InvoiceDetail = () => {
     return issueStatus;
   };
 
-  const handleIssueDetails = (e) => {
-    console.log(issueDetailsRef.current);
+  const handleIssueDetails = async (e) => {
+    console.log(e.currentTarget.dataset.issueid);
+
+    const formData = new FormData();
+
+    formData.append("issue_id", e.currentTarget.dataset.issueid);
+    formData.append("order_id", pid);
+    formData.append("customer_id", authCookie.auth); //Customer ID
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_details`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+    console.log("iss details", result);
+
+    if (result.response_status === 200) {
+      setIsIssueDetails(true);
+      setIssueDetails(result.data);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  const getBackToIssues = (e) => {
+    console.log(e.currentTarget);
+    setIsIssueDetails(false);
   };
 
   const accountLinks = [
@@ -437,7 +466,16 @@ const InvoiceDetail = () => {
 
       {/* Modal for checking exisiting issues */}
       <Modal
-        title="Existing issues agains this order"
+        destroyOnClose={true}
+        title={
+          !isIssueDetails ? (
+            "Existing issues agains this order"
+          ) : (
+            <span className="go-back-issues issss" onClick={getBackToIssues}>
+              &larr;
+            </span>
+          )
+        }
         centered
         visible={openExistingIssueModal}
         onOk={() => setOpenExistingIssueModal(false)}
@@ -445,7 +483,8 @@ const InvoiceDetail = () => {
         footer={[]}
       >
         <div className="issues-wrapper">
-          {Array.isArray(existingIssues) &&
+          {!isIssueDetails ? (
+            Array.isArray(existingIssues) &&
             existingIssues.length > 0 &&
             existingIssues.map((issue, index) => (
               <div
@@ -465,7 +504,57 @@ const InvoiceDetail = () => {
                   <p>Issue: {issue.details}</p>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="issue issue-details-wrapper">
+              {/* <div className="issue-status mr-4"></div> */}
+              <div className="issue-details mb-4">
+                <div className="d-flex align-items-center justify-content-between">
+                  <span className="mb-2">{issueDetails?.date_time}</span>
+                  <button type="button" className="ps-btn ps-btn--sm">
+                    Mark as resolved
+                  </button>
+                </div>
+                <h5 className="mb-4">{issueDetails?.type_name}</h5>
+                <div className="mb-4">{getIssuesStatus(issueDetails)}</div>
+                <p>Description: {issueDetails.details}</p>
+              </div>
+              {/* {issueDetails?.attachment !== null && ( */}
+              <div className="attachment mt-5">
+                <p>Attachment: </p>
+                <a href={issueDetails.attachment} target="_blank">
+                  <img
+                    src={issueDetails.attachment}
+                    // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
+                    alt={issueDetails.type_name}
+                    width="120"
+                  />
+                </a>
+              </div>
+
+              <div className="issue-comments mt-5">
+                <h5 className="mb-2">Replies</h5>
+                <p className="mb-2">Munir Mahmud - 26 Sep 2021, 11:37 AM</p>
+                <p>ha h a</p>
+
+                <div className="form-group">
+                  <label htmlFor="reply" className="sr-only">
+                    Customer Reply
+                  </label>
+                  <textarea
+                    name="reply"
+                    id="reply"
+                    cols="20"
+                    rows="2"
+                    className="form-control"
+                  ></textarea>
+                </div>
+                <button type="button" className="ps-btn btn-small">
+                  Submit
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </Modal>
     </section>

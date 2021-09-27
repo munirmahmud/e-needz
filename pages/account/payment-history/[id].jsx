@@ -96,7 +96,7 @@ const PaymentHistoryDetails = () => {
               <div className="row">
                 <div className="col-lg-3">
                   <div className="ps-page__left">
-                    <AccountMenuSidebar data={accountLinks} />
+                    <AccountMenuSidebar data={accountLinks} active />
                   </div>
                 </div>
                 <div className="col-lg-9">

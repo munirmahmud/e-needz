@@ -2,6 +2,21 @@ import Link from "next/link";
 import React from "react";
 
 const TableOrdersItems = ({ usrOrderItems, err }) => {
+  const getRemainingTime = (time) => {
+    const remainingTime = 2 * 60 * 1000;
+    let remainingOfferTime = new Date().getTime() + remainingTime;
+
+    if (remainingOfferTime <= new Date().getTime()) {
+      return "Time's Up";
+    }
+
+    // let timer = remainingOfferTime.toLocaleTimeString();
+    console.log(new Date(remainingOfferTime));
+  };
+
+  const timeee = setInterval(getRemainingTime, 1000);
+  // clearTimeout(timeee, 1000);
+
   const tableItemsView = usrOrderItems.map((item, index) => {
     if (item === undefined) return;
 
@@ -46,9 +61,11 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
           <strong>{item.total_amount}</strong>
         </td>
         <td>{badgeView}</td>
+        {/* 2 D 7 H 48 M 30 S */}
         <td>{item.remainingTime}</td>
+        {/* <td>{getRemainingTime(item.remainingTime)}</td> */}
 
-        <td>
+        <td className="p-0 text-center">
           <Link href={`/account/payment/${item.order_id}`}>
             <a className="ps-badge warning">Make Payment</a>
           </Link>
