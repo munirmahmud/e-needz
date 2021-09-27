@@ -595,6 +595,39 @@ button.ps-btn:disabled {
       border-bottom: 0px solid transparent;
     }
   }
+
+  .issue-details-wrapper {
+    cursor: default;
+    padding: 0;
+    &:hover {
+      background-color: transparent;
+    }
+
+    .attachment {
+      a {
+        border-color: transparent;
+        border-style: solid;
+        border-width: 1px;
+        display: inline-block;
+
+        &:hover {
+          border-color: $color-1st;
+        }
+      }
+    }
+
+    .issue-comments {
+      background: #f4f4f4;
+      padding: 25px;
+
+      .comment {
+        p {
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+
   .issue-status {
     width: 55px;
     height: 55px;
@@ -610,6 +643,13 @@ button.ps-btn:disabled {
     p {
       margin: 0;
     }
+  }
+}
+
+.ant-modal-header {
+  .go-back-issues {
+    cursor: pointer;
+    font-size: 25px;
   }
 }
 

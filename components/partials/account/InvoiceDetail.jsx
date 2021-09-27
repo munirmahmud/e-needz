@@ -24,6 +24,13 @@ const InvoiceDetail = () => {
   const [attachment, setAttachment] = useState(null);
   const [existingIssues, setExistingIssues] = useState([]);
 
+  const [isIssueDetails, setIsIssueDetails] = useState(false);
+  const [issueDetails, setIssueDetails] = useState({});
+
+  const [customerComment, setCustomerComment] = useState("");
+  const [isSubmittedComment, setSubmittedComment] = useState(false);
+  const [issueComments, setIssueComments] = useState([]);
+
   const [issueItems, setIssueItems] = useState({
     issue_type: "",
     description: "",
@@ -151,7 +158,6 @@ const InvoiceDetail = () => {
       }
     );
     const apiData = await response.json();
-    console.log("issue_list", apiData);
 
     if (apiData.response_status === 200) {
       setExistingIssues(apiData.data);
@@ -174,8 +180,62 @@ const InvoiceDetail = () => {
     return issueStatus;
   };
 
-  const handleIssueDetails = (e) => {
-    console.log(issueDetailsRef.current);
+  const handleIssueDetails = async (e) => {
+    const formData = new FormData();
+
+    formData.append("issue_id", e.currentTarget.dataset.issueid);
+    formData.append("order_id", pid);
+    formData.append("customer_id", authCookie.auth); //Customer ID
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_details`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+    console.log("iss details", result);
+
+    if (result.response_status === 200) {
+      setIsIssueDetails(true);
+      setIssueDetails(result.data);
+      setIssueComments(result.data.comment);
+    } else {
+      toast.error(result.message);
+    }
+  };
+
+  const getBackToIssues = (e) => {
+    setIsIssueDetails(false);
+  };
+
+  const handleSubmitComment = async () => {
+    setSubmittedComment(true);
+    const formData = new FormData();
+
+    formData.append("issueType_id", issueDetails.issueType_id);
+    formData.append("order_id", pid);
+    formData.append("issue_id", issueDetails.issue_id);
+    formData.append("details", customerComment);
+    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("action", 2);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+    console.log("comment", result);
+
+    if (result.response_status === 200) {
+      setCustomerComment("");
+      setSubmittedComment(false);
+      toast.success(result.message);
+    } else {
+      toast.error(result.message);
+    }
   };
 
   const accountLinks = [
@@ -437,7 +497,16 @@ const InvoiceDetail = () => {
 
       {/* Modal for checking exisiting issues */}
       <Modal
-        title="Existing issues agains this order"
+        destroyOnClose={true}
+        title={
+          !isIssueDetails ? (
+            "Existing issues agains this order"
+          ) : (
+            <span className="go-back-issues issss" onClick={getBackToIssues}>
+              &larr;
+            </span>
+          )
+        }
         centered
         visible={openExistingIssueModal}
         onOk={() => setOpenExistingIssueModal(false)}
@@ -445,7 +514,8 @@ const InvoiceDetail = () => {
         footer={[]}
       >
         <div className="issues-wrapper">
-          {Array.isArray(existingIssues) &&
+          {!isIssueDetails ? (
+            Array.isArray(existingIssues) &&
             existingIssues.length > 0 &&
             existingIssues.map((issue, index) => (
               <div
@@ -465,7 +535,78 @@ const InvoiceDetail = () => {
                   <p>Issue: {issue.details}</p>
                 </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="issue issue-details-wrapper">
+              {/* <div className="issue-status mr-4"></div> */}
+              <div className="issue-details mb-4">
+                <div className="d-flex align-items-center justify-content-between">
+                  <span className="mb-2">{issueDetails?.date_time}</span>
+                  <button type="button" className="ps-btn ps-btn--sm">
+                    Mark as resolved
+                  </button>
+                </div>
+                <h5 className="mb-4">{issueDetails?.type_name}</h5>
+                <div className="mb-4">{getIssuesStatus(issueDetails)}</div>
+                <p>Description: {issueDetails.details}</p>
+              </div>
+              {/* {issueDetails?.attachment !== null && ( */}
+              <div className="attachment mt-5">
+                <p>Attachment: </p>
+                <a href={issueDetails.attachment} target="_blank">
+                  <img
+                    src={issueDetails.attachment}
+                    // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
+                    alt={issueDetails.type_name}
+                    width="120"
+                  />
+                </a>
+              </div>
+
+              <div className="issue-comments mt-5">
+                <h5 className="mb-2">Replies</h5>
+
+                {console.log("issueComments", issueComments)}
+                <div className="comments-wrapper">
+                  {Array.isArray(issueComments) && issueComments.length > 0 ? (
+                    issueComments.map((comment) => (
+                      <div key={comment.msg} className="comment">
+                        <p className="mb-0">
+                          Munir Mahmud - 26 Sep 2021, 11:37 AM
+                        </p>
+                        <p>{comment.msg}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p>Sorry! No issues found</p>
+                  )}
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="reply" className="sr-only">
+                    Customer Reply
+                  </label>
+                  <textarea
+                    name="reply"
+                    id="reply"
+                    cols="20"
+                    rows="2"
+                    className="form-control"
+                    value={customerComment}
+                    onChange={(e) => setCustomerComment(e.target.value)}
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="ps-btn btn-small"
+                  onClick={handleSubmitComment}
+                  disabled={isSubmittedComment}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </Modal>
     </section>
