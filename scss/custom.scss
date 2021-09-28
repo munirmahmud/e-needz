@@ -653,10 +653,52 @@ button.ps-btn:disabled {
   }
 }
 
+.payments-wrapper {
+  padding: 0 25px 20px;
+  .payment-methods {
+    .payment-gateway {
+      padding: 20px;
+      height: 110px;
+      // border-bottom: 1px solid #eaeaea;
+      cursor: pointer;
+      text-align: center;
+      transition: box-shadow 0.4s ease;
+      // box-shadow: rgba(0, 0, 0, 0.6) 0px 2px 5px;
+      box-shadow: rgba(0, 0, 0, 0.08) 0px 2px 5px;
+
+      &:hover {
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+      }
+
+      .agent-logo {
+        width: 150px;
+        height: auto;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      h4 {
+        margin: 0;
+        font-weight: 600;
+      }
+    }
+  }
+}
 .badge-btn {
   padding: 3px 12px;
   border-radius: 20px;
   text-align: center;
+}
+
+.remaining-time {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  color: $color-1st;
 }
 
 .alert-error {
