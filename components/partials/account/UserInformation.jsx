@@ -9,12 +9,12 @@ const UserInformation = () => {
       text: "Account Information",
       url: "/account/user-information",
       icon: "icon-user",
+      active: true,
     },
     {
       text: "Invoices",
       url: "/account/invoices",
       icon: "icon-papers",
-      active: true,
     },
     {
       text: "Payment History",

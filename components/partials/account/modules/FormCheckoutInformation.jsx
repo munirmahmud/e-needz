@@ -127,7 +127,11 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     const data = await response.json();
 
     if (data?.response_status === 200) {
-      setCityNames(data?.data);
+      const selectCity = {
+        id: "00",
+        name: "Select City",
+      };
+      setCityNames((prevCity) => [selectCity, ...data?.data]);
     }
   };
 

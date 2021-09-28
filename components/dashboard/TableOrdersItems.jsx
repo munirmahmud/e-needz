@@ -1,21 +1,38 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useCallback, useState } from "react";
 
 const TableOrdersItems = ({ usrOrderItems, err }) => {
-  const getRemainingTime = (time) => {
-    const remainingTime = 2 * 60 * 1000;
-    let remainingOfferTime = new Date().getTime() + remainingTime;
+  const Router = useRouter();
+  //remainingTime: "Payment Time is Over, Please Contact with e-needz"
+  const [offerRemainingTime, setOfferRemainingTime] = useState();
+  let discountEndDate = "30 Sep 2021";
 
-    if (remainingOfferTime <= new Date().getTime()) {
-      return "Time's Up";
-    }
+  const getRemainingTime = useCallback(() => {
+    const discountTime = new Date(discountEndDate);
+    const currentDate = new Date();
 
-    // let timer = remainingOfferTime.toLocaleTimeString();
-    console.log(new Date(remainingOfferTime));
+    const totalSeconds = Date.parse(discountTime) - Date.parse(currentDate);
+    const seconds = Math.floor((totalSeconds / 1000) % 60);
+    const minutes = Math.floor((totalSeconds / 1000 / 60) % 60);
+    const hours = Math.floor((totalSeconds / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(totalSeconds / (1000 * 60 * 60 * 24));
+
+    setOfferRemainingTime(`${days} D ${hours} H ${minutes} M ${seconds} S`);
+  }, []);
+
+  setInterval(getRemainingTime, 1000);
+
+  const handlePaymentPage = (item) => {
+    const paymentInfo = {
+      total_amount: item.total_amount,
+      date: item.date,
+      order_id: item.order_id,
+      order_no: item.order_no,
+    };
+    localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+    Router.push("/account/payment");
   };
-
-  const timeee = setInterval(getRemainingTime, 1000);
-  // clearTimeout(timeee, 1000);
 
   const tableItemsView = usrOrderItems.map((item, index) => {
     if (item === undefined) return;
@@ -62,13 +79,30 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         </td>
         <td>{badgeView}</td>
         {/* 2 D 7 H 48 M 30 S */}
-        <td>{item.remainingTime}</td>
-        {/* <td>{getRemainingTime(item.remainingTime)}</td> */}
+        <td className="text-center">
+          {item.remainingTime ===
+          "Payment Time is Over, Please Contact with e-needz" ? (
+            item.remainingTime
+          ) : (
+            <span className="remaining-time" style={{ color: "orange" }}>
+              {offerRemainingTime}
+            </span>
+          )}
+        </td>
 
         <td className="p-0 text-center">
-          <Link href={`/account/payment/${item.order_id}`}>
-            <a className="ps-badge warning">Make Payment</a>
-          </Link>
+          {item.remainingTime ===
+          "Payment Time is Over, Please Contact with e-needz" ? (
+            "Timeout"
+          ) : (
+            <button
+              type="button"
+              className="ps-btn ps-btn--sm"
+              onClick={() => handlePaymentPage(item)}
+            >
+              Pay Now
+            </button>
+          )}
         </td>
         <td>
           <Link href={`/account/invoice-details/${item.order_id}`}>

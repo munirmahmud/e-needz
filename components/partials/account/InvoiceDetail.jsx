@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Alert, Modal } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -38,7 +38,6 @@ const InvoiceDetail = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
 
     setIssueItems({ ...issueItems, [name]: value });
   };
@@ -127,7 +126,6 @@ const InvoiceDetail = () => {
       }
     );
     const apiData = await response.json();
-    console.log("apiData", apiData);
 
     if (apiData.response_status === 200) {
       setIssueType(apiData.data);
@@ -194,7 +192,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("iss details", result);
 
     if (result.response_status === 200) {
       setIsIssueDetails(true);
@@ -236,6 +233,35 @@ const InvoiceDetail = () => {
     } else {
       toast.error(result.message);
     }
+  };
+
+  const handleResolvedIssue = async () => {
+    setSubmittedComment(true);
+    const formData = new FormData();
+
+    formData.append("issueType_id", issueDetails.issueType_id);
+    formData.append("order_id", pid);
+    formData.append("issue_id", issueDetails.issue_id);
+    formData.append("details", customerComment);
+    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("status", 1); //Status must be 1 to resolve the issue
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+    console.log("resolve issue", result);
+
+    // if (result.response_status === 200) {
+    //   setCustomerComment("");
+    //   setSubmittedComment(false);
+    //   toast.success(result.message);
+    // } else {
+    //   toast.error(result.message);
+    // }
   };
 
   const accountLinks = [
@@ -542,26 +568,33 @@ const InvoiceDetail = () => {
               <div className="issue-details mb-4">
                 <div className="d-flex align-items-center justify-content-between">
                   <span className="mb-2">{issueDetails?.date_time}</span>
-                  <button type="button" className="ps-btn ps-btn--sm">
-                    Mark as resolved
-                  </button>
+                  {issueDetails.status !== "1" && (
+                    <button
+                      type="button"
+                      className="ps-btn ps-btn--sm"
+                      onClick={handleResolvedIssue}
+                    >
+                      Mark as resolved
+                    </button>
+                  )}
                 </div>
                 <h5 className="mb-4">{issueDetails?.type_name}</h5>
                 <div className="mb-4">{getIssuesStatus(issueDetails)}</div>
                 <p>Description: {issueDetails.details}</p>
               </div>
-              {/* {issueDetails?.attachment !== null && ( */}
-              <div className="attachment mt-5">
-                <p>Attachment: </p>
-                <a href={issueDetails.attachment} target="_blank">
-                  <img
-                    src={issueDetails.attachment}
-                    // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
-                    alt={issueDetails.type_name}
-                    width="120"
-                  />
-                </a>
-              </div>
+              {issueDetails?.attachment !== null && (
+                <div className="attachment mt-5">
+                  <p>Attachment: </p>
+                  <a href={issueDetails.attachment} target="_blank">
+                    <img
+                      src={issueDetails.attachment}
+                      // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
+                      alt={issueDetails.type_name}
+                      width="120"
+                    />
+                  </a>
+                </div>
+              )}
 
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
@@ -582,28 +615,36 @@ const InvoiceDetail = () => {
                   )}
                 </div>
 
-                <div className="form-group">
-                  <label htmlFor="reply" className="sr-only">
-                    Customer Reply
-                  </label>
-                  <textarea
-                    name="reply"
-                    id="reply"
-                    cols="20"
-                    rows="2"
-                    className="form-control"
-                    value={customerComment}
-                    onChange={(e) => setCustomerComment(e.target.value)}
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="ps-btn btn-small"
-                  onClick={handleSubmitComment}
-                  disabled={isSubmittedComment}
-                >
-                  Submit
-                </button>
+                {issueDetails.status !== "1" ? (
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="reply" className="sr-only">
+                        Customer Reply
+                      </label>
+                      <textarea
+                        name="reply"
+                        id="reply"
+                        cols="20"
+                        rows="2"
+                        className="form-control"
+                        value={customerComment}
+                        onChange={(e) => setCustomerComment(e.target.value)}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="ps-btn btn-small"
+                      onClick={handleSubmitComment}
+                      disabled={isSubmittedComment}
+                    >
+                      Submit
+                    </button>
+                  </>
+                ) : (
+                  issueComments?.length > 0 && (
+                    <Alert message="Your issues resolved " type="success" />
+                  )
+                )}
               </div>
             </div>
           )}
