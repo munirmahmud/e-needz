@@ -6,7 +6,6 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
   const [filterProds, setFilterProds] = useState();
 
   const filterOut = (tag) => {
-    console.log(catProds.length);
     const newProd = catProds.filter((prod) =>
       prod.category_name.toLowerCase().includes("" + tag)
     );

@@ -45,7 +45,6 @@ const ChangePassword = () => {
     );
 
     const result = await response.json();
-    console.log("Chnaged pass", result);
 
     if (result.response_status === 200) {
       toast.success("Password has been updated successfully", {

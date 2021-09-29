@@ -28,7 +28,6 @@ const ProductsByStore = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log("store_wise_products", data);
           if (data.response_status === 200) {
             setCategory(data);
             setstoreInfo(data?.info);
