@@ -1,47 +1,50 @@
-import { useCookies } from 'react-cookie'
-import { connect, useDispatch } from 'react-redux'
-import Link from 'next/link'
-import { logOut } from '~/store/auth/action'
+import { remove } from "js-cookie";
+import Link from "next/link";
+import Router from "next/router";
+import { useCookies } from "react-cookie";
+import { connect, useDispatch } from "react-redux";
+import { logOut } from "~/store/auth/action";
 
 const AccountQuickLinks = (props) => {
-  const dispatch = useDispatch()
-  const [authCookie, setAuthCookie, removeCookie] = useCookies(['auth'])
+  const dispatch = useDispatch();
+  const [authCookie, setAuthCookie, removeCookie] = useCookies(["auth"]);
 
   const handleLogout = (e) => {
-    e.preventDefault()
-    removeCookie('auth')
-    document.cookie = 'auth=; path=/;'
-    console.log('log out hitted')
-    dispatch(logOut())
-  }
+    e.preventDefault();
+    removeCookie("auth");
+    dispatch(logOut());
+    remove("auth");
+    Router.push("/");
+  };
 
   const accountLinks = [
     {
-      text: 'Account Information',
-      url: '/account/user-information',
+      text: "Account Information",
+      url: "/account/user-information",
+      icon: "icon-user",
     },
     {
-      text: 'Notifications',
-      url: '/account/notifications',
+      text: "Invoices",
+      url: "/account/invoices",
+      icon: "icon-papers",
     },
     {
-      text: 'Invoices',
-      url: '/account/invoices',
+      text: "Payment History",
+      url: "/account/payment-history",
+      icon: "icon-papers",
     },
     {
-      text: 'Address',
-      url: '/account/addresses',
+      text: "Wishlist",
+      url: "/account/wishlist",
+      icon: "icon-heart",
     },
     {
-      text: 'Recent Viewed Product',
-      url: '/account/recent-viewed-product',
+      text: "Change Password",
+      url: "/account/change-password",
+      icon: "icon-heart",
     },
-    {
-      text: 'Wishlist',
-      url: '/account/wishlist',
-    },
-  ]
-  const { isLoggedIn } = props
+  ];
+  const { isLoggedIn } = props;
 
   // View
   const linksView = accountLinks.map((item) => (
@@ -50,41 +53,41 @@ const AccountQuickLinks = (props) => {
         <a>{item.text}</a>
       </Link>
     </li>
-  ))
+  ));
 
   if (isLoggedIn === true) {
     return (
-      <div className='ps-block--user-account'>
-        <i className='icon-user'></i>
-        <div className='ps-block__content'>
-          <ul className='ps-list--arrow'>
+      <div className="ps-block--user-account">
+        <i className="icon-user"></i>
+        <div className="ps-block__content">
+          <ul className="ps-list--arrow">
             {linksView}
-            <li className='ps-block__footer'>
-              <a href='#' onClick={(e) => handleLogout(e)}>
+            <li className="ps-block__footer">
+              <a href="#" onClick={(e) => handleLogout(e)}>
                 Logout
               </a>
             </li>
           </ul>
         </div>
       </div>
-    )
+    );
   } else {
     return (
-      <div className='ps-block--user-header'>
-        <div className='ps-block__left'>
-          <i className='icon-user'></i>
+      <div className="ps-block--user-header">
+        <div className="ps-block__left">
+          <i className="icon-user"></i>
         </div>
-        <div className='ps-block__right'>
-          <Link href='/account/login'>
+        <div className="ps-block__right">
+          <Link href="/account/login">
             <a>Login</a>
           </Link>
-          <Link href='/account/register'>
+          <Link href="/account/register">
             <a>Register</a>
           </Link>
         </div>
       </div>
-    )
+    );
   }
-}
+};
 
-export default connect((state) => state)(AccountQuickLinks)
+export default connect((state) => state)(AccountQuickLinks);
