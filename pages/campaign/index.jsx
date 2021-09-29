@@ -20,7 +20,6 @@ const Campaign = () => {
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("result", result);
         setCampaigns(result.data);
         setLoading(false);
       })
@@ -56,7 +55,6 @@ const Campaign = () => {
   //Views
   let productItemsViews;
 
-  console.log("campaigns", campaigns);
   if (!loading) {
     if (campaigns && campaigns.length > 0) {
       productItemsViews = campaigns.map((item) => (

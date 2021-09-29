@@ -1,17 +1,16 @@
-import Link from 'next/link'
-import React from 'react'
-import ModuleProductActions from '~/components/elements/products/modules/ModuleProductActions'
-import Rating from '~/components/elements/Rating'
-import useProduct from '~/hooks/useProduct'
+import Link from "next/link";
+import React from "react";
+import ModuleProductActions from "~/components/elements/products/modules/ModuleProductActions";
+import Rating from "~/components/elements/Rating";
+import useProduct from "~/hooks/useProduct";
 
 const Product = ({ product }) => {
-  console.log(product)
-  const { thumbnailImage, price, badge, title } = useProduct()
+  const { thumbnailImage, price, badge, title } = useProduct();
   return (
-    <div className='ps-product'>
-      <div className='ps-product__thumbnail'>
+    <div className="ps-product">
+      <div className="ps-product__thumbnail">
         <Link
-          href='/product/[pid]'
+          href="/product/[pid]"
           as={`/product/${product.product_id}-${product.campaign_id}`}
         >
           <a>{thumbnailImage(product)}</a>
@@ -19,13 +18,13 @@ const Product = ({ product }) => {
         {badge(product)}
         <ModuleProductActions product={product} />
       </div>
-      <div className='ps-product__container'>
-        <Link href='/shop'>
-          <a className='ps-product__vendor'>{product.seller_store_name}</a>
+      <div className="ps-product__container">
+        <Link href="/shop">
+          <a className="ps-product__vendor">{product.seller_store_name}</a>
         </Link>
-        <div className='ps-product__content'>
+        <div className="ps-product__content">
           {title(product)}
-          <div className='ps-product__rating'>
+          <div className="ps-product__rating">
             <Rating />
             {/* <span>02</span> */}
           </div>
@@ -37,7 +36,7 @@ const Product = ({ product }) => {
                 </div> */}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Product
+export default Product;

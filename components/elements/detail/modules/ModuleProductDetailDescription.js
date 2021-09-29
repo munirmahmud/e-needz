@@ -14,7 +14,6 @@ const ModuleProductDetailDescription = ({ product }) => {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           setDeatils(res.data[0].description);
         });
     }

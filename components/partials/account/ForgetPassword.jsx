@@ -35,7 +35,6 @@ const ForgetPassword = () => {
   };
 
   const handleLoginSubmit = (e) => {
-    console.log("test");
     this.props.dispatch(login());
     Router.push("/");
   };

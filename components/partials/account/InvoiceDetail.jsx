@@ -253,7 +253,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("resolve issue", result);
 
     // if (result.response_status === 200) {
     //   setCustomerComment("");

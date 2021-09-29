@@ -30,7 +30,6 @@ const Login = ({ auth }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log(result);
         if (result.response_status === 0) {
           toast.error(result.message);
         }
