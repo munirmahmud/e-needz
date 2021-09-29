@@ -31,6 +31,8 @@ const InvoiceDetail = () => {
   const [isSubmittedComment, setSubmittedComment] = useState(false);
   const [issueComments, setIssueComments] = useState([]);
 
+  const [isOrderCanceled, setisOrderCanceled] = useState(false);
+
   const [issueItems, setIssueItems] = useState({
     issue_type: "",
     description: "",
@@ -53,11 +55,12 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
+    console.log("details_order", result);
 
     let newProduct = {};
-    if (apiData?.response_status === 200) {
-      setOrderInfo(apiData.data);
+    if (result?.response_status === 200) {
+      setOrderInfo(result.data);
     }
   };
 
@@ -65,7 +68,9 @@ const InvoiceDetail = () => {
     getOrderDetails();
   }, [pid]);
 
+  // CANCEL ORDER
   const handleCancelOrder = async () => {
+    setisOrderCanceled(true);
     let formData = new FormData();
 
     formData.append("order_id", pid);
@@ -76,12 +81,14 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData.response_status === 200) {
-      toast.success(apiData.message);
+    if (result.response_status === 200) {
+      toast.success(result.message);
+      setisOrderCanceled(false);
     } else {
-      toast.error(apiData.message);
+      toast.error(result.message);
+      setisOrderCanceled(false);
     }
   };
 
@@ -306,16 +313,20 @@ const InvoiceDetail = () => {
               <div className="ps-section--account-setting">
                 <div className="ps-section__header d-flex align-items-center justify-content-between">
                   <h3>
-                    Invoice No #{pid}
+                    Order No #{orderInfo?.order_no}
                     {/* -<strong>Successful delivery</strong> */}
                   </h3>
-                  <button
-                    className="ps-btn btn-small"
-                    type="button"
-                    onClick={handleCancelOrder}
-                  >
-                    Cancel Order
-                  </button>
+
+                  {orderInfo.order_status === "1" && (
+                    <button
+                      className="ps-btn btn-small"
+                      type="button"
+                      onClick={handleCancelOrder}
+                      disabled={isOrderCanceled}
+                    >
+                      Cancel Order
+                    </button>
+                  )}
                 </div>
                 <div className="ps-section__content">
                   <div className="row">
@@ -375,7 +386,10 @@ const InvoiceDetail = () => {
                     </div> */}
                     <div className="col-md-5 col-12">
                       <figure className="ps-block--invoice">
-                        <figcaption>Bills To</figcaption>
+                        <figcaption className="d-flex align-items-center justify-content-between">
+                          Bills To
+                          <button>Paid</button>
+                        </figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>
                           <p>
@@ -397,11 +411,19 @@ const InvoiceDetail = () => {
                             Report an issue
                           </button>
                           <button
-                            className="ps-btn btn-black btn-small"
+                            className="ps-btn btn-small mr-3"
                             onClick={handleExistingIssues}
                           >
                             Check Existing Issues
                           </button>
+                          <Link href="/account/payment">
+                            <a
+                              className="ps-btn btn-small"
+                              style={{ backgroundColor: "#222" }}
+                            >
+                              Make Payment
+                            </a>
+                          </Link>
                         </div>
                       </figure>
                     </div>
@@ -418,6 +440,7 @@ const InvoiceDetail = () => {
                           <th>Amount</th>
                         </tr>
                       </thead>
+
                       <tbody>
                         {Array.isArray(orderInfo.product_information) &&
                           orderInfo?.product_information?.map(
@@ -437,9 +460,13 @@ const InvoiceDetail = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Link href="/account/invoices">
-                    <a className="ps-btn ps-btn--sm">Back to invoices</a>
-                  </Link>
+                  <div className="mt-5 d-flex align-items-center justify-content-between">
+                    <Link href="/account/invoices">
+                      <a className="ps-btn ps-btn--sm">Back to invoices</a>
+                    </Link>
+
+                    <div>Total Amount: 51248</div>
+                  </div>
                 </div>
               </div>
             </div>

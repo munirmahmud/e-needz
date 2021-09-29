@@ -1,36 +1,37 @@
-import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 
-const TrackOrders = ({ order_id }) => {
+const InvoiceTimeLine = ({ customer_id }) => {
   const dispatch = useDispatch();
   const [trackInfo, setTrackInfo] = useState([]);
   const [orderInfo, setOrderInfo] = useState("");
 
   const getOrderTrackTimeLine = async () => {
     const formData = new FormData();
-    formData.append("order_id", order_id);
+    formData.append("order_id", customer_id);
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/order_tracking`,
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/manage_invoice`,
       {
         method: "POST",
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData?.response_status === 200) {
-      setTrackInfo(apiData.data.track_details);
-      setOrderInfo(apiData?.data?.order_no);
+    console.log("manage_invoice", result);
+
+    if (result?.response_status === 200) {
+      setTrackInfo(result.data.track_details);
+      setOrderInfo(result?.data?.order_no);
     }
   };
 
   useEffect(() => {
     getOrderTrackTimeLine();
     dispatch(toggleDrawerMenu(false));
-  }, [order_id]);
+  }, []);
 
   const orderStatus = (item) => {
     let badgeView;
@@ -102,7 +103,7 @@ const TrackOrders = ({ order_id }) => {
 
             <div className="ps-block__content">
               <div className="ps-block__timeline">
-                {Array.isArray(trackInfo) && trackInfo.length > 0 ? (
+                {trackInfo.length &&
                   trackInfo.map((track, index) => (
                     <figure key={index} className="active">
                       {orderStatus(track)}
@@ -111,10 +112,7 @@ const TrackOrders = ({ order_id }) => {
                       />
                       <p>{dateTimeFormatter(track.date)}</p>
                     </figure>
-                  ))
-                ) : (
-                  <Alert text="Sorry no track records found!" type="success" />
-                )}
+                  ))}
               </div>
             </div>
           </div>
@@ -123,4 +121,4 @@ const TrackOrders = ({ order_id }) => {
     </>
   );
 };
-export default connect((state) => state.app)(TrackOrders);
+export default connect((state) => state.app)(InvoiceTimeLine);

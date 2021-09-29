@@ -55,7 +55,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         </td>
         <td>
           <Link href={`/account/invoice-details/${item.order_id}`}>
-            <a>{item.order_id}</a>
+            <a>{item.order_no}</a>
           </Link>
         </td>
         <td>
@@ -64,19 +64,17 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         <td>{badgeView}</td>
         {/* 2 D 7 H 48 M 30 S */}
         <td className="text-center">
-          {item.remainingTime ===
-          "Payment Time is Over, Please Contact with e-needz" ? (
-            item.remainingTime
-          ) : (
+          {item.remainingStatus && (
             <RemainingOfferTime remainingTime={item.remainingTime} />
           )}
+
+          {item.order_status === "6"
+            ? "You canceled order"
+            : item.remainingTime}
         </td>
 
         <td className="p-0 text-center">
-          {item.remainingTime ===
-          "Payment Time is Over, Please Contact with e-needz" ? (
-            "Timeout"
-          ) : (
+          {item.remainingStatus ? (
             <button
               type="button"
               className="ps-btn ps-btn--sm"
@@ -84,6 +82,8 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
             >
               Pay Now
             </button>
+          ) : (
+            "Timeout"
           )}
         </td>
         <td>
