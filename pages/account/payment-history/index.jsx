@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import PageContainer from "~/components/layouts/PageContainer";
+import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 import { toggleDrawerMenu } from "~/store/app/action";
 
@@ -22,8 +23,7 @@ const PaymentHistory = () => {
 
   useEffect(() => {
     var formdata = new FormData();
-    // formdata.append("customer_id", authCookie.auth);
-    formdata.append("customer_id", "BMJUCC22X54NZCN");
+    formdata.append("customer_id", authCookie.auth);
 
     var requestOptions = {
       method: "POST",
@@ -49,9 +49,6 @@ const PaymentHistory = () => {
 
           setPaymentHistorySpliced(unique);
           setLen(result.data.length);
-
-          //   setUsrOrderItems(result.data);
-          //   setUsrOrderItemsSpliced(result.data);
         } else {
           setErr(true);
         }
@@ -151,17 +148,6 @@ const PaymentHistory = () => {
     },
   ];
 
-  const accountLinkView = accountLinks.map((item) => (
-    <li key={item.text} className={item.active ? "active" : ""}>
-      <Link href={item.url}>
-        <a>
-          <i className={item.icon}></i>
-          {item.text}
-        </a>
-      </Link>
-    </li>
-  ));
-
   return (
     <PageContainer footer={<FooterFullwidth />} title="Payment History">
       <section className="ps-my-account ps-page--account">
@@ -169,29 +155,7 @@ const PaymentHistory = () => {
           <div className="row">
             <div className="col-lg-3">
               <div className="ps-page__left">
-                <aside className="ps-widget--account-dashboard">
-                  <div className="ps-widget__header">
-                    <img src="/static/img/users/3.jpg" />
-                    <figure>
-                      <figcaption>Hello</figcaption>
-                      <p>username@gmail.com</p>
-                    </figure>
-                  </div>
-                  <div className="ps-widget__content">
-                    <ul className="ps-list--user-links">
-                      {accountLinkView}
-
-                      <li>
-                        <Link href="/account/my-account">
-                          <a>
-                            <i className="icon-power-switch"></i>
-                            Logout
-                          </a>
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-                </aside>
+                <AccountMenuSidebar data={accountLinks} />
               </div>
             </div>
 
