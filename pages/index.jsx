@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import PageContainer from "~/components/layouts/PageContainer";
 import HomeDefaultBanner from "~/components/partials/homepage/home-default/HomeDefaultBanner";
+import HomeDefaultBlockProducts from "~/components/partials/homepage/home-default/HomeDefaultBlockProducts";
+import HomeDefaultDealOfDay from "~/components/partials/homepage/home-default/HomeDefaultDealOfDay";
+import HomeDefaultTopCategories from "~/components/partials/homepage/home-default/HomeDefaultTopCategories";
 
 const HomepageDefaultPage = () => {
   const [blockItems, setBlockItems] = useState(null);
@@ -29,14 +32,14 @@ const HomepageDefaultPage = () => {
       <main id="homepage-1">
         <HomeDefaultBanner />
 
-        {/* <HomeDefaultDealOfDay
+        <HomeDefaultDealOfDay
           collectionSlug="deal-of-the-day"
           endPoint="featured_products"
           dealTitle="Featured Products"
           _link="/product/featured"
-        /> */}
+        />
 
-        {/* <HomeDefaultDealOfDay
+        <HomeDefaultDealOfDay
           collectionSlug="deal-of-the-day"
           endPoint="best_selling"
           dealTitle="Best Selling"
@@ -85,7 +88,7 @@ const HomepageDefaultPage = () => {
           endPoint="recommended_products"
           dealTitle="Recommended For You"
           _link="/product/recommended-product"
-        /> */}
+        />
       </main>
     </PageContainer>
   );

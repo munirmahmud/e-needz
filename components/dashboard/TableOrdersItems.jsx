@@ -1,14 +1,14 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 
 const TableOrdersItems = ({ usrOrderItems, err }) => {
   const Router = useRouter();
   //remainingTime: "Payment Time is Over, Please Contact with e-needz"
   const [offerRemainingTime, setOfferRemainingTime] = useState();
-  let discountEndDate = "30 Sep 2021";
+  // let discountEndDate = "30 Sep 2021";
 
-  const getRemainingTime = useCallback(() => {
+  const getRemainingTime = (discountEndDate) => {
     const discountTime = new Date(discountEndDate);
     const currentDate = new Date();
 
@@ -18,10 +18,10 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
     const hours = Math.floor((totalSeconds / (1000 * 60 * 60)) % 24);
     const days = Math.floor(totalSeconds / (1000 * 60 * 60 * 24));
 
-    setOfferRemainingTime(`${days} D ${hours} H ${minutes} M ${seconds} S`);
-  }, []);
+    return `${days} D ${hours} H ${minutes} M ${seconds} S`;
+  };
 
-  setInterval(getRemainingTime, 1000);
+  // setInterval(getRemainingTime, 1000);
 
   const handlePaymentPage = (item) => {
     const paymentInfo = {
@@ -85,7 +85,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
             item.remainingTime
           ) : (
             <span className="remaining-time" style={{ color: "orange" }}>
-              {offerRemainingTime}
+              {setInterval(() => getRemainingTime(item.remainingTime), 1000)}
             </span>
           )}
         </td>

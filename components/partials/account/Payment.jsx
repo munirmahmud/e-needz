@@ -53,13 +53,10 @@ const Payment = () => {
 
     let formData = new FormData();
 
-    formData.append("payment_amount", "150");
-    formData.append("payment_method", "sslcommerz");
+    formData.append("payment_amount", paymentData.total_amount);
+    formData.append("payment_method", bankName);
     formData.append("customer_id", authCookie.auth);
     formData.append("order_id", paymentData.order_id);
-    // formData.append("bank_name", bankName);
-    // formData.append("bank_ac_no", authCookie.auth);
-    // formData.append("payment_slip", authCookie.auth);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/make_payment_submit`,
@@ -73,10 +70,8 @@ const Payment = () => {
 
     if (result?.response_status === 200) {
       if (bankName === "nagad") {
-        console.log("nagad");
+        window.open(`${result.data.url}`);
       } else if (bankName === "sslcommerz") {
-        console.log("bankName", bankName);
-        console.log(result.data.url);
         window.open(`https://${result.data.url}`);
       }
     } else {
