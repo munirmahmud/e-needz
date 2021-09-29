@@ -115,8 +115,7 @@ const InvoiceDetail = () => {
     formData.append("submited_by", authCookie.auth); //Customer ID
     formData.append("action", "1");
 
-    attachment !== null &&
-      formData.append("attachment", URL.createObjectURL(attachment));
+    attachment !== null && formData.append("attachment", attachment);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
@@ -137,6 +136,7 @@ const InvoiceDetail = () => {
       });
       setAttachment(null);
       attachmentRef.current.value = "";
+      setOpenModal(false);
     } else {
       toast.error(apiData.message);
     }

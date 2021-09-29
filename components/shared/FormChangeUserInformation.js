@@ -69,7 +69,7 @@ const FormChangeUserInformation = () => {
     formdata.append("zip", zip);
     formdata.append("country", country);
     formdata.append("company", company);
-    formdata.append("image", URL.createObjectURL(image));
+    formdata.append("image", image);
 
     var requestOptions = {
       method: "POST",

@@ -67,11 +67,10 @@ const Payment = () => {
     );
 
     const result = await response.json();
-    console.log("make_payment_submit", result);
 
     if (result?.response_status === 200) {
       if (bankName === "nagad") {
-        window.open(`https://${result.data.url}`);
+        window.open(`${result.data.url}`);
       } else if (bankName === "sslcommerz") {
         window.open(`https://${result.data.url}`);
       }
