@@ -56,7 +56,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("details_order", result);
 
     let newProduct = {};
     if (result?.response_status === 200) {
@@ -231,7 +230,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("comment", result);
 
     if (result.response_status === 200) {
       setCustomerComment("");
@@ -268,6 +266,17 @@ const InvoiceDetail = () => {
     // } else {
     //   toast.error(result.message);
     // }
+  };
+
+  const handlePaymentInformation = (e) => {
+    const paymentInfo = {
+      due_amount: orderInfo.due_amount,
+      paid_amount: orderInfo.paid_amount,
+      total_amount: orderInfo.total_amount,
+      order_id: orderInfo.order_id,
+      order_no: orderInfo.order_no,
+    };
+    localStorage.setItem("p_info", JSON.stringify(paymentInfo));
   };
 
   const accountLinks = [
@@ -425,6 +434,7 @@ const InvoiceDetail = () => {
                               <a
                                 className="ps-btn btn-small mb-3"
                                 style={{ backgroundColor: "#222" }}
+                                onClick={handlePaymentInformation}
                               >
                                 Make Payment
                               </a>
@@ -631,7 +641,6 @@ const InvoiceDetail = () => {
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
 
-                {console.log("issueComments", issueComments)}
                 <div className="comments-wrapper">
                   {Array.isArray(issueComments) && issueComments.length > 0 ? (
                     issueComments.map((comment) => (

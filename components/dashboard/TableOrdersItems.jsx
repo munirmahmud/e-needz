@@ -7,14 +7,31 @@ import RemainingOfferTime from "~/components/dashboard/RemainingOfferTime";
 const TableOrdersItems = ({ usrOrderItems, err }) => {
   const Router = useRouter();
 
-  const handlePaymentPage = (item) => {
-    const paymentInfo = {
-      total_amount: item.total_amount,
-      date: item.date,
-      order_id: item.order_id,
-      order_no: item.order_no,
-    };
-    localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+  const handlePaymentPage = async (item) => {
+    let formData = new FormData();
+
+    formData.append("order_id", item.order_id);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/details_order`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+
+    if (result?.response_status === 200) {
+      const paymentInfo = {
+        due_amount: result.data.due_amount,
+        paid_amount: result.data.paid_amount,
+        total_amount: result.data.total_amount,
+        order_id: result.data.order_id,
+        order_no: result.data.order_no,
+      };
+      localStorage.setItem("p_info", JSON.stringify(paymentInfo));
+    } else {
+      console.log("Sorry no order information found!");
+    }
     Router.push("/account/payment");
   };
 

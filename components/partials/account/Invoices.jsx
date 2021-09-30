@@ -35,7 +35,6 @@ const Invoices = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("manage_order", result);
         if (result.response_status === 200) {
           setUsrOrderItems(result.data);
           setUsrOrderItemsSpliced(result.data);
