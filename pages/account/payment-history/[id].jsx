@@ -13,12 +13,13 @@ const PaymentHistoryDetails = () => {
 
   const [authCookie] = useCookies(["auth"]);
   const [paymentInfo, setpaymentInfo] = useState([]);
+  const [orderNo, setOrderNo] = useState("");
 
   const getPaymentDetails = async () => {
     let formData = new FormData();
 
-    formData.append("order_id", id);
-    // formData.append("order_no", "252471");
+    // formData.append("order_no", "EZ697896627092");
+    formData.append("order_no", orderNo);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/payment_details`,
       {
@@ -34,8 +35,14 @@ const PaymentHistoryDetails = () => {
   };
 
   useEffect(() => {
+    const order_no = localStorage.getItem("order_no");
+
+    if (order_no !== null || order_no !== undefined) {
+      setOrderNo(order_no);
+    }
+
     getPaymentDetails();
-  }, [id]);
+  }, [orderNo]);
 
   // status: 1 = pending,2 = approved, 3= cancel
   const getPaymentStatus = (status) => {
@@ -64,6 +71,11 @@ const PaymentHistoryDetails = () => {
     {
       text: "Invoices",
       url: "/account/invoices",
+      icon: "icon-papers",
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
       icon: "icon-papers",
     },
     {

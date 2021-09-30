@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 
 const RemainingOfferTime = ({ remainingTime }) => {
   const offerRef = useRef(null);
@@ -17,8 +17,6 @@ const RemainingOfferTime = ({ remainingTime }) => {
       offerRef.current.textContent = `${days} D ${hours} H ${minutes} M ${seconds} S`;
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <span className="remaining-time" style={{ color: "orange" }} ref={offerRef}>

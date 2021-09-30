@@ -3,7 +3,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { useCookies } from "react-cookie";
 import { connect, useDispatch } from "react-redux";
-import { logOut } from "~/store/auth/action";
+import { toast } from "react-toastify";
 
 const AccountQuickLinks = (props) => {
   const dispatch = useDispatch();
@@ -12,8 +12,12 @@ const AccountQuickLinks = (props) => {
   const handleLogout = (e) => {
     e.preventDefault();
     removeCookie("auth");
-    dispatch(logOut());
+    // dispatch(logOut());
     remove("auth");
+    toast.success("You successfully logged out!");
+    localStorage.removeItem("paymentInfo");
+    localStorage.removeItem("paymentGateway");
+    localStorage.removeItem("p_info");
     Router.push("/");
   };
 

@@ -19,7 +19,7 @@ const CampaignProducts = () => {
         method: "POST",
         body: JSON.stringify({
           campaign_id: id,
-          per_page: 20,
+          per_page: 30,
           page_offset: 0,
         }),
       })
@@ -30,17 +30,6 @@ const CampaignProducts = () => {
           setLoading(false);
         })
         .catch((error) => console.log("error", error));
-
-      // const responseData = await ProductRepository.getProductsBycampaignProducts(slug);
-      // if (responseData) {
-      //   setCampaignProducts(responseData);
-      //   setTimeout(
-      //     function () {
-      //       setLoading(false);
-      //     }.bind(this),
-      //     250
-      //   );
-      // }
     }
   }
 

@@ -136,8 +136,9 @@ export const carouselFullwidth = {
 
 export const campaignCarousel = {
   //   dots: false,
-  //   infinite: true,
-  //   speed: 750,
+  infinite: true,
+  speed: 750,
+  autoplay: true,
   slidesToShow: 3,
   slidesToScroll: 3,
   arrows: true,

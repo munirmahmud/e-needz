@@ -14,6 +14,8 @@ const InvoiceDetail = () => {
   const attachmentRef = useRef();
   const issueDetailsRef = useRef();
 
+  console.log("pid", pid);
+
   const [authCookie] = useCookies(["auth"]);
 
   const [orderInfo, setOrderInfo] = useState([]);
@@ -30,6 +32,8 @@ const InvoiceDetail = () => {
   const [customerComment, setCustomerComment] = useState("");
   const [isSubmittedComment, setSubmittedComment] = useState(false);
   const [issueComments, setIssueComments] = useState([]);
+
+  const [isOrderCanceled, setisOrderCanceled] = useState(false);
 
   const [issueItems, setIssueItems] = useState({
     issue_type: "",
@@ -53,11 +57,11 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
     let newProduct = {};
-    if (apiData?.response_status === 200) {
-      setOrderInfo(apiData.data);
+    if (result?.response_status === 200) {
+      setOrderInfo(result.data);
     }
   };
 
@@ -65,7 +69,9 @@ const InvoiceDetail = () => {
     getOrderDetails();
   }, [pid]);
 
+  // CANCEL ORDER
   const handleCancelOrder = async () => {
+    setisOrderCanceled(true);
     let formData = new FormData();
 
     formData.append("order_id", pid);
@@ -76,12 +82,14 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData.response_status === 200) {
-      toast.success(apiData.message);
+    if (result.response_status === 200) {
+      toast.success(result.message);
+      setisOrderCanceled(false);
     } else {
-      toast.error(apiData.message);
+      toast.error(result.message);
+      setisOrderCanceled(false);
     }
   };
 
@@ -224,7 +232,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("comment", result);
 
     if (result.response_status === 200) {
       setCustomerComment("");
@@ -263,6 +270,17 @@ const InvoiceDetail = () => {
     // }
   };
 
+  const handlePaymentInformation = (e) => {
+    const paymentInfo = {
+      due_amount: orderInfo.due_amount,
+      paid_amount: orderInfo.paid_amount,
+      total_amount: orderInfo.total_amount,
+      order_id: orderInfo.order_id,
+      order_no: orderInfo.order_no,
+    };
+    localStorage.setItem("p_info", JSON.stringify(paymentInfo));
+  };
+
   const accountLinks = [
     {
       text: "Account Information",
@@ -274,6 +292,11 @@ const InvoiceDetail = () => {
       url: "/account/invoices",
       icon: "icon-papers",
       active: true,
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
+      icon: "icon-papers",
     },
     {
       text: "Payment History",
@@ -306,16 +329,20 @@ const InvoiceDetail = () => {
               <div className="ps-section--account-setting">
                 <div className="ps-section__header d-flex align-items-center justify-content-between">
                   <h3>
-                    Invoice No #{pid}
+                    Order No #{orderInfo?.order_no}
                     {/* -<strong>Successful delivery</strong> */}
                   </h3>
-                  <button
-                    className="ps-btn btn-small"
-                    type="button"
-                    onClick={handleCancelOrder}
-                  >
-                    Cancel Order
-                  </button>
+
+                  {orderInfo.order_status === "1" && (
+                    <button
+                      className="ps-btn btn-small"
+                      type="button"
+                      onClick={handleCancelOrder}
+                      disabled={isOrderCanceled}
+                    >
+                      Cancel Order
+                    </button>
+                  )}
                 </div>
                 <div className="ps-section__content">
                   <div className="row">
@@ -375,7 +402,12 @@ const InvoiceDetail = () => {
                     </div> */}
                     <div className="col-md-5 col-12">
                       <figure className="ps-block--invoice">
-                        <figcaption>Bills To</figcaption>
+                        <figcaption className="d-flex align-items-center justify-content-between">
+                          Bills To
+                          <button className="ps-btn ps-btn--sm">
+                            {orderInfo?.payment_status}
+                          </button>
+                        </figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>
                           <p>
@@ -389,19 +421,32 @@ const InvoiceDetail = () => {
                             <strong>Email:</strong> {orderInfo?.customer_email}
                           </p>
                         </div>
-                        <div className="btns-wrapper mt-4 d-flex ">
+                        <div className="btns-wrapper mt-4 d-flex flex-wrap">
                           <button
-                            className="ps-btn btn-small mr-3"
+                            className="ps-btn btn-small mr-3 mb-3"
                             onClick={handleOpenModal}
                           >
                             Report an issue
                           </button>
+
                           <button
-                            className="ps-btn btn-black btn-small"
+                            className="ps-btn btn-small mr-3 mb-3"
                             onClick={handleExistingIssues}
                           >
                             Check Existing Issues
                           </button>
+
+                          {orderInfo?.order_status === "1" && (
+                            <Link href="/account/payment">
+                              <a
+                                className="ps-btn btn-small mb-3"
+                                style={{ backgroundColor: "#222" }}
+                                onClick={handlePaymentInformation}
+                              >
+                                Make Payment
+                              </a>
+                            </Link>
+                          )}
                         </div>
                       </figure>
                     </div>
@@ -418,6 +463,7 @@ const InvoiceDetail = () => {
                           <th>Amount</th>
                         </tr>
                       </thead>
+
                       <tbody>
                         {Array.isArray(orderInfo.product_information) &&
                           orderInfo?.product_information?.map(
@@ -437,9 +483,13 @@ const InvoiceDetail = () => {
                       </tbody>
                     </table>
                   </div>
-                  <Link href="/account/invoices">
-                    <a className="ps-btn ps-btn--sm">Back to invoices</a>
-                  </Link>
+                  <div className="mt-5 d-flex align-items-center justify-content-between">
+                    <Link href="/account/invoices">
+                      <a className="ps-btn ps-btn--sm">Back to invoices</a>
+                    </Link>
+
+                    <div>Total Amount: 51248</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -587,7 +637,6 @@ const InvoiceDetail = () => {
                   <a href={issueDetails.attachment} target="_blank">
                     <img
                       src={issueDetails.attachment}
-                      // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
                       alt={issueDetails.type_name}
                       width="120"
                     />
@@ -598,7 +647,6 @@ const InvoiceDetail = () => {
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
 
-                {console.log("issueComments", issueComments)}
                 <div className="comments-wrapper">
                   {Array.isArray(issueComments) && issueComments.length > 0 ? (
                     issueComments.map((comment) => (

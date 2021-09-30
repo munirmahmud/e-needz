@@ -7,14 +7,31 @@ import RemainingOfferTime from "~/components/dashboard/RemainingOfferTime";
 const TableOrdersItems = ({ usrOrderItems, err }) => {
   const Router = useRouter();
 
-  const handlePaymentPage = (item) => {
-    const paymentInfo = {
-      total_amount: item.total_amount,
-      date: item.date,
-      order_id: item.order_id,
-      order_no: item.order_no,
-    };
-    localStorage.setItem("paymentInfo", JSON.stringify(paymentInfo));
+  const handlePaymentPage = async (item) => {
+    let formData = new FormData();
+
+    formData.append("order_id", item.order_id);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/details_order`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+    const result = await response.json();
+
+    if (result?.response_status === 200) {
+      const paymentInfo = {
+        due_amount: result.data.due_amount,
+        paid_amount: result.data.paid_amount,
+        total_amount: result.data.total_amount,
+        order_id: result.data.order_id,
+        order_no: result.data.order_no,
+      };
+      localStorage.setItem("p_info", JSON.stringify(paymentInfo));
+    } else {
+      console.log("Sorry no order information found!");
+    }
     Router.push("/account/payment");
   };
 
@@ -55,7 +72,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         </td>
         <td>
           <Link href={`/account/invoice-details/${item.order_id}`}>
-            <a>{item.order_id}</a>
+            <a>{item.order_no}</a>
           </Link>
         </td>
         <td>
@@ -64,19 +81,17 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         <td>{badgeView}</td>
         {/* 2 D 7 H 48 M 30 S */}
         <td className="text-center">
-          {item.remainingTime ===
-          "Payment Time is Over, Please Contact with e-needz" ? (
-            item.remainingTime
-          ) : (
+          {item.remainingStatus && (
             <RemainingOfferTime remainingTime={item.remainingTime} />
           )}
+
+          {item.order_status === "6"
+            ? "You canceled order"
+            : isNaN(item.remainingTime) && item.remainingTime}
         </td>
 
         <td className="p-0 text-center">
-          {item.remainingTime ===
-          "Payment Time is Over, Please Contact with e-needz" ? (
-            "Timeout"
-          ) : (
+          {item.remainingStatus ? (
             <button
               type="button"
               className="ps-btn ps-btn--sm"
@@ -84,6 +99,8 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
             >
               Pay Now
             </button>
+          ) : (
+            "Timeout"
           )}
         </td>
         <td>

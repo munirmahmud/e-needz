@@ -1,4 +1,5 @@
 import { Spin } from "antd";
+import Link from "next/link";
 import Router from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import ProductSearchResult from "~/components/elements/products/ProductSearchResult";
@@ -87,6 +88,9 @@ const SearchHeader = () => {
   const [resultItems, setResultItems] = useState(null);
   const [loading, setLoading] = useState(false);
   const debouncedSearchTerm = useDebounce(keyword, 300);
+  const [searchCategories, setSearchCategories] = useState([]);
+  const [noDataFound, setNoDataFound] = useState("");
+  const [categoryID, setCategoryID] = useState("");
 
   function handleClearKeyword() {
     setKeyword("");
@@ -115,18 +119,25 @@ const SearchHeader = () => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/retrieve_category_product`, {
           method: "POST",
           body: JSON.stringify({
-            per_page: 10,
+            per_page: 30,
             page_offset: 0,
             product_name: keyword,
-            category_id: "",
+            category_id: categoryID,
           }),
         })
           .then((response) => response.json())
           .then((result) => {
-            console.log(result);
             if (result.response_status === 200) {
               setLoading(false);
               setResultItems(result.data);
+              setIsSearch(true);
+            } else if (result.response_status === 204) {
+              setLoading(false);
+              setResultItems(result.message);
+              setIsSearch(true);
+            } else {
+              setLoading(false);
+              setResultItems(result.message);
               setIsSearch(true);
             }
           })
@@ -150,23 +161,25 @@ const SearchHeader = () => {
     selectOptionView,
     loadingView,
     loadMoreView;
+
   if (!loading) {
-    if (resultItems && resultItems.length > 0) {
-      // if (resultItems.length > 25) {
-      //   loadMoreView = (
-      //     <div className='ps-panel__footer text-center'>
-      //       <Link href='/search'>
-      //         <a>See all results</a>
-      //       </Link>
-      //     </div>
-      //   )
-      // }
+    if (Array.isArray(resultItems) && resultItems.length > 0) {
+      if (resultItems.length > 15) {
+        loadMoreView = (
+          <div className="ps-panel__footer text-center">
+            <Link href={`/search?keyword=${keyword}`}>
+              <a>See all results</a>
+            </Link>
+          </div>
+        );
+      }
       productItemsView = resultItems.map((product, index) => (
         <ProductSearchResult product={product} key={index} />
       ));
     } else {
       productItemsView = <p>No product found.</p>;
     }
+
     if (keyword !== "") {
       clearTextView = (
         <span className="ps-form__action" onClick={handleClearKeyword}>
@@ -182,20 +195,59 @@ const SearchHeader = () => {
     );
   }
 
-  selectOptionView = exampleCategories.map((option) => (
-    <option value={option} key={option}>
-      {option}
+  selectOptionView = searchCategories.map((option, index) => (
+    <option value={option.category_id} key={option.category_id}>
+      {option.category_name}
     </option>
   ));
+
+  const handleCategory = async (e) => {
+    if (e.target.value === "00") {
+      setCategoryID("");
+    } else {
+      setCategoryID(e.target.value);
+    }
+
+    const data = {
+      per_page: 1000,
+      page_offset: 0,
+      category_id: "",
+    };
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/category_list`,
+      {
+        method: "POST",
+        body: JSON.stringify(data),
+      }
+    );
+
+    const result = await response.json();
+
+    const optionObj = {
+      category_id: "00",
+      category_name: "All",
+    };
+
+    if (result.response_status === 200) {
+      if (searchCategories.length === 0) {
+        setSearchCategories([optionObj, ...result.data]);
+      }
+    }
+  };
 
   return (
     <form className="ps-form--quick-search" onSubmit={handleSubmit}>
       <div className="ps-form__categories">
-        {/* <select className='form-control'>{selectOptionView}</select> */}
-        <select className="form-control">
-          <option value="all">All</option>
+        <select
+          className="form-control"
+          name="category"
+          onClick={handleCategory}
+        >
+          {searchCategories.length === 0 && <option value="00">All</option>}
+          {selectOptionView}
         </select>
       </div>
+
       <div className="ps-form__input">
         <input
           ref={inputEl}

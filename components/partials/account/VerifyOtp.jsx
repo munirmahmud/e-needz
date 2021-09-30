@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const VerifyOtp = () => {
@@ -11,7 +11,7 @@ const VerifyOtp = () => {
 
   useEffect(() => {
     if (localStorage.getItem("_p") === null) {
-      return router.push("/");
+      // return router.push("/");
     } else {
       setPhone(localStorage.getItem("_p"));
     }
@@ -37,28 +37,11 @@ const VerifyOtp = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.response_status === 0) {
-          toast.error(result.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
-        if (result.response_status === 200) {
+          toast.error(result.message);
+        } else if (result.response_status === 200) {
           localStorage.removeItem("_p");
 
-          toast.success(result.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.success(result.message);
 
           router.push("/account/login");
         }
@@ -66,20 +49,37 @@ const VerifyOtp = () => {
       .catch((error) => console.log("error", error));
   };
 
+  const handleResendOtp = (e) => {
+    e.preventDefault();
+    
+    var formdata = new FormData();
+    formdata.append("customer_mobile", phone);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/customer_otp_validation_mobile`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.response_status === 0) {
+          toast.error(
+            "Sorry you can not verify your account. Please contact to the admin!"
+          );
+        } else if (result.response_status === 200) {
+          toast.success(result.message);
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
   return (
     <div className="ps-my-account">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <ToastContainer />
       <div className="container">
         <Form className="ps-form--account">
           <ul className="ps-tab-list">
@@ -116,11 +116,18 @@ const VerifyOtp = () => {
               <div className="form-group submit">
                 <button
                   type="submit"
-                  className="ps-btn ps-btn--fullwidth"
+                  className="ps-btn ps-btn--fullwidth mb-3"
                   onClick={handleSubmit}
                 >
                   Submit
                 </button>
+                <a
+                  href=#
+                  className="ps-btn ps-btn--sm pull-right "
+                  onClick={handleResendOtp}
+                >
+                  Resend OTP
+                </a>
               </div>
             </div>
           </div>

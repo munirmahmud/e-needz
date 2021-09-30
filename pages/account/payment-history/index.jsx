@@ -23,7 +23,8 @@ const PaymentHistory = () => {
 
   useEffect(() => {
     var formdata = new FormData();
-    formdata.append("customer_id", authCookie.auth);
+    // formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", "BMJUCC22X54NZCN");
 
     var requestOptions = {
       method: "POST",
@@ -65,6 +66,10 @@ const PaymentHistory = () => {
     }
   }, [spliceNO]);
 
+  const handlePaymentDetails = (e) => {
+    localStorage.setItem("order_no", e.target.getAttribute("data-orderno"));
+  };
+
   const tableItemsView = paymentHistorySpliced.map((item, index) => {
     if (item === undefined) return;
 
@@ -98,21 +103,27 @@ const PaymentHistory = () => {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          <strong> {item.payment_id}</strong>
+          <strong>{item.payment_id}</strong>
         </td>
         <td>
-          <strong> {item.order_no}</strong>
+          <strong>{item.order_no}</strong>
         </td>
         <td>
-          <strong> {item.customer_name}</strong>
+          <strong>{item.customer_name}</strong>
         </td>
         <td>
-          <strong> {item.payment_amount}</strong>
+          <strong>৳ {item.payment_amount}</strong>
         </td>
 
         <td>
           <Link href={`/account/payment-history/${item.order_id}`}>
-            <a className="ps-badge warning">Details</a>
+            <a
+              className="ps-badge warning"
+              onClick={handlePaymentDetails}
+              data-orderno={item.order_no}
+            >
+              Details
+            </a>
           </Link>
         </td>
       </tr>
@@ -128,6 +139,11 @@ const PaymentHistory = () => {
     {
       text: "Invoices",
       url: "/account/invoices",
+      icon: "icon-papers",
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
       icon: "icon-papers",
     },
     {

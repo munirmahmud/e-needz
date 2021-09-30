@@ -12,8 +12,8 @@ const ModulePaymentOptions = ({ paymentInfo }) => {
   const [method, setMethod] = useState(1);
   const [attachment, setAttachment] = useState(null);
   const [values, setValues] = useState({
-    bankName: "City Bank",
-    bankAccountNo: "57676976854654",
+    bankName: "",
+    bankAccountNo: "",
   });
 
   function handleChangeMethod(e) {

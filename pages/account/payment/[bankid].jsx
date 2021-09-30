@@ -14,7 +14,7 @@ const Payment = () => {
   const [authCookie] = useCookies(["auth"]);
 
   useEffect(() => {
-    const paymentInfo = localStorage.getItem("paymentInfo");
+    const paymentInfo = localStorage.getItem("p_info");
 
     if (paymentInfo === null || paymentInfo === undefined) {
       Router.push("/account/invoices");
@@ -65,6 +65,30 @@ const Payment = () => {
                           </figcaption>
                         </figure>
 
+                        <figure>
+                          <figcaption>
+                            <strong>Paid Amount: </strong>
+                            <small className="d-flex">
+                              <img
+                                src="/static/icons/currency-bdt.svg"
+                                alt="bdt"
+                              />{" "}
+                              {paymentData?.paid_amount}
+                            </small>
+                          </figcaption>
+                        </figure>
+                        <figure>
+                          <figcaption>
+                            <strong>Due: </strong>
+                            <small className="d-flex">
+                              <img
+                                src="/static/icons/currency-bdt.svg"
+                                alt="bdt"
+                              />{" "}
+                              {paymentData?.due_amount}.00
+                            </small>
+                          </figcaption>
+                        </figure>
                         <figure>
                           <figcaption>
                             <strong>Subtotal: </strong>

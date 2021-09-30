@@ -35,69 +35,17 @@ const Register = () => {
         return response.json();
       })
       .then((response) => {
+        console.log("customer_signup", response);
+
         if (response.response_status === 0) {
-          toast.error(response.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.error(response.message);
           setDisable(false);
         }
 
         if (response.response_status === 200) {
           localStorage.setItem("_p", phone);
 
-          var formdata = new FormData();
-          formdata.append("customer_mobile", phone);
-
-          var requestOptions = {
-            method: "POST",
-            body: formdata,
-            redirect: "follow",
-          };
-
-          fetch(
-            "http://178.128.30.38/api/react/website_api/customer_otp_validation_mobile",
-            requestOptions
-          )
-            .then((response) => response.json())
-            .then((result) => {
-              if (result.response_status === 0) {
-                toast.error(response.message, {
-                  position: "top-right",
-                  autoClose: 5000,
-                  hideProgressBar: false,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                });
-                setDisable(false);
-              }
-
-              if (result.response_status === 200) {
-                toast.success(
-                  result.message || "an otp has been sent to your phone number",
-                  {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                  }
-                );
-                setTimeout(() => {
-                  route.push("/account/otp-verification");
-                }, 4000);
-              }
-            })
-            .catch((error) => console.log("error", error));
+          route.push("/account/otp-verification");
         }
       });
   };

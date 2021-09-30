@@ -66,7 +66,11 @@ const Login = ({ auth }) => {
                 <a>Login</a>
               </Link>
             </li>
-            <li></li>
+            <li>
+              <Link href="/account/register">
+                <a>Register</a>
+              </Link>
+            </li>
           </ul>
           <div className="ps-tab active pb-4" id="sign-in">
             <div className="ps-form__content">

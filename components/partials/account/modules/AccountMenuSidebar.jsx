@@ -4,10 +4,8 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
-import { logOut } from "~/store/auth/action";
 
 const AccountMenuSidebar = ({ data }) => {
-  console.log("data", data);
   const dispatch = useDispatch();
 
   const [authCookie, removeCookie] = useCookies(["auth"]);
@@ -16,8 +14,12 @@ const AccountMenuSidebar = ({ data }) => {
   const handleLogout = (e) => {
     e.preventDefault();
     removeCookie("auth");
-    dispatch(logOut());
+    // dispatch(logOut());
     remove("auth");
+    toast.success("You successfully logged out!");
+    localStorage.removeItem("paymentInfo");
+    localStorage.removeItem("paymentGateway");
+    localStorage.removeItem("p_info");
     Router.push("/");
   };
 
