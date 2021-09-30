@@ -70,7 +70,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
 
           {item.order_status === "6"
             ? "You canceled order"
-            : item.remainingTime}
+            : isNaN(item.remainingTime) && item.remainingTime}
         </td>
 
         <td className="p-0 text-center">

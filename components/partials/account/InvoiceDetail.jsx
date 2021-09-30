@@ -388,7 +388,9 @@ const InvoiceDetail = () => {
                       <figure className="ps-block--invoice">
                         <figcaption className="d-flex align-items-center justify-content-between">
                           Bills To
-                          <button>Paid</button>
+                          <button className="ps-btn ps-btn--sm">
+                            {orderInfo?.payment_status}
+                          </button>
                         </figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>
@@ -403,27 +405,31 @@ const InvoiceDetail = () => {
                             <strong>Email:</strong> {orderInfo?.customer_email}
                           </p>
                         </div>
-                        <div className="btns-wrapper mt-4 d-flex ">
+                        <div className="btns-wrapper mt-4 d-flex flex-wrap">
                           <button
-                            className="ps-btn btn-small mr-3"
+                            className="ps-btn btn-small mr-3 mb-3"
                             onClick={handleOpenModal}
                           >
                             Report an issue
                           </button>
+
                           <button
-                            className="ps-btn btn-small mr-3"
+                            className="ps-btn btn-small mr-3 mb-3"
                             onClick={handleExistingIssues}
                           >
                             Check Existing Issues
                           </button>
-                          <Link href="/account/payment">
-                            <a
-                              className="ps-btn btn-small"
-                              style={{ backgroundColor: "#222" }}
-                            >
-                              Make Payment
-                            </a>
-                          </Link>
+
+                          {orderInfo?.order_status === "1" && (
+                            <Link href="/account/payment">
+                              <a
+                                className="ps-btn btn-small mb-3"
+                                style={{ backgroundColor: "#222" }}
+                              >
+                                Make Payment
+                              </a>
+                            </Link>
+                          )}
                         </div>
                       </figure>
                     </div>
