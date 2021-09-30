@@ -53,9 +53,9 @@ const Payment = () => {
     const bankName = bankInLowercase.split(" ")[0];
 
     if (bankName === "bank") {
-      // localStorage.setItem("paymentGateway", bankName);
+      localStorage.setItem("paymentGateway", bankName);
       Router.push(
-        `/account/payment/${bankName}-${paymentInformation.order_no}`
+        `/account/payment/${bankName}-${paymentInformation.order_id}`
       );
       return;
     } else {

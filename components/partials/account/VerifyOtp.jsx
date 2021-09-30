@@ -2,7 +2,7 @@ import { Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const VerifyOtp = () => {
@@ -37,28 +37,11 @@ const VerifyOtp = () => {
       .then((response) => response.json())
       .then((result) => {
         if (result.response_status === 0) {
-          toast.error(result.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-        }
-        if (result.response_status === 200) {
+          toast.error(result.message);
+        } else if (result.response_status === 200) {
           localStorage.removeItem("_p");
 
-          toast.success(result.message, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.success(result.message);
 
           router.push("/account/login");
         }
@@ -68,18 +51,6 @@ const VerifyOtp = () => {
 
   return (
     <div className="ps-my-account">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <ToastContainer />
       <div className="container">
         <Form className="ps-form--account">
           <ul className="ps-tab-list">
