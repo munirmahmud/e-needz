@@ -1,6 +1,6 @@
 import { Form, Input } from "antd";
 import Router from "next/router";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { connect } from "react-redux";
 import { login } from "../../../store/auth/action";
 
@@ -18,21 +18,23 @@ const ForgetPassword = () => {
     return false;
   };
 
-  const handleMobileNumber = (e) => {
+  const handleMobileNumber = useCallback(() => {
     emailRef.current.checked = false;
     mobileRef.current.checked = true;
+    console.log("mobile", isMobileHidden);
 
     setMobileHidden(true);
     setEmailHidden(false);
-  };
+  }, [isMobileHidden]);
 
-  const handleEmail = (e) => {
+  const handleEmail = useCallback(() => {
     emailRef.current.checked = true;
     mobileRef.current.checked = false;
+    console.log("email", isEmailHidden);
 
     setMobileHidden(true);
     setEmailHidden(false);
-  };
+  }, [isEmailHidden]);
 
   const handleLoginSubmit = (e) => {
     this.props.dispatch(login());
@@ -60,8 +62,9 @@ const ForgetPassword = () => {
                       id="mobile"
                       name="recoverPassword"
                       value="mobile"
-                      checked={true}
+                      checked
                       ref={mobileRef}
+                      onChange={() => setEmailHidden(false)}
                     />
                     Mobile
                   </label>
@@ -99,25 +102,25 @@ const ForgetPassword = () => {
                       name="recoverPassword"
                       value="email"
                       ref={emailRef}
+                      onChange={() => setMobileHidden(false)}
                     />
                     Email
                   </label>
                 </div>
-
                 {!isEmailHidden && (
                   <Form.Item
-                    name="mobile"
+                    name="email"
                     rules={[
                       {
                         required: true,
-                        message: "Please insert your mobile number!",
+                        message: "Please insert your email!",
                       },
                     ]}
                   >
                     <Input
                       className="form-control"
-                      type="number"
-                      placeholder="Mobile Number"
+                      type="email"
+                      placeholder="Email"
                     />
                   </Form.Item>
                 )}

@@ -11,7 +11,7 @@ const VerifyOtp = () => {
 
   useEffect(() => {
     if (localStorage.getItem("_p") === null) {
-      return router.push("/");
+      // return router.push("/");
     } else {
       setPhone(localStorage.getItem("_p"));
     }
@@ -44,6 +44,35 @@ const VerifyOtp = () => {
           toast.success(result.message);
 
           router.push("/account/login");
+        }
+      })
+      .catch((error) => console.log("error", error));
+  };
+
+  const handleResendOtp = (e) => {
+    e.preventDefault();
+    
+    var formdata = new FormData();
+    formdata.append("customer_mobile", phone);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+      redirect: "follow",
+    };
+
+    fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/customer_otp_validation_mobile`,
+      requestOptions
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (result.response_status === 0) {
+          toast.error(
+            "Sorry you can not verify your account. Please contact to the admin!"
+          );
+        } else if (result.response_status === 200) {
+          toast.success(result.message);
         }
       })
       .catch((error) => console.log("error", error));
@@ -87,11 +116,18 @@ const VerifyOtp = () => {
               <div className="form-group submit">
                 <button
                   type="submit"
-                  className="ps-btn ps-btn--fullwidth"
+                  className="ps-btn ps-btn--fullwidth mb-3"
                   onClick={handleSubmit}
                 >
                   Submit
                 </button>
+                <a
+                  href=#
+                  className="ps-btn ps-btn--sm pull-right "
+                  onClick={handleResendOtp}
+                >
+                  Resend OTP
+                </a>
               </div>
             </div>
           </div>

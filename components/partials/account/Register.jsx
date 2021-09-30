@@ -1,6 +1,6 @@
 import { Form, Input } from "antd";
 import Link from "next/link";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,7 +45,7 @@ const Register = () => {
         if (response.response_status === 200) {
           localStorage.setItem("_p", phone);
 
-          Router.push("/account/otp-verification");
+          route.push("/account/otp-verification");
         }
       });
   };

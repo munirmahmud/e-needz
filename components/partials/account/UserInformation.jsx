@@ -3,7 +3,6 @@ import AccountMenuSidebar from "~/components/partials/account/modules/AccountMen
 import FormChangeUserInformation from "~/components/shared/FormChangeUserInformation";
 
 const UserInformation = () => {
-  //Views
   const accountLinks = [
     {
       text: "Account Information",
@@ -14,6 +13,11 @@ const UserInformation = () => {
     {
       text: "Invoices",
       url: "/account/invoices",
+      icon: "icon-papers",
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
       icon: "icon-papers",
     },
     {

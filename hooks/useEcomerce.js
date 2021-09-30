@@ -105,10 +105,14 @@ export default function useEcomerce() {
 
     addItem: (newItem, items, group) => {
       let newItems = [];
+      console.log("items", items);
 
       if (items) {
         newItems = items;
-        const existItem = items.find((item) => item.id === newItem.id);
+        const existItem = items.find(
+          (item) =>
+            item.id === newItem.id && item.campaign_id === newItem.campaign_id
+        );
         if (existItem) {
           if (group === "cart") {
             existItem.quantity += newItem.quantity;

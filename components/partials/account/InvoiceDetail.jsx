@@ -14,6 +14,8 @@ const InvoiceDetail = () => {
   const attachmentRef = useRef();
   const issueDetailsRef = useRef();
 
+  console.log("pid", pid);
+
   const [authCookie] = useCookies(["auth"]);
 
   const [orderInfo, setOrderInfo] = useState([]);
@@ -290,6 +292,11 @@ const InvoiceDetail = () => {
       url: "/account/invoices",
       icon: "icon-papers",
       active: true,
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
+      icon: "icon-papers",
     },
     {
       text: "Payment History",
@@ -630,7 +637,6 @@ const InvoiceDetail = () => {
                   <a href={issueDetails.attachment} target="_blank">
                     <img
                       src={issueDetails.attachment}
-                      // src="https://eneedz.sgp1.digitaloceanspaces.com/camps/1631161260.jpg"
                       alt={issueDetails.type_name}
                       width="120"
                     />

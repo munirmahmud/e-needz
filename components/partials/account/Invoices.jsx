@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import TableOrdersItems from "~/components/dashboard/TableOrdersItems";
+import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import { toggleDrawerMenu } from "~/store/app/action";
-import AccountMenuSidebar from "./modules/AccountMenuSidebar";
 
 const Invoices = () => {
   const dispatch = useDispatch();
@@ -66,6 +66,11 @@ const Invoices = () => {
       url: "/account/invoices",
       icon: "icon-papers",
       active: true,
+    },
+    {
+      text: "Track Order",
+      url: "/account/order-tracking",
+      icon: "icon-papers",
     },
     {
       text: "Payment History",
