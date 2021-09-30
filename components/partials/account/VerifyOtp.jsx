@@ -51,7 +51,7 @@ const VerifyOtp = () => {
 
   const handleResendOtp = (e) => {
     e.preventDefault();
-    
+
     var formdata = new FormData();
     formdata.append("customer_mobile", phone);
 
@@ -122,7 +122,7 @@ const VerifyOtp = () => {
                   Submit
                 </button>
                 <a
-                  href=#
+                  href="#"
                   className="ps-btn ps-btn--sm pull-right "
                   onClick={handleResendOtp}
                 >
