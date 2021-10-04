@@ -1,5 +1,5 @@
 import { BackTop } from "antd";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux";
 import PageLoader from "~/components/elements/common/PageLoader";
@@ -14,6 +14,15 @@ import {
 const MasterLayout = ({ children }) => {
   const dispatch = useDispatch();
   const [cookies] = useCookies(["cart", "compare", "wishlist"]);
+
+  const [isLoaded, setLoaded] = useState(true);
+
+  useEffect(() => {
+    if (!document.querySelector("body").classList.contains("loaded")) {
+      setLoaded(false);
+    }
+    console.log(document.querySelector("body").classList.contains("loaded"));
+  }, [isLoaded]);
 
   function initEcomerceValues() {
     if (cookies) {
@@ -33,10 +42,13 @@ const MasterLayout = ({ children }) => {
     initEcomerceValues();
   }, []);
 
+  if (isLoaded) {
+    return <PageLoader />;
+  }
+
   return (
     <>
       <MainHead />
-      <PageLoader />
       {children}
       <NavigationList />
       <BackTop>

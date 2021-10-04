@@ -27,9 +27,8 @@ function App({ Component, pageProps }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setTimeout(function () {
-      document.getElementById("__next").classList.add("loaded");
-    }, 100);
+    document.querySelector("body").classList.add("loaded");
+
     if (authCookie.auth !== undefined) {
       let formdata = new FormData();
       formdata.append("customer_id", authCookie.auth);
