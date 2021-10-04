@@ -7,6 +7,7 @@ import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
 const ResetPassword = () => {
   const [authCookie] = useCookies(["auth"]);
+  const Router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [customerMobile, setCustomerMobile] = useState("");
   const Router = useRouter();
@@ -66,6 +67,8 @@ const ResetPassword = () => {
         newPassword: "",
         confirmPassword: "",
       });
+
+      Router.push("/account/login");
     } else {
       toast.error(result.message);
       setLoading(false);
