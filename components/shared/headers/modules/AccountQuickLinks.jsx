@@ -33,6 +33,11 @@ const AccountQuickLinks = (props) => {
       icon: "icon-papers",
     },
     {
+      text: "Track Order",
+      url: "/account/order-tracking",
+      icon: "icon-papers",
+    },
+    {
       text: "Payment History",
       url: "/account/payment-history",
       icon: "icon-papers",
@@ -48,6 +53,7 @@ const AccountQuickLinks = (props) => {
       icon: "icon-heart",
     },
   ];
+
   const { isLoggedIn } = props;
 
   // View

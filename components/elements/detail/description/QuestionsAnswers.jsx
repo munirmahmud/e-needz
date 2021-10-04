@@ -2,8 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
   const [reviews, setReviews] = useState([]);
@@ -72,17 +71,6 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
 
   return (
     <div className="ps-document">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-      />
       <h3>Questions </h3>
 
       {auth.isLoggedIn ? (

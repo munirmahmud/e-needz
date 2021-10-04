@@ -18,28 +18,35 @@ class AccountQuickLinks extends Component {
       {
         text: "Account Information",
         url: "/account/user-information",
-      },
-      {
-        text: "Notifications",
-        url: "/account/notifications",
+        icon: "icon-user",
       },
       {
         text: "Invoices",
         url: "/account/invoices",
+        icon: "icon-papers",
       },
       {
-        text: "Address",
-        url: "/account/addresses",
+        text: "Track Order",
+        url: "/account/order-tracking",
+        icon: "icon-papers",
       },
       {
-        text: "Recent Viewed Product",
-        url: "/account/recent-viewed-product",
+        text: "Payment History",
+        url: "/account/payment-history",
+        icon: "icon-papers",
       },
       {
         text: "Wishlist",
         url: "/account/wishlist",
+        icon: "icon-heart",
+      },
+      {
+        text: "Change Password",
+        url: "/account/change-password",
+        icon: "icon-heart",
       },
     ];
+
     const menu = (
       <Menu>
         {accountLinks.map((link) => (

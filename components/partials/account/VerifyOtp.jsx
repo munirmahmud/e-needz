@@ -1,13 +1,13 @@
 import { Form, Input } from "antd";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const VerifyOtp = () => {
   const router = useRouter();
   const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [isSubmitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("_p") === null) {
@@ -17,9 +17,9 @@ const VerifyOtp = () => {
     }
   }, []);
 
-  const [otp, setOtp] = useState("");
-
   const handleSubmit = () => {
+    setSubmitted(true);
+
     var formdata = new FormData();
     formdata.append("customer_mobile", phone);
     formdata.append("otp", otp);
@@ -38,8 +38,12 @@ const VerifyOtp = () => {
       .then((result) => {
         if (result.response_status === 0) {
           toast.error(result.message);
+          setTimeout(() => {
+            return router.push("/");
+          }, 2000);
         } else if (result.response_status === 200) {
           localStorage.removeItem("_p");
+          setSubmitted(false);
 
           toast.success(result.message);
 
@@ -82,14 +86,8 @@ const VerifyOtp = () => {
     <div className="ps-my-account">
       <div className="container">
         <Form className="ps-form--account">
-          <ul className="ps-tab-list">
-            <li className="active">
-              <Link href="/account/login">
-                <a>OTP Verification</a>
-              </Link>
-            </li>
-            <li></li>
-          </ul>
+          <h3 className="text-center mb-5">OTP Verification</h3>
+
           <div className="ps-tab active pb-4" id="sign-in">
             <div className="ps-form__content">
               <h5>Enter Your OTP Code</h5>
@@ -118,14 +116,11 @@ const VerifyOtp = () => {
                   type="submit"
                   className="ps-btn ps-btn--fullwidth mb-3"
                   onClick={handleSubmit}
+                  disabled={isSubmitted}
                 >
                   Submit
                 </button>
-                <a
-                  href="#"
-                  className="ps-btn ps-btn--sm pull-right "
-                  onClick={handleResendOtp}
-                >
+                <a href="#" className="pull-right" onClick={handleResendOtp}>
                   Resend OTP
                 </a>
               </div>
