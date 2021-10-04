@@ -151,7 +151,7 @@ const ChangePassword = () => {
                       </div>
                       <div className="col-sm-6">
                         <div className="form-group">
-                          <label htmlFor="password">Password</label>
+                          <label htmlFor="password">Old Password</label>
                           <input
                             id="password"
                             name="password"
@@ -180,14 +180,14 @@ const ChangePassword = () => {
                       <div className="col-sm-6">
                         <div className="form-group">
                           <label htmlFor="retypePassword">
-                            Retype Password
+                            Confirm Password
                           </label>
                           <input
                             id="retypePassword"
                             name="retypePassword"
                             className="form-control"
                             type="password"
-                            placeholder="Retype Password"
+                            placeholder="Confirm Password"
                             value={values.retypePassword}
                             onChange={handleChange}
                           />

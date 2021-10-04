@@ -47,17 +47,7 @@ function App({ Component, pageProps }) {
 
   return (
     <CookiesProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-      />
+      <ToastContainer />
       <MasterLayout>
         <Component {...pageProps} />
       </MasterLayout>

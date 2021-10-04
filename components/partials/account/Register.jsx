@@ -18,6 +18,30 @@ const Register = () => {
   const handleSubmit = (e) => {
     setDisable(true);
 
+    if (!name) {
+      toast.error("Name is required");
+      setDisable(false);
+      return;
+    } else if (!address) {
+      toast.error("Address is required");
+      setDisable(false);
+      return;
+    } else if (!email) {
+      toast.error("Email is required");
+      setDisable(false);
+      return;
+    } else if (!phone) {
+      toast.error("Phone is required");
+      setDisable(false);
+      return;
+    } else if (!password) {
+      toast.error("Password is required");
+      setDisable(false);
+      return;
+    }
+
+    console.log("Hello");
+
     e.preventDefault();
     let formData = new FormData();
     formData.append("customer_name", name);

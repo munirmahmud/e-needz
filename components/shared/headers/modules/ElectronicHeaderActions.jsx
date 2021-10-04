@@ -1,16 +1,15 @@
-import React from 'react'
-import { connect } from 'react-redux'
-import Link from 'next/link'
-
-import MiniCart from './MiniCart'
-import AccountQuickLinks from './AccountQuickLinks'
+import Link from "next/link";
+import React from "react";
+import { connect } from "react-redux";
+import AccountQuickLinks from "./AccountQuickLinks";
+import MiniCart from "./MiniCart";
 
 const ElectronicHeaderActions = ({ auth, ecomerce }) => {
   return (
-    <div className='header__actions'>
-      <Link href='/account/wishlist'>
-        <a className='header__extra'>
-          <i className='icon-heart'></i>
+    <div className="header__actions">
+      <Link href="/account/wishlist">
+        <a className="header__extra">
+          <i className="icon-heart"></i>
           <span>
             <i>{ecomerce.wishlistItems.length}</i>
           </span>
@@ -23,7 +22,7 @@ const ElectronicHeaderActions = ({ auth, ecomerce }) => {
         <AccountQuickLinks isLoggedIn={false} />
       )}
     </div>
-  )
-}
+  );
+};
 
-export default connect((state) => state)(ElectronicHeaderActions)
+export default connect((state) => state)(ElectronicHeaderActions);

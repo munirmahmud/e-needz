@@ -21,7 +21,7 @@ const MasterLayout = ({ children }) => {
     if (!document.querySelector("body").classList.contains("loaded")) {
       setLoaded(false);
     }
-    console.log(document.querySelector("body").classList.contains("loaded"));
+    // console.log(document.querySelector("body").classList.contains("loaded"));
   }, [isLoaded]);
 
   function initEcomerceValues() {
