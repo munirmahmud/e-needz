@@ -36,8 +36,8 @@ const MasterLayout = ({ children }) => {
   return (
     <>
       <MainHead />
-      {children}
       <PageLoader />
+      {children}
       <NavigationList />
       <BackTop>
         <button className="ps-btn--backtop">

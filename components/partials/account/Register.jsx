@@ -2,8 +2,7 @@ import { Form, Input } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const route = useRouter();
@@ -52,18 +51,6 @@ const Register = () => {
 
   return (
     <div className="ps-my-account">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-      <ToastContainer />
       <div className="container">
         <Form className="ps-form--account">
           <ul className="ps-tab-list">

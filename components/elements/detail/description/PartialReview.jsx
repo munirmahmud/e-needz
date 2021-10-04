@@ -3,8 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 import Rating from "~/components/elements/Rating";
 
 const PartialReview = ({ auth, product_id, seller_id }) => {
@@ -48,17 +47,6 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
 
   return (
     <div className="row">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-      />
       <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
         <div className="ps-block--average-rating">
           <div className="ps-block__header">

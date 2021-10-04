@@ -1,15 +1,22 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
+import { useCookies } from "react-cookie";
+import { toast } from "react-toastify";
 
 const OrderTracking = () => {
-  const [orderID, setOrderID] = useState("");
+  const [orderNo, setOrderNo] = useState("");
+  const [authCookie] = useCookies(["auth"]);
+
   const Router = useRouter();
+  const [isSubmitted, setSubmitted] = useState(false);
 
   const handleTrackOrder = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
 
     var formdata = new FormData();
-    formdata.append("order_id", orderID);
+    formdata.append("order_no", orderNo);
+    formdata.append("customer_id", authCookie.auth);
 
     var requestOptions = {
       method: "POST",
@@ -23,10 +30,13 @@ const OrderTracking = () => {
     );
 
     const result = await response.json();
-    console.log("order_id", result);
 
     if (result.response_status === 200) {
       Router.push(`/account/invoice-details/${result.data.order_no}`);
+      setSubmitted(false);
+    } else {
+      toast.error(result.message);
+      setSubmitted(false);
     }
   };
 
@@ -50,8 +60,8 @@ const OrderTracking = () => {
               className="form-control"
               type="text"
               placeholder="Order ID"
-              value={orderID}
-              onChange={(e) => setOrderID(e.target.value)}
+              value={orderNo}
+              onChange={(e) => setOrderNo(e.target.value)}
             />
           </div>
           {/* <div className="form-group">
@@ -59,7 +69,11 @@ const OrderTracking = () => {
             <input className="form-control" type="text" placeholder="" />
           </div> */}
           <div className="form-group">
-            <button className="ps-btn ps-btn--fullwidth" type="submit">
+            <button
+              className="ps-btn ps-btn--fullwidth"
+              type="submit"
+              disabled={isSubmitted}
+            >
               Track Your Order
             </button>
           </div>

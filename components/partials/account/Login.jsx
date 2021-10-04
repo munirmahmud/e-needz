@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect, useDispatch } from "react-redux";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { loginSuccess } from "~/store/auth/action";
 
 const Login = ({ auth }) => {
@@ -47,17 +47,6 @@ const Login = ({ auth }) => {
 
   return (
     <div className="ps-my-account">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-      />
       <div className="container">
         <Form className="ps-form--account">
           <ul className="ps-tab-list">

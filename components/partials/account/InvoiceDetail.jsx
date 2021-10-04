@@ -14,8 +14,6 @@ const InvoiceDetail = () => {
   const attachmentRef = useRef();
   const issueDetailsRef = useRef();
 
-  console.log("pid", pid);
-
   const [authCookie] = useCookies(["auth"]);
 
   const [orderInfo, setOrderInfo] = useState([]);
