@@ -16,6 +16,7 @@ const Register = () => {
   const [disable, setDisable] = useState(false);
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     setDisable(true);
 
     if (!name) {
@@ -40,9 +41,6 @@ const Register = () => {
       return;
     }
 
-    console.log("Hello");
-
-    e.preventDefault();
     let formData = new FormData();
     formData.append("customer_name", name);
     formData.append("customer_address", address);

@@ -26,8 +26,8 @@ const UserInformation = () => {
       icon: "icon-papers",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
+      text: "Address",
+      url: "/account/address",
       icon: "icon-heart",
     },
     {
