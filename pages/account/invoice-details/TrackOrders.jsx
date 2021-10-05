@@ -1,16 +1,19 @@
 import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 import { connect, useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 
-const TrackOrders = ({ order_id }) => {
+const TrackOrders = ({ orderData }) => {
+  const [authCookie] = useCookies(["auth"]);
   const dispatch = useDispatch();
   const [trackInfo, setTrackInfo] = useState([]);
   const [orderInfo, setOrderInfo] = useState("");
 
   const getOrderTrackTimeLine = async () => {
     const formData = new FormData();
-    formData.append("order_id", order_id);
+    formData.append("order_no", orderData.order_no);
+    formData.append("customer_id", authCookie.auth);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/order_tracking`,
@@ -19,18 +22,20 @@ const TrackOrders = ({ order_id }) => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData?.response_status === 200) {
-      setTrackInfo(apiData.data.track_details);
-      setOrderInfo(apiData?.data?.order_no);
+    if (result?.response_status === 200) {
+      setTrackInfo(result.data.track_details);
+      setOrderInfo(result?.data?.order_no);
+    } else {
+      console.log("order_tracking error", result);
     }
   };
 
   useEffect(() => {
     getOrderTrackTimeLine();
     dispatch(toggleDrawerMenu(false));
-  }, [order_id]);
+  }, [orderData]);
 
   const orderStatus = (item) => {
     let badgeView;
@@ -76,21 +81,26 @@ const TrackOrders = ({ order_id }) => {
     <>
       <div style={{ background: "#e8e8e8", height: "1.5rem" }} />
       <div className="card p-5 track-order-card border-0">
-        <div className="mb-2">
-          <h4>Timeline</h4>
-        </div>
+        {Array.isArray(trackInfo) && trackInfo.length > 0 && (
+          <div className="mb-2">
+            <h4>Timeline</h4>
+          </div>
+        )}
 
         <div className="ps-card__content">
           <div className="track-order-wrapper">
             <div className="ps-block__header mb-5">
               <div className="row">
-                <div className="col-6">
-                  <div>
-                    <p>
-                      <strong>Order No: </strong> #{orderInfo}
-                    </p>
+                {Array.isArray(trackInfo) && trackInfo.length > 0 && (
+                  <div className="col-6">
+                    <div>
+                      <p>
+                        <strong>Order No: </strong> {orderData.order_no}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                )}
+
                 {/* <div className="col-6">
                   <figure>
                     <figcaption>Tracking ID:</figcaption>

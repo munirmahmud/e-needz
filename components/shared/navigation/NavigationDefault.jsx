@@ -8,7 +8,7 @@ import MenuCategoriesDropdown from "~/components/shared/menus/MenuCategoriesDrop
 const NavigationDefault = () => {
   const [parentMenu, setparentMenu] = useState([]);
   const userAuth = useSelector((state) => state.auth);
-  console.log(userAuth);
+
   useEffect(() => {
     getTopMenu();
   }, []);

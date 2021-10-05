@@ -20,11 +20,12 @@ const PaymentMethods = () => {
         }
       );
 
-      const apiData = await response.json();
-      if (apiData.response_status === 200) {
-        setPaymentLists(apiData.data);
+      const result = await response.json();
+
+      if (result.response_status === 200) {
+        setPaymentLists(result.data);
       } else {
-        console.log("Payment gateway list", apiData.message);
+        console.log("Payment gateway list", result.message);
       }
     };
 

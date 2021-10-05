@@ -376,6 +376,33 @@ const InvoiceDetail = () => {
                           </p>
                         </div>
                       </figure>
+                      <div className="btns-wrapper mt-4 d-flex flex-wrap">
+                        <button
+                          className="ps-btn btn-small mr-3 mb-3"
+                          onClick={handleOpenModal}
+                        >
+                          Report an issue
+                        </button>
+
+                        <button
+                          className="ps-btn btn-small mr-3 mb-3"
+                          onClick={handleExistingIssues}
+                        >
+                          Check Existing Issues
+                        </button>
+
+                        {orderInfo?.order_status === "1" && (
+                          <Link href="/account/payment">
+                            <a
+                              className="ps-btn btn-small mb-3"
+                              style={{ backgroundColor: "#222" }}
+                              onClick={handlePaymentInformation}
+                            >
+                              Make Payment
+                            </a>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                     {/* <div className="col-md-4 col-12">
                       <figure className="ps-block--invoice">
@@ -405,7 +432,7 @@ const InvoiceDetail = () => {
                       <figure className="ps-block--invoice">
                         <figcaption className="d-flex align-items-center justify-content-between">
                           Bills To
-                          <button className="ps-btn ps-btn--sm">
+                          <button className="ps-btn ps-btn--sm" disabled>
                             {orderInfo?.payment_status}
                           </button>
                         </figcaption>
@@ -421,33 +448,17 @@ const InvoiceDetail = () => {
                           <p>
                             <strong>Email:</strong> {orderInfo?.customer_email}
                           </p>
-                        </div>
-                        <div className="btns-wrapper mt-4 d-flex flex-wrap">
-                          <button
-                            className="ps-btn btn-small mr-3 mb-3"
-                            onClick={handleOpenModal}
-                          >
-                            Report an issue
-                          </button>
-
-                          <button
-                            className="ps-btn btn-small mr-3 mb-3"
-                            onClick={handleExistingIssues}
-                          >
-                            Check Existing Issues
-                          </button>
-
-                          {orderInfo?.order_status === "1" && (
-                            <Link href="/account/payment">
-                              <a
-                                className="ps-btn btn-small mb-3"
-                                style={{ backgroundColor: "#222" }}
-                                onClick={handlePaymentInformation}
-                              >
-                                Make Payment
-                              </a>
-                            </Link>
-                          )}
+                          <p>
+                            <strong>Payment Method:</strong>{" "}
+                            {orderInfo?.pmethod}
+                          </p>
+                          <hr />
+                          <p>
+                            <strong>Order No:</strong> {orderInfo?.order_no}
+                          </p>
+                          <p>
+                            <strong>Order Date:</strong> {orderInfo?.date}
+                          </p>
                         </div>
                       </figure>
                     </div>
@@ -495,7 +506,7 @@ const InvoiceDetail = () => {
               </div>
             </div>
 
-            <TrackOrders order_id={orderInfo?.order_id} />
+            <TrackOrders orderData={orderInfo} />
           </div>
         </div>
       </div>

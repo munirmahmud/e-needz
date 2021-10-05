@@ -251,13 +251,14 @@ const FormCheckoutInformation = ({ ecomerce }) => {
         body: formData,
       }
     );
-    const data = await response.json();
+    const result = await response.json();
 
-    if (data.response_status === 0) {
-      toast.error(data.message);
-    } else if (data?.response_status === 200) {
+    if (result.response_status === 0) {
+      toast.error(result.message);
+      setSubmitted(false);
+    } else if (result?.response_status === 200) {
       toast.success("Your order has been placed successfully!");
-      setAddresses(data?.data?.address_list);
+      setAddresses(result?.data?.address_list);
       localStorage.removeItem("p_code");
       remove("cart");
       dispatch(setCartItems([]));
@@ -265,6 +266,9 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       setSubmitSuccess(!isSubmitSuccess);
       setAgreeWithTerms(false);
       Router.push("/account/invoices");
+    } else {
+      setSubmitted(false);
+      toast.error(result.message);
     }
   };
 
