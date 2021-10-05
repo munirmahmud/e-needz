@@ -23,6 +23,7 @@ const InvoiceDetail = () => {
   const [issueID, setIssueID] = useState("");
   const [attachment, setAttachment] = useState(null);
   const [existingIssues, setExistingIssues] = useState([]);
+  // const [totalAmount, setTotalAmount] = useState("")
 
   const [isIssueDetails, setIsIssueDetails] = useState(false);
   const [issueDetails, setIssueDetails] = useState({});
@@ -56,13 +57,15 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
+    console.log("details_order", result);
 
     let newProduct = {};
     if (result?.response_status === 200) {
       setOrderInfo(result.data);
+      // setTotalAmount(result.data.total_amount)
     }
   };
-
+  console.log(orderInfo);
   useEffect(() => {
     getOrderDetails();
   }, [pid]);
@@ -486,7 +489,7 @@ const InvoiceDetail = () => {
                       <a className="ps-btn ps-btn--sm">Back to invoices</a>
                     </Link>
 
-                    <div>Total Amount: 51248</div>
+                    <div>Total Amount: ৳ {orderInfo.total_amount}</div>
                   </div>
                 </div>
               </div>

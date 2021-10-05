@@ -13,7 +13,7 @@ const Login = ({ auth }) => {
 
   const [authCookie, setAuthCookie] = useCookies(["auth"]);
 
-  const [phone, setPhone] = useState("01776967480");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
