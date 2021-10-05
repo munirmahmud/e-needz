@@ -1,63 +1,68 @@
-import { notification } from 'antd'
-import Link from 'next/link'
-import React, { Component } from 'react'
-import PrimaryMenu from '~/components/elements/menu/PrimaryMenu'
-import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown'
-import LanguageSwicher from '../headers/modules/LanguageSwicher'
+import { notification } from "antd";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import PrimaryMenu from "~/components/elements/menu/PrimaryMenu";
+import MenuCategoriesDropdown from "~/components/shared/menus/MenuCategoriesDropdown";
 
-class NavigationDefault extends Component {
-  constructor(props) {
-    super(props)
+const NavigationDefault = () => {
+  const [parentMenu, setparentMenu] = useState([]);
+  const userAuth = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    getTopMenu();
+  }, []);
+
+  async function getTopMenu() {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/top_menu`,
+      {
+        method: "POST",
+      }
+    );
+    const result = await response.json();
+
+    if (result.response_status === 200) {
+      setparentMenu(result.data);
+    } else {
+      console.log("top menu error", result);
+    }
   }
 
-  state = {
-    parentMenu: [],
-  }
-
-  handleFeatureWillUpdate(e) {
-    e.preventDefault()
+  const handleFeatureWillUpdate = (e) => {
+    e.preventDefault();
     notification.open({
-      message: 'Opp! Something went wrong.',
-      description: 'This feature has been updated later!',
+      message: "Opp! Something went wrong.",
+      description: "This feature has been updated later!",
       duration: 500,
-    })
-  }
+    });
+  };
 
-  componentDidMount() {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL}/top_menu`, {
-      method: 'POST',
-    })
-      .then((res) => res.json())
-      .then(({ data }) => {
-        this.setState({ parentMenu: data })
-      })
-  }
+  return (
+    <nav className="navigation">
+      <div className="ps-container nav-container">
+        <div className="navigation__left">
+          <MenuCategoriesDropdown />
+        </div>
+        <div className="navigation__right">
+          <PrimaryMenu source={parentMenu} className="menu" />
 
-  render() {
-    return (
-      <nav className='navigation'>
-        <div className='ps-container nav-container'>
-          <div className='navigation__left'>
-            <MenuCategoriesDropdown />
-          </div>
-          <div className='navigation__right'>
-            <PrimaryMenu source={this.state.parentMenu} className='menu' />
-
-            <ul className='navigation__extra'>
-              <li className='navigation-text'>
-                <Link href='/account/order-tracking'>
+          <ul className="navigation__extra">
+            {userAuth.isLoggedIn && (
+              <li className="navigation-text">
+                <Link href="/account/order-tracking">
                   <a>Tract your order</a>
                 </Link>
               </li>
-              <li>
+            )}
+            {/* <li>
                 <LanguageSwicher />
-              </li>
-            </ul>
-          </div>
+              </li> */}
+          </ul>
         </div>
-      </nav>
-    )
-  }
-}
+      </div>
+    </nav>
+  );
+};
 
-export default NavigationDefault
+export default NavigationDefault;

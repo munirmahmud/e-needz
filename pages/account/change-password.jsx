@@ -27,7 +27,7 @@ const ChangePassword = () => {
     setLoading(true);
 
     var formdata = new FormData();
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
     formdata.append("email", values.email);
     formdata.append("password", values.password);
     formdata.append("newpassword", values.newPassword);
@@ -96,17 +96,17 @@ const ChangePassword = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
       active: true,
     },
   ];
@@ -151,7 +151,7 @@ const ChangePassword = () => {
                       </div>
                       <div className="col-sm-6">
                         <div className="form-group">
-                          <label htmlFor="password">Password</label>
+                          <label htmlFor="password">Old Password</label>
                           <input
                             id="password"
                             name="password"
@@ -180,14 +180,14 @@ const ChangePassword = () => {
                       <div className="col-sm-6">
                         <div className="form-group">
                           <label htmlFor="retypePassword">
-                            Retype Password
+                            Confirm Password
                           </label>
                           <input
                             id="retypePassword"
                             name="retypePassword"
                             className="form-control"
                             type="password"
-                            placeholder="Retype Password"
+                            placeholder="Confirm Password"
                             value={values.retypePassword}
                             onChange={handleChange}
                           />

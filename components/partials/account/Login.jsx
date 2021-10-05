@@ -13,7 +13,7 @@ const Login = ({ auth }) => {
 
   const [authCookie, setAuthCookie] = useCookies(["auth"]);
 
-  const [phone, setPhone] = useState("01776967480");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
@@ -30,16 +30,24 @@ const Login = ({ auth }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        console.log("customer_login", result);
         if (result.response_status === 0) {
           toast.error(result.message);
         }
         if (result.response_status === 200) {
-          toast.success("Login successful");
-          setAuthCookie("auth", result.data.customer_id, { path: "/" });
+          toast.success(result.message);
+          const profileInfo = {
+            id: result.data.customer_id,
+            email: result.data.customer_email,
+            mobile: result.data.customer_mobile,
+            name: result.data.customer_name,
+            image: result.data.image,
+          };
+          setAuthCookie("auth", profileInfo, { path: "/" });
           setTimeout(() => {
             dispatch(loginSuccess());
             router.push("/");
-          }, 3000);
+          }, 500);
         }
       })
       .catch((error) => console.log("error", error));

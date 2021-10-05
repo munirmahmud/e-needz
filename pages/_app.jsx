@@ -29,9 +29,9 @@ function App({ Component, pageProps }) {
   useEffect(() => {
     document.querySelector("body").classList.add("loaded");
 
-    if (authCookie.auth !== undefined) {
+    if (authCookie.auth?.id !== undefined) {
       let formdata = new FormData();
-      formdata.append("customer_id", authCookie.auth);
+      formdata.append("customer_id", authCookie.auth?.id);
       fetch(`${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/is_valid_customer`, {
         method: "POST",
         body: formdata,
@@ -47,17 +47,7 @@ function App({ Component, pageProps }) {
 
   return (
     <CookiesProvider>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover={false}
-      />
+      <ToastContainer />
       <MasterLayout>
         <Component {...pageProps} />
       </MasterLayout>

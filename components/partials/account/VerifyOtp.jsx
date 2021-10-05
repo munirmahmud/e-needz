@@ -8,6 +8,7 @@ const VerifyOtp = () => {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [isSubmitted, setSubmitted] = useState(false);
+  const [isResendOtpClicked, setResendOtpClicked] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("_p") === null) {
@@ -53,8 +54,16 @@ const VerifyOtp = () => {
       .catch((error) => console.log("error", error));
   };
 
+  const OtpResendTimer = () => {
+    const total = Date.parse(new Date()) - Date.parse(new Date());
+    console.log(total);
+  };
+  OtpResendTimer();
+
   const handleResendOtp = (e) => {
     e.preventDefault();
+    setResendOtpClicked(true);
+    console.log(new Date() + 60000);
 
     var formdata = new FormData();
     formdata.append("customer_mobile", phone);
@@ -65,21 +74,22 @@ const VerifyOtp = () => {
       redirect: "follow",
     };
 
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/customer_otp_validation_mobile`,
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        if (result.response_status === 0) {
-          toast.error(
-            "Sorry you can not verify your account. Please contact to the admin!"
-          );
-        } else if (result.response_status === 200) {
-          toast.success(result.message);
-        }
-      })
-      .catch((error) => console.log("error", error));
+    setTimeout(() => setResendOtpClicked(false), 60000);
+    // fetch(
+    //   `${process.env.NEXT_PUBLIC_API_URL}/customer_otp_validation_mobile`,
+    //   requestOptions
+    // )
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     if (result.response_status === 0) {
+    //       toast.error(
+    //         "Sorry you can not verify your account. Please contact to the admin!"
+    //       );
+    //     } else if (result.response_status === 200) {
+    //       toast.success(result.message);
+    //     }
+    //   })
+    //   .catch((error) => console.log("error", error));
   };
 
   return (
@@ -120,9 +130,16 @@ const VerifyOtp = () => {
                 >
                   Submit
                 </button>
-                <a href="#" className="pull-right" onClick={handleResendOtp}>
-                  Resend OTP
-                </a>
+                {!isResendOtpClicked && (
+                  <a href="#" className="pull-right" onClick={handleResendOtp}>
+                    Resend OTP
+                  </a>
+                )}
+
+                {isResendOtpClicked &&
+                  setInterval(() => {
+                    console.log("Hello");
+                  }, 1000)}
               </div>
             </div>
           </div>

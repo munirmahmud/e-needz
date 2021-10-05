@@ -11,7 +11,7 @@ const PaymentMethods = () => {
     const getPaymentMethodLists = async () => {
       let formData = new FormData();
 
-      formData.append("customer_id", authCookie.auth);
+      formData.append("customer_id", authCookie.auth?.id);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/payment_gateway_list`,
         {
@@ -20,11 +20,12 @@ const PaymentMethods = () => {
         }
       );
 
-      const apiData = await response.json();
-      if (apiData.response_status === 200) {
-        setPaymentLists(apiData.data);
+      const result = await response.json();
+
+      if (result.response_status === 200) {
+        setPaymentLists(result.data);
       } else {
-        console.log("Payment gateway list", apiData.message);
+        console.log("Payment gateway list", result.message);
       }
     };
 

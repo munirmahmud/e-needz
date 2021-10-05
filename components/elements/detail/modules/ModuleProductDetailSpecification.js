@@ -3,12 +3,12 @@ import Link from "next/link";
 const ModuleProductDetailSpecification = ({ product }) => {
   return (
     <div className="ps-product__specification">
-      <Link href="/page/blank">
+      {/* <Link href="/page/blank">
         <a className="report">Report Abuse</a>
-      </Link>
-      <p>
+      </Link> */}
+      {/* <p>
         <strong>Seller id:</strong> {product.seller_id}
-      </p>
+      </p> */}
       <p className="categories">
         <strong> Categories:</strong>
         <Link href={`/category/${product.category_id}`}>

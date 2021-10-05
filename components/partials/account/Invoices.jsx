@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TableOrdersItems from "~/components/dashboard/TableOrdersItems";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import { toggleDrawerMenu } from "~/store/app/action";
 
 const Invoices = () => {
   const dispatch = useDispatch();
+  const authUser = useSelector((state) => state);
+
   const [usrOrderItems, setUsrOrderItems] = useState([]);
   const [usrOrderItemsSpliced, setUsrOrderItemsSpliced] = useState([]);
   const [len, setLen] = useState(0);
@@ -15,13 +17,15 @@ const Invoices = () => {
   const [err, setErr] = useState(false);
   const [authCookie] = useCookies(["auth"]);
 
+  useEffect(() => {});
+
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
   }, []);
 
   useEffect(() => {
     var formdata = new FormData();
-    formdata.append("customer_id", authCookie.auth); /** It has to be dynamic */
+    formdata.append("customer_id", authCookie.auth?.id);
 
     var requestOptions = {
       method: "POST",
@@ -35,6 +39,7 @@ const Invoices = () => {
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log("result", result);
         if (result.response_status === 200) {
           setUsrOrderItems(result.data);
           setUsrOrderItemsSpliced(result.data);
@@ -75,17 +80,17 @@ const Invoices = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
     },
   ];
 

@@ -23,6 +23,7 @@ const InvoiceDetail = () => {
   const [issueID, setIssueID] = useState("");
   const [attachment, setAttachment] = useState(null);
   const [existingIssues, setExistingIssues] = useState([]);
+  // const [totalAmount, setTotalAmount] = useState("")
 
   const [isIssueDetails, setIsIssueDetails] = useState(false);
   const [issueDetails, setIssueDetails] = useState({});
@@ -56,13 +57,15 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
+    console.log("details_order", result);
 
     let newProduct = {};
     if (result?.response_status === 200) {
       setOrderInfo(result.data);
+      // setTotalAmount(result.data.total_amount)
     }
   };
-
+  console.log(orderInfo);
   useEffect(() => {
     getOrderDetails();
   }, [pid]);
@@ -95,7 +98,7 @@ const InvoiceDetail = () => {
     setOpenModal(true);
     let formData = new FormData();
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issuetype_list`,
       {
@@ -118,7 +121,7 @@ const InvoiceDetail = () => {
     formData.append("issueType_id", issueItems.issue_type); //Issue type ID
     formData.append("order_id", pid);
     formData.append("details", issueItems.description); //Issue details
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("action", "1");
 
     attachment !== null && formData.append("attachment", attachment);
@@ -153,7 +156,7 @@ const InvoiceDetail = () => {
     let formData = new FormData();
 
     formData.append("order_id", pid);
-    formData.append("customer_id", authCookie.auth); //Customer ID
+    formData.append("customer_id", authCookie.auth?.id); //Customer ID
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_list`,
       {
@@ -189,7 +192,7 @@ const InvoiceDetail = () => {
 
     formData.append("issue_id", e.currentTarget.dataset.issueid);
     formData.append("order_id", pid);
-    formData.append("customer_id", authCookie.auth); //Customer ID
+    formData.append("customer_id", authCookie.auth?.id); //Customer ID
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_details`,
       {
@@ -220,7 +223,7 @@ const InvoiceDetail = () => {
     formData.append("order_id", pid);
     formData.append("issue_id", issueDetails.issue_id);
     formData.append("details", customerComment);
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("action", 2);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
@@ -248,7 +251,7 @@ const InvoiceDetail = () => {
     formData.append("order_id", pid);
     formData.append("issue_id", issueDetails.issue_id);
     formData.append("details", customerComment);
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("status", 1); //Status must be 1 to resolve the issue
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
@@ -299,17 +302,17 @@ const InvoiceDetail = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
     },
   ];
 
@@ -373,6 +376,33 @@ const InvoiceDetail = () => {
                           </p>
                         </div>
                       </figure>
+                      <div className="btns-wrapper mt-4 d-flex flex-wrap">
+                        <button
+                          className="ps-btn btn-small mr-3 mb-3"
+                          onClick={handleOpenModal}
+                        >
+                          Report an issue
+                        </button>
+
+                        <button
+                          className="ps-btn btn-small mr-3 mb-3"
+                          onClick={handleExistingIssues}
+                        >
+                          Check Existing Issues
+                        </button>
+
+                        {orderInfo?.order_status === "1" && (
+                          <Link href="/account/payment">
+                            <a
+                              className="ps-btn btn-small mb-3"
+                              style={{ backgroundColor: "#222" }}
+                              onClick={handlePaymentInformation}
+                            >
+                              Make Payment
+                            </a>
+                          </Link>
+                        )}
+                      </div>
                     </div>
                     {/* <div className="col-md-4 col-12">
                       <figure className="ps-block--invoice">
@@ -402,7 +432,7 @@ const InvoiceDetail = () => {
                       <figure className="ps-block--invoice">
                         <figcaption className="d-flex align-items-center justify-content-between">
                           Bills To
-                          <button className="ps-btn ps-btn--sm">
+                          <button className="ps-btn ps-btn--sm" disabled>
                             {orderInfo?.payment_status}
                           </button>
                         </figcaption>
@@ -418,33 +448,17 @@ const InvoiceDetail = () => {
                           <p>
                             <strong>Email:</strong> {orderInfo?.customer_email}
                           </p>
-                        </div>
-                        <div className="btns-wrapper mt-4 d-flex flex-wrap">
-                          <button
-                            className="ps-btn btn-small mr-3 mb-3"
-                            onClick={handleOpenModal}
-                          >
-                            Report an issue
-                          </button>
-
-                          <button
-                            className="ps-btn btn-small mr-3 mb-3"
-                            onClick={handleExistingIssues}
-                          >
-                            Check Existing Issues
-                          </button>
-
-                          {orderInfo?.order_status === "1" && (
-                            <Link href="/account/payment">
-                              <a
-                                className="ps-btn btn-small mb-3"
-                                style={{ backgroundColor: "#222" }}
-                                onClick={handlePaymentInformation}
-                              >
-                                Make Payment
-                              </a>
-                            </Link>
-                          )}
+                          <p>
+                            <strong>Payment Method:</strong>{" "}
+                            {orderInfo?.pmethod}
+                          </p>
+                          <hr />
+                          <p>
+                            <strong>Order No:</strong> {orderInfo?.order_no}
+                          </p>
+                          <p>
+                            <strong>Order Date:</strong> {orderInfo?.date}
+                          </p>
                         </div>
                       </figure>
                     </div>
@@ -486,13 +500,13 @@ const InvoiceDetail = () => {
                       <a className="ps-btn ps-btn--sm">Back to invoices</a>
                     </Link>
 
-                    <div>Total Amount: 51248</div>
+                    <div>Total Amount: ৳ {orderInfo.total_amount}</div>
                   </div>
                 </div>
               </div>
             </div>
 
-            <TrackOrders order_id={orderInfo?.order_id} />
+            <TrackOrders orderData={orderInfo} />
           </div>
         </div>
       </div>

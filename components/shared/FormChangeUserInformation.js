@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 
 const FormChangeUserInformation = () => {
-  const [authCookie] = useCookies(["auth"]);
+  const [authCookie, setAuthCookie] = useCookies(["auth"]);
 
   const [fisrtName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -18,11 +18,12 @@ const FormChangeUserInformation = () => {
   const [country, setCountry] = useState("");
   const [company, setCompany] = useState("");
   const [image, setImage] = useState("");
+  const [oldImage, setOldImage] = useState("");
 
   useEffect(() => {
     var formdata = new FormData();
 
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
 
     var requestOptions = {
       method: "POST",
@@ -36,7 +37,6 @@ const FormChangeUserInformation = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("customer_profile", result);
         if (result.response_status === 200) {
           setFirstName(result.data.first_name);
           setLastName(result.data.last_name);
@@ -50,6 +50,7 @@ const FormChangeUserInformation = () => {
           setCountry(result.data.country);
           setCompany(result.data.company);
           setPhone(result.data.customer_mobile);
+          setOldImage(result.data.image);
         }
       })
       .catch((error) => console.log("error", error));
@@ -57,8 +58,9 @@ const FormChangeUserInformation = () => {
 
   const handleProfileUpdate = (e) => {
     e.preventDefault();
+
     var formdata = new FormData();
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
     formdata.append("first_name", fisrtName);
     formdata.append("last_name", lastName);
     formdata.append("customer_email", email);
@@ -69,7 +71,12 @@ const FormChangeUserInformation = () => {
     formdata.append("zip", zip);
     formdata.append("country", country);
     formdata.append("company", company);
-    formdata.append("image", image);
+
+    if (image) {
+      formdata.append("image", image);
+    } else {
+      formdata.append("old_image", oldImage);
+    }
 
     var requestOptions = {
       method: "POST",
@@ -83,17 +90,18 @@ const FormChangeUserInformation = () => {
     )
       .then((response) => response.json())
       .then((result) => {
-        console.log("profile updated", result);
         if (result.response_status === 200) {
-          toast.success("Your Profile was updated successfully", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
+          toast.success("Your Profile was updated successfully");
+          const profileInfo = {
+            id: authCookie.auth?.id,
+            email,
+            mobile: phone,
+            name: `${fisrtName} ${lastName}`,
+            image: URL.createObjectURL(image),
+          };
+          setAuthCookie("auth", profileInfo, { path: "/" });
+        } else {
+          console.log("profile update error", result);
         }
       })
       .catch((error) => console.log("error", error));
@@ -121,7 +129,7 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="email">Last Name</label>
+              <label htmlFor="last_name">Last Name</label>
               <input
                 id="last_name"
                 className="form-control"
@@ -147,7 +155,7 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="mobile">Email</label>
+              <label htmlFor="email">Email</label>
               <input
                 id="email"
                 className="form-control"
@@ -161,9 +169,9 @@ const FormChangeUserInformation = () => {
 
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="address">Short Address</label>
+              <label htmlFor="short_address">Short Address</label>
               <input
-                id="short-address"
+                id="short_address"
                 className="form-control"
                 type="text"
                 placeholder="Short Address"
@@ -214,7 +222,7 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="state">City</label>
+              <label htmlFor="city">City</label>
               <input
                 id="city"
                 className="form-control"
@@ -227,12 +235,12 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="state">Zip Code</label>
+              <label htmlFor="zip_code">Zip Code</label>
               <input
                 id="zip_code"
                 className="form-control"
                 type="number"
-                placeholder="zip_code"
+                placeholder="Zip Code"
                 value={zip}
                 onChange={(e) => setZip(e.target.value)}
               />
@@ -240,7 +248,7 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="state">Country</label>
+              <label htmlFor="country">Country</label>
               <input
                 id="country"
                 className="form-control"
@@ -253,7 +261,7 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="state">Company Name</label>
+              <label htmlFor="company_name">Company Name</label>
               <input
                 id="company_name"
                 className="form-control"
@@ -266,16 +274,24 @@ const FormChangeUserInformation = () => {
           </div>
           <div className="col-sm-6">
             <div className="form-group">
-              <label htmlFor="customer_address_2">Profile Logo/Picture</label>
+              <label htmlFor="profile_picture">Profile Logo/Picture</label>
               <input
                 id="profile_picture"
                 className="form-control"
                 type="file"
                 onChange={(e) => setImage(e.target.files[0])}
               />
+              <input
+                id="profile_picture"
+                className="form-control"
+                value={oldImage}
+                onChange={(e) => setOldImage(oldImage)}
+                hidden
+              />
             </div>
           </div>
         </div>
+
         <div className="ps-form__submit text-center">
           <button className="ps-btn success" type="submit">
             Update Profile

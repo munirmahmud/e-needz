@@ -23,7 +23,7 @@ const Payment = () => {
     const getPaymentGateway = async () => {
       let formData = new FormData();
 
-      formData.append("customer_id", authCookie.auth);
+      formData.append("customer_id", authCookie.auth?.id);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/payment_gateway_list`,
         {
@@ -87,7 +87,7 @@ const Payment = () => {
 
     formData.append("payment_amount", payableAmount);
     formData.append("payment_method", paymentGatewayName);
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     formData.append("order_id", paymentInformation.order_id);
 
     const response = await fetch(

@@ -40,14 +40,14 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
           <a>{thumbnailImage(product)}</a>
         </Link>
         {/* {badge(product)} */}
-        {product.on_sale === "0" && (
+        {product.on_sale === "1" && (
           <small className="product-offer-badge">
             off ৳ {product.discount_amount}
           </small>
         )}
-        {/* {product.discount_percent === "1" && ( */}
-        <small className="product-offer-badge discount">10% Off</small>
-        {/* )} */}
+        {product.on_sale === "1" && (
+          <small className="product-offer-badge discount">10% Off</small>
+        )}
 
         <ModuleProductActions product={product} />
       </div>

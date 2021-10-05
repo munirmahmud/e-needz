@@ -688,6 +688,20 @@ button.ps-btn:disabled {
     }
   }
 }
+
+.profile-image {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    width: 60px;
+    object-fit: cover;
+  }
+}
+
 .badge-btn {
   padding: 3px 12px;
   border-radius: 20px;

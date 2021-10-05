@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import useEcomerce from "~/hooks/useEcomerce";
 
 const ModuleDetailShoppingActions = ({
@@ -24,6 +25,8 @@ const ModuleDetailShoppingActions = ({
       ecomerce.cartItems,
       "cart"
     );
+
+    toast.success("The product added into your cart!");
   }
 
   function handleBuynow(e) {
@@ -39,7 +42,7 @@ const ModuleDetailShoppingActions = ({
     );
     setTimeout(function () {
       Router.push("/account/checkout");
-    }, 1000);
+    }, 100);
   }
 
   const handleAddItemToCompare = (e) => {

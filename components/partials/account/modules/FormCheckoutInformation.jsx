@@ -54,7 +54,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     const getCustomerAddress = async () => {
       let formData = new FormData();
 
-      formData.append("customer_id", authCookie.auth);
+      formData.append("customer_id", authCookie.auth?.id);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/customer_address`,
         {
@@ -92,7 +92,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   const handleDivision = async (e) => {
     let formData = new FormData();
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/statelist`,
       {
@@ -114,7 +114,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   const handleCity = async (e) => {
     let formData = new FormData();
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     formData.append("state_id", divisionID);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/citylist`,
@@ -140,7 +140,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     var formdata = new FormData();
 
     const datass = [
-      authCookie.auth,
+      authCookie.auth?.id,
       values.recipientName,
       values.phoneNo,
       divisionID,
@@ -149,7 +149,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       values.address,
     ];
 
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
     formdata.append("customer_name", values.recipientName);
     formdata.append("customer_phone", values.phoneNo);
     formdata.append("division", divisionID); //Sate ID
@@ -213,7 +213,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       });
     });
 
-    if (!authCookie.auth && authCookie.auth !== undefined) {
+    if (!authCookie.auth.id && authCookie.auth?.id !== undefined) {
       toast.error("Please login first & then confirm order");
       setSubmitted(false);
       return;
@@ -239,7 +239,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       return;
     }
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     formData.append("address_id", address);
     formData.append("cart_details", JSON.stringify(newItems));
     formData.append("payment_method", payment_method);
@@ -251,13 +251,14 @@ const FormCheckoutInformation = ({ ecomerce }) => {
         body: formData,
       }
     );
-    const data = await response.json();
+    const result = await response.json();
 
-    if (data.response_status === 0) {
-      toast.error(data.message);
-    } else if (data?.response_status === 200) {
+    if (result.response_status === 0) {
+      toast.error(result.message);
+      setSubmitted(false);
+    } else if (result?.response_status === 200) {
       toast.success("Your order has been placed successfully!");
-      setAddresses(data?.data?.address_list);
+      setAddresses(result?.data?.address_list);
       localStorage.removeItem("p_code");
       remove("cart");
       dispatch(setCartItems([]));
@@ -265,6 +266,9 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       setSubmitSuccess(!isSubmitSuccess);
       setAgreeWithTerms(false);
       Router.push("/account/invoices");
+    } else {
+      setSubmitted(false);
+      toast.error(result.message);
     }
   };
 

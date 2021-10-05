@@ -57,16 +57,12 @@ export function StrapiProductPriceExpanded(product) {
   if (product.on_sale === "1") {
     view = (
       <p className="ps-product__price sale">
-        <del className="ml-2">৳{formatCurrency(product.price)}</del>
-        <span className="ml-2">৳{formatCurrency(product.offer_price)}</span>
+        <del className="ml-2">৳ {formatCurrency(product.price)}</del>
+        <span className="ml-2">৳ {formatCurrency(product.offer_price)}</span>
       </p>
     );
   } else {
-    view = (
-      <p className="ps-product__price">
-        {/* ${formatCurrency(product.price)} */}৳{product.price}
-      </p>
-    );
+    view = <p className="ps-product__price">৳ {product.price}</p>;
   }
   return view;
 }
