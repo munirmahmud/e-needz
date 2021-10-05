@@ -100,6 +100,7 @@ const SearchHeader = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsSearch(false);
     Router.push(`/search?keyword=${keyword}`);
   }
 
