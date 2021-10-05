@@ -22,7 +22,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
   }, [ecomerce]);
 
   const handleConfirmOrder = () => {
-    if (authCookie.auth !== undefined && authCookie.auth !== "") {
+    if (authCookie.auth?.id !== undefined && authCookie.auth?.id !== "") {
       Router.push("/account/checkout");
       return;
     }

@@ -1,3 +1,4 @@
+import { Switch } from "antd";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
@@ -5,15 +6,19 @@ import AccountMenuSidebar from "~/components/partials/account/modules/AccountMen
 
 const Addresses = () => {
   const [addressLists, setAddressList] = useState(null);
+  const [disabled, setDisabled] = useState(true);
+  const [primaryAddress, setPrimaryAddress] = useState(true);
+
   const [authCookie] = useCookies(["auth"]);
 
   useEffect(() => {
     getAddresses();
   }, []);
+
   async function getAddresses() {
     const formData = new FormData();
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/customer_address`,
       {
@@ -60,6 +65,11 @@ const Addresses = () => {
     }
   }
 
+  const onChange = (checked) => {
+    setPrimaryAddress();
+    console.log(`switch to ${checked}`);
+  };
+
   const accountLinks = [
     {
       text: "Account Information",
@@ -79,18 +89,18 @@ const Addresses = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
       text: "Address",
       url: "/account/address",
-      icon: "icon-heart",
+      icon: "icon-map-marker",
       active: true,
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
     },
   ];
 
@@ -104,7 +114,7 @@ const Addresses = () => {
             </div>
           </div>
 
-          <div className="col-lg-8">
+          <div className="col-lg-9">
             <div className="ps-section--account-setting">
               <div className="ps-section__content">
                 {Array.isArray(addressLists) && addressLists.length > 0 ? (
@@ -130,10 +140,13 @@ const Addresses = () => {
                           </th>
                           <th scope="row">{address.customer_phone}</th>
                           <th scope="row">Action</th>
+
                           <th scope="row">
-                            {address.is_primary === "1"
-                              ? "Primary"
-                              : "Not Primary"}
+                            {address.is_primary === "1" ? (
+                              <Switch defaultChecked onChange={onChange} />
+                            ) : (
+                              <Switch defaultChecked onChange={onChange} />
+                            )}
                           </th>
                         </tr>
                       ))}

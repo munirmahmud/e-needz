@@ -16,7 +16,7 @@ const OrderTracking = () => {
 
     var formdata = new FormData();
     formdata.append("order_no", orderNo);
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
 
     var requestOptions = {
       method: "POST",

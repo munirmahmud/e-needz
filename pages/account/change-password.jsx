@@ -27,7 +27,7 @@ const ChangePassword = () => {
     setLoading(true);
 
     var formdata = new FormData();
-    formdata.append("customer_id", authCookie.auth);
+    formdata.append("customer_id", authCookie.auth?.id);
     formdata.append("email", values.email);
     formdata.append("password", values.password);
     formdata.append("newpassword", values.newPassword);
@@ -96,17 +96,17 @@ const ChangePassword = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
       active: true,
     },
   ];

@@ -98,7 +98,7 @@ const InvoiceDetail = () => {
     setOpenModal(true);
     let formData = new FormData();
 
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issuetype_list`,
       {
@@ -121,7 +121,7 @@ const InvoiceDetail = () => {
     formData.append("issueType_id", issueItems.issue_type); //Issue type ID
     formData.append("order_id", pid);
     formData.append("details", issueItems.description); //Issue details
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("action", "1");
 
     attachment !== null && formData.append("attachment", attachment);
@@ -156,7 +156,7 @@ const InvoiceDetail = () => {
     let formData = new FormData();
 
     formData.append("order_id", pid);
-    formData.append("customer_id", authCookie.auth); //Customer ID
+    formData.append("customer_id", authCookie.auth?.id); //Customer ID
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_list`,
       {
@@ -192,7 +192,7 @@ const InvoiceDetail = () => {
 
     formData.append("issue_id", e.currentTarget.dataset.issueid);
     formData.append("order_id", pid);
-    formData.append("customer_id", authCookie.auth); //Customer ID
+    formData.append("customer_id", authCookie.auth?.id); //Customer ID
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_details`,
       {
@@ -223,7 +223,7 @@ const InvoiceDetail = () => {
     formData.append("order_id", pid);
     formData.append("issue_id", issueDetails.issue_id);
     formData.append("details", customerComment);
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("action", 2);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
@@ -251,7 +251,7 @@ const InvoiceDetail = () => {
     formData.append("order_id", pid);
     formData.append("issue_id", issueDetails.issue_id);
     formData.append("details", customerComment);
-    formData.append("submited_by", authCookie.auth); //Customer ID
+    formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("status", 1); //Status must be 1 to resolve the issue
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
@@ -302,17 +302,17 @@ const InvoiceDetail = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
     },
   ];
 

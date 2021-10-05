@@ -23,8 +23,8 @@ const PaymentHistory = () => {
 
   useEffect(() => {
     var formdata = new FormData();
-    // formdata.append("customer_id", authCookie.auth);
-    formdata.append("customer_id", "BMJUCC22X54NZCN");
+    formdata.append("customer_id", authCookie.auth?.id);
+    // formdata.append("customer_id", "BMJUCC22X54NZCN");
 
     var requestOptions = {
       method: "POST",
@@ -149,18 +149,18 @@ const PaymentHistory = () => {
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
+      icon: "icon-cog",
       active: true,
     },
     {
-      text: "Wishlist",
-      url: "/account/wishlist",
-      icon: "icon-heart",
+      text: "Address",
+      url: "/account/address",
+      icon: "icon-map-marker",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
+      icon: "icon-lock",
     },
   ];
 

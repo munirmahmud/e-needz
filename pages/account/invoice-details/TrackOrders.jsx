@@ -13,7 +13,7 @@ const TrackOrders = ({ orderData }) => {
   const getOrderTrackTimeLine = async () => {
     const formData = new FormData();
     formData.append("order_no", orderData.order_no);
-    formData.append("customer_id", authCookie.auth);
+    formData.append("customer_id", authCookie.auth?.id);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/order_tracking`,
