@@ -1,6 +1,7 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import ProductDetailQuickView from "~/components/elements/detail/ProductDetailQuickView";
 import useEcomerce from "~/hooks/useEcomerce";
 
@@ -21,6 +22,8 @@ const ModuleProductActions = ({ product, ecomerce }) => {
       ecomerce.cartItems,
       "cart"
     );
+
+    toast.success("The product added into your cart!");
   }
 
   function handleAddItemToWishlist(e) {
