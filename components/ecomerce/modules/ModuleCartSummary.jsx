@@ -37,7 +37,7 @@ const ModuleCartSummary = ({ source }) => {
           </p>
         </div>
         <div className="ps-block__content">
-          <ul className="ps-block__product">{productItemsView}</ul>
+          {/* <ul className="ps-block__product">{productItemsView}</ul> */}
           <h3>
             Total{" "}
             <span className="d-flex align-items-center">
