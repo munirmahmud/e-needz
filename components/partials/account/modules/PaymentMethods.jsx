@@ -23,7 +23,7 @@ const PaymentMethods = () => {
       const result = await response.json();
 
       if (result.response_status === 200) {
-        setPaymentLists(result.data);
+        setPaymentLists(result?.data?.filter((item) => item.status === "1"));
       } else {
         console.log("Payment gateway list", result.message);
       }

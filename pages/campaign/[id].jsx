@@ -19,7 +19,7 @@ const CampaignProducts = () => {
         method: "POST",
         body: JSON.stringify({
           campaign_id: id,
-          per_page: 30,
+          per_page: 5000,
           page_offset: 0,
         }),
       })

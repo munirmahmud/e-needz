@@ -22,9 +22,10 @@
     > tr {
       > td {
         vertical-align: middle;
-        padding: 20px 30px;
+        padding: 20px 15px;
         border: 1px solid #ddd;
         color: $color-text;
+        text-align: center;
 
         .ps-badge {
           position: inherit;

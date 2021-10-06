@@ -39,9 +39,9 @@ const VerifyOtp = () => {
       .then((result) => {
         if (result.response_status === 0) {
           toast.error(result.message);
-          setTimeout(() => {
-            return router.push("/");
-          }, 2000);
+          // setTimeout(() => {
+          //   return router.push("/");
+          // }, 2000);
         } else if (result.response_status === 200) {
           localStorage.removeItem("_p");
           setSubmitted(false);
@@ -136,10 +136,10 @@ const VerifyOtp = () => {
                   </a>
                 )}
 
-                {isResendOtpClicked &&
+                {/* {isResendOtpClicked &&
                   setInterval(() => {
                     console.log("Hello");
-                  }, 1000)}
+                  }, 1000)} */}
               </div>
             </div>
           </div>

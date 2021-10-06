@@ -1,26 +1,26 @@
-import { useRouter } from 'next/router'
-import React, { useEffect, useState } from 'react'
-import BreadCrumb from '~/components/elements/BreadCrumb'
-import PageContainer from '~/components/layouts/PageContainer'
-import ProductItems from '~/components/partials/product/ProductItems'
-import FooterDefault from '~/components/shared/footers/FooterDefault'
-import ProductRepository from '~/repositories/ProductRepository'
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import BreadCrumb from "~/components/elements/BreadCrumb";
+import PageContainer from "~/components/layouts/PageContainer";
+import ProductItems from "~/components/partials/product/ProductItems";
+import FooterDefault from "~/components/shared/footers/FooterDefault";
+import ProductRepository from "~/repositories/ProductRepository";
 
 const ProductsByCategory = () => {
-  const Router = useRouter()
-  const { id } = Router.query
-  const [category, setCategory] = useState(null)
-  const [loading, setLoading] = useState(false)
-  const [categoryInfo, setcategoryInfo] = useState(null)
+  const Router = useRouter();
+  const { id } = Router.query;
+  const [category, setCategory] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [categoryInfo, setcategoryInfo] = useState(null);
 
   async function getCategry() {
-    setLoading(true)
+    setLoading(true);
     if (id) {
-      const responseData = await ProductRepository.getProductsByCategory(id)
+      const responseData = await ProductRepository.getProductsByCategory(id);
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/category_wise_product`, {
-        method: 'post',
+        method: "post",
         body: JSON.stringify({
-          per_page: 200,
+          per_page: 50000,
           page_offset: 0,
           category_id: id,
         }),
@@ -28,61 +28,61 @@ const ProductsByCategory = () => {
         .then((res) => res.json())
         .then((data) => {
           if (data.response_status === 200) {
-            setCategory(data.data)
-            setcategoryInfo(data?.info)
-            setLoading(false)
+            setCategory(data.data);
+            setcategoryInfo(data?.info);
+            setLoading(false);
           }
           // setFilterProds(data.data)
-        })
+        });
     } else {
-      await Router.push('/')
+      await Router.push("/");
     }
   }
 
   useEffect(() => {
-    getCategry()
-  }, [id])
+    getCategry();
+  }, [id]);
 
   const breadCrumb = [
     {
-      text: 'Home',
-      url: '/',
+      text: "Home",
+      url: "/",
     },
     {
-      text: 'Categories',
-      url: '/category',
+      text: "Categories",
+      url: "/category",
     },
     {
-      text: categoryInfo ? categoryInfo.category_name : 'Products by Category',
+      text: categoryInfo ? categoryInfo.category_name : "Products by Category",
     },
-  ]
+  ];
 
   //Views
-  let productItemsViews
+  let productItemsViews;
 
   if (!loading) {
     if (category) {
       productItemsViews = (
         <ProductItems columns={4} products={category} categoryId={id} />
-      )
+      );
     } else {
-      productItemsViews = <p>No Product found with this category</p>
+      productItemsViews = <p>No Product found with this category</p>;
     }
   } else {
-    productItemsViews = <p>Loading...</p>
+    productItemsViews = <p>Loading...</p>;
   }
 
   return (
     <PageContainer
       footer={<FooterDefault />}
-      title={categoryInfo ? categoryInfo.category_name : 'Category Products'}
+      title={categoryInfo ? categoryInfo.category_name : "Category Products"}
       boxed={true}
     >
-      <div className='ps-page--shop'>
-        <BreadCrumb breacrumb={breadCrumb} layout='fullwidth' />
-        <div className='ps-container'>{productItemsViews}</div>
+      <div className="ps-page--shop">
+        <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
+        <div className="ps-container">{productItemsViews}</div>
       </div>
     </PageContainer>
-  )
-}
-export default ProductsByCategory
+  );
+};
+export default ProductsByCategory;

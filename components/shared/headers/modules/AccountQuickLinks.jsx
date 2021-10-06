@@ -66,7 +66,7 @@ const AccountQuickLinks = (props) => {
     </li>
   ));
 
-  if (isLoggedIn === true) {
+  if (isLoggedIn) {
     return (
       <div className="ps-block--user-account">
         <i className="icon-user"></i>

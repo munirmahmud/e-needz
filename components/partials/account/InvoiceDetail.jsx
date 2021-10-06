@@ -470,12 +470,13 @@ const InvoiceDetail = () => {
                           <th>ID</th>
                           <th>Products</th>
                           <th>Price</th>
+                          <th>Sell Price</th>
                           <th>Discount</th>
                           <th>Quantity</th>
                           <th>Amount</th>
                         </tr>
                       </thead>
-
+                      {console.log(orderInfo)}
                       <tbody>
                         {Array.isArray(orderInfo.product_information) &&
                           orderInfo?.product_information?.map(
@@ -486,6 +487,7 @@ const InvoiceDetail = () => {
                                   <ProductCart product={product} />
                                 </td>
                                 <td>৳ {product.rate}</td>
+                                <td>৳ {product.sell_price}</td>
                                 <td>৳ {product.discount_per_product}</td>
                                 <td>{product.quantity}</td>
                                 <td>৳ {product.amount}</td>
