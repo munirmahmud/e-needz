@@ -173,10 +173,10 @@ const Payment = () => {
                     </div>
 
                     <div className="ps-block__footer mt-5">
-                      <Link href="/account/checkout">
+                      <Link href="/account/invoices">
                         <a>
                           <i className="icon-arrow-left mr-2"></i>
-                          Return to checkout
+                          Return to Invoice
                         </a>
                       </Link>
                     </div>

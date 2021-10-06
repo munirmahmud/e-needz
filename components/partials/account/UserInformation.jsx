@@ -13,12 +13,14 @@ const UserInformation = () => {
   useEffect(() => {
     if (authUser.isLoggedIn) {
       setIsLoggedIn(true);
+    } else {
+      userRedirect();
     }
   }, [authUser]);
 
-  const userRedirect = () => {
+  function userRedirect() {
     Router.push("/account/login");
-  };
+  }
 
   const accountLinks = [
     {
@@ -54,26 +56,26 @@ const UserInformation = () => {
     },
   ];
 
-  return isLoggedIn ? (
-    <section className="ps-my-account ps-page--account">
-      <div className="ps-container">
-        <div className="row">
-          <div className="col-lg-3">
-            <div className="ps-page__left">
-              <AccountMenuSidebar data={accountLinks} />
+  return (
+    isLoggedIn && (
+      <section className="ps-my-account ps-page--account">
+        <div className="ps-container">
+          <div className="row">
+            <div className="col-lg-3">
+              <div className="ps-page__left">
+                <AccountMenuSidebar data={accountLinks} />
+              </div>
             </div>
-          </div>
 
-          <div className="col-lg-9">
-            <div className="ps-page__content">
-              <FormChangeUserInformation />
+            <div className="col-lg-9">
+              <div className="ps-page__content">
+                <FormChangeUserInformation />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-  ) : (
-    <>{userRedirect()}</>
+      </section>
+    )
   );
 };
 

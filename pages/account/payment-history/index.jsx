@@ -103,9 +103,6 @@ const PaymentHistory = () => {
       <tr key={index}>
         <td>{index + 1}</td>
         <td>
-          <strong>{item.payment_id}</strong>
-        </td>
-        <td>
           <strong>{item.order_no}</strong>
         </td>
         <td>
@@ -118,7 +115,7 @@ const PaymentHistory = () => {
         <td>
           <Link href={`/account/payment-history/${item.order_id}`}>
             <a
-              className="ps-badge warning"
+              className="ps-btn ps-btn--sm"
               onClick={handlePaymentDetails}
               data-orderno={item.order_no}
             >
@@ -193,11 +190,10 @@ const PaymentHistory = () => {
                         <thead>
                           <tr>
                             <th>ID</th>
-                            <th>Payment ID</th>
                             <th>Order No</th>
                             <th>Name</th>
                             <th>Amount</th>
-                            <th>See Details</th>
+                            <th>Action</th>
                           </tr>
                         </thead>
                         <tbody className="text-center">{tableItemsView}</tbody>

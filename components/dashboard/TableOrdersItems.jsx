@@ -66,7 +66,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
 
     return (
       <tr key={index}>
-        <td>{index + 1}</td>
+        {/* <td>{index + 1}</td> */}
         <td>
           <strong> {item.date}</strong>
         </td>
@@ -105,7 +105,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         </td>
         <td>
           <Link href={`/account/invoice-details/${item.order_id}`}>
-            <a>Details</a>
+            <a className="ps-btn ps-btn--sm btn-black">Details</a>
           </Link>
         </td>
       </tr>
@@ -119,14 +119,13 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         <table className="table ps-table">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Date</th>
               <th>Order No</th>
               <th>Total</th>
               <th>Status</th>
               <th>Remaining Time</th>
               <th>Make Payment</th>
-              <th>Order Info</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>{tableItemsView}</tbody>

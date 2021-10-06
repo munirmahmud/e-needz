@@ -116,9 +116,7 @@ const TrackOrders = ({ orderData }) => {
                   trackInfo.map((track, index) => (
                     <figure key={index} className="active">
                       {orderStatus(track)}
-                      <div
-                        dangerouslySetInnerHTML={{ __html: track.message }}
-                      />
+                      <p dangerouslySetInnerHTML={{ __html: track.message }} />
                       <p>{dateTimeFormatter(track.date)}</p>
                     </figure>
                   ))

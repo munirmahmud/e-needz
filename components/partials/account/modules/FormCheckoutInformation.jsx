@@ -139,20 +139,10 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     setLoading(true);
     var formdata = new FormData();
 
-    const datass = [
-      authCookie.auth?.id,
-      values.recipientName,
-      values.phoneNo,
-      divisionID,
-      values.city,
-      values.area,
-      values.address,
-    ];
-
     formdata.append("customer_id", authCookie.auth?.id);
     formdata.append("customer_name", values.recipientName);
     formdata.append("customer_phone", values.phoneNo);
-    formdata.append("division", divisionID); //Sate ID
+    formdata.append("division", divisionID); //State ID
     formdata.append("city", values.city); //City ID
     formdata.append("area", values.area);
     formdata.append("address", values.address);
@@ -433,7 +423,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
         <div className="ps-form__submit d-flex align-items-center justify-content-between">
           <div className="ps-block__footer">
             <Link href="/shop">
-              <a className="ps-btn btn-small">Continue to shipping</a>
+              <a className="ps-btn btn-small">Continue to Shopping</a>
             </Link>
           </div>
           <button
