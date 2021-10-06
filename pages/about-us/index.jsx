@@ -1,7 +1,7 @@
 import React from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
-import AboutAwards from "~/components/partials/page/about-us/AboutAwards";
+import PageContent from "~/components/partials/page/PageContent";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
 const AboutUsPage = () => {
@@ -18,8 +18,7 @@ const AboutUsPage = () => {
     <PageContainer footer={<FooterFullwidth />} title="About Us">
       <div className="ps-page--single">
         <BreadCrumb breacrumb={breadCrumb} />
-        {/* <OurTeam /> */}
-        <AboutAwards />
+        <PageContent page_id="1" />
       </div>
     </PageContainer>
   );
