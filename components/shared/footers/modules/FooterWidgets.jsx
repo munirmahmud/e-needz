@@ -44,26 +44,30 @@ const FooterWidgets = () => {
     }
   }
 
-  console.log("socialMedia", socialMedia);
   console.log("companyInfo", companyInfo);
 
   return (
     <div className="ps-footer__widgets">
       <aside className="widget widget_footer widget_contact-us">
         <h4 className="widget-title">Contact us</h4>
-        <div className="widget_content">
-          <h3>1800 97 97 69 hello</h3>
 
-          <p>
-            Plot A-27, Road-1, Niketon
-            <br />
-            Gulshan-1 Dhaka-1212
-            <br />
-            01311945476
-            <br />
-            <a href="mailto:support@e-needz.com">support@e-needz.com</a>
-          </p>
-        </div>
+        {companyInfo !== null && (
+          <div className="widget_content">
+            <h3>{companyInfo.mobile}</h3>
+            <p className="mb-1">{companyInfo.company_name}</p>
+            {companyInfo.address && (
+              <p>
+                {companyInfo.address.split(", ")[0]},
+                {companyInfo.address.split(", ")[1]}, <br />
+                {companyInfo.address.split(", ")[2]},{" "}
+                {companyInfo.address.split(", ")[3]},
+                <br />
+                <p className="mb-1">{companyInfo.mobile}</p>
+                <a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a>
+              </p>
+            )}
+          </div>
+        )}
       </aside>
       <aside className="widget widget_footer">
         <h4 className="widget-title">Quick links</h4>
@@ -117,16 +121,6 @@ const FooterWidgets = () => {
           <li>
             <Link href="/account/order-tracking">
               <a>Track Order</a>
-            </Link>
-          </li>
-        </ul>
-      </aside>
-      <aside className="widget widget_footer">
-        <h4 className="widget-title">Download</h4>
-        <ul className="ps-list--link">
-          <li>
-            <Link href="/page/about-us">
-              <a>Our Press</a>
             </Link>
           </li>
         </ul>
