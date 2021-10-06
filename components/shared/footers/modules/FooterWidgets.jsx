@@ -44,8 +44,6 @@ const FooterWidgets = () => {
     }
   }
 
-  console.log("companyInfo", companyInfo);
-
   return (
     <div className="ps-footer__widgets">
       <aside className="widget widget_footer widget_contact-us">
@@ -73,33 +71,39 @@ const FooterWidgets = () => {
         <h4 className="widget-title">Quick links</h4>
         <ul className="ps-list--link">
           <li>
-            <Link href="/policy">
-              <a>Policy</a>
+            <Link href="/about-us">
+              <a>About</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/delivery-info">
+              <a>Delivery Info</a>
             </Link>
           </li>
 
           <li>
+            <Link href="/privacy-policy">
+              <a>Privacy Policy</a>
+            </Link>
+          </li>
+          <li>
             <Link href="/terms-conditions">
-              <a>Term & Condition</a>
+              <a>Terms &amp; Condition</a>
             </Link>
           </li>
           <li>
-            <Link href="/shipping">
-              <a>Shipping</a>
+            <Link href="/refund-policy">
+              <a>Refund Policy</a>
             </Link>
           </li>
           <li>
-            <Link href="/return">
-              <a>Return</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/faqs">
-              <a>FAQs</a>
+            <Link href="/our-company">
+              <a>Our Company</a>
             </Link>
           </li>
         </ul>
       </aside>
+
       <aside className="widget widget_footer">
         <h4 className="widget-title">My Account</h4>
         <ul className="ps-list--link">
