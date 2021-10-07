@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
-import { toast } from "react-toastify";
 
 const OrderTracking = () => {
   const [orderNo, setOrderNo] = useState("");
@@ -32,10 +31,10 @@ const OrderTracking = () => {
     const result = await response.json();
 
     if (result.response_status === 200) {
-      Router.push(`/account/invoice-details/${result.data.order_no}`);
+      Router.push(`/account/invoice-details/${result.data.order_id}`);
       setSubmitted(false);
     } else {
-      toast.error(result.message);
+      console.log(result);
       setSubmitted(false);
     }
   };
@@ -53,13 +52,13 @@ const OrderTracking = () => {
       <div className="ps-section__content">
         <form className="ps-form--order-tracking" onSubmit={handleTrackOrder}>
           <div className="form-group">
-            <label htmlFor="order_id">Order ID</label>
+            <label htmlFor="order_no">Order No</label>
             <input
-              id="order_id"
-              name="order_id"
+              id="order_no"
+              name="order_no"
               className="form-control"
               type="text"
-              placeholder="Order ID"
+              placeholder="Order No"
               value={orderNo}
               onChange={(e) => setOrderNo(e.target.value)}
             />

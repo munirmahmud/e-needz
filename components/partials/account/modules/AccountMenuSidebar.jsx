@@ -37,9 +37,10 @@ const AccountMenuSidebar = ({ data }) => {
         </div>
         <figure>
           <figcaption>{authCookie.auth?.name}</figcaption>
-          <p>{authCookie.auth?.email}</p>
+          <p>{authCookie.auth?.mobile}</p>
         </figure>
       </div>
+
       <div className="ps-widget__content">
         <ul>
           {data.map((link) => (

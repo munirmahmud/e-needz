@@ -54,15 +54,19 @@ const FooterWidgets = () => {
             <h3>{companyInfo.mobile}</h3>
             <p className="mb-1">{companyInfo.company_name}</p>
             {companyInfo.address && (
-              <p>
-                {companyInfo.address.split(", ")[0]},
-                {companyInfo.address.split(", ")[1]}, <br />
-                {companyInfo.address.split(", ")[2]},{" "}
-                {companyInfo.address.split(", ")[3]},
-                <br />
+              <>
+                <p>
+                  {companyInfo.address.split(", ")[0]},
+                  {companyInfo.address.split(", ")[1]}, <br />
+                  {companyInfo.address.split(", ")[2]},{" "}
+                  {companyInfo.address.split(", ")[3]},
+                  <br />
+                </p>
                 <p className="mb-1">{companyInfo.mobile}</p>
-                <a href={`mailto:${companyInfo.email}`}>{companyInfo.email}</a>
-              </p>
+                <a href={`mailto:${companyInfo.email}`} className="text-white">
+                  {companyInfo.email}
+                </a>
+              </>
             )}
           </div>
         )}
@@ -108,13 +112,13 @@ const FooterWidgets = () => {
         <h4 className="widget-title">My Account</h4>
         <ul className="ps-list--link">
           <li>
-            <Link href="/account/login">
-              <a>Login</a>
+            <Link href="/account/register">
+              <a>Register</a>
             </Link>
           </li>
           <li>
-            <Link href="/page/history">
-              <a>Order History</a>
+            <Link href="/account/login">
+              <a>Login</a>
             </Link>
           </li>
           <li>
@@ -125,6 +129,11 @@ const FooterWidgets = () => {
           <li>
             <Link href="/account/order-tracking">
               <a>Track Order</a>
+            </Link>
+          </li>
+          <li>
+            <Link href="/contact">
+              <a>Contact Us</a>
             </Link>
           </li>
         </ul>
