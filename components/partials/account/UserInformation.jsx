@@ -8,11 +8,11 @@ const UserInformation = () => {
   const authUser = useSelector((state) => state.auth);
   const Router = useRouter();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     if (authUser.isLoggedIn) {
-      setIsLoggedIn(true);
+      setLoggedIn(true);
     } else {
       userRedirect();
     }

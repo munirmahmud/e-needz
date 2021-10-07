@@ -14,6 +14,7 @@ const AccountQuickLinks = (props) => {
     e.preventDefault();
     removeCookie("auth");
     dispatch(logOutSuccess());
+    // dispatch(logOut());
     remove("auth");
     toast.success("You successfully logged out!");
     localStorage.removeItem("paymentInfo");

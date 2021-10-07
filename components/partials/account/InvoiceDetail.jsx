@@ -432,9 +432,19 @@ const InvoiceDetail = () => {
                       <figure className="ps-block--invoice">
                         <figcaption className="d-flex align-items-center justify-content-between">
                           Bills To
-                          <button className="ps-btn ps-btn--sm" disabled>
-                            {orderInfo?.payment_status}
-                          </button>
+                          {orderInfo?.payment_status === "Paid" ? (
+                            <button
+                              className="ps-btn ps-btn--sm"
+                              disabled
+                              style={{ background: "#fd8b01" }}
+                            >
+                              {orderInfo?.payment_status}
+                            </button>
+                          ) : (
+                            <button className="ps-btn ps-btn--sm" disabled>
+                              {orderInfo?.payment_status}
+                            </button>
+                          )}
                         </figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>

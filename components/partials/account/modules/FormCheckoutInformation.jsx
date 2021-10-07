@@ -38,6 +38,8 @@ const FormCheckoutInformation = ({ ecomerce }) => {
   const [agreeWithTerms, setAgreeWithTerms] = useState(false);
   const [isSubmitted, setSubmitted] = useState(false);
   const [isSubmitSuccess, setSubmitSuccess] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedPrimaryAddress, setSelectedPrimaryAddress] = useState(null);
 
   let amount;
   if (products && products?.length > 0) {
@@ -66,6 +68,9 @@ const FormCheckoutInformation = ({ ecomerce }) => {
 
       if (data?.response_status === 200) {
         setAddresses(data?.data?.address_list);
+        setSelectedPrimaryAddress(
+          data?.data?.address_list.find((item) => item.is_primary === "1")
+        );
       }
     };
 
@@ -186,8 +191,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
 
   const getPrimaryAddress = addresses?.find((item) => item.is_primary === "1");
 
-  const [selectedAddress, setSelectedAddress] = useState("");
-
   const handleConfirmOrder = async (e) => {
     setSubmitted(true);
     const payment_method = localStorage.getItem("p_code");
@@ -275,11 +278,17 @@ const FormCheckoutInformation = ({ ecomerce }) => {
           onChange={(e) => setSelectedAddress(e.target.value)}
         >
           {addresses?.length > 0 &&
-            addresses.map((item) => (
-              <option key={item.address_id} value={item.address_id}>
-                {item.address}
-              </option>
-            ))}
+            addresses.map((item) =>
+              item.is_primary === "1" ? (
+                <option key={item.address_id} value={item.address_id} selected>
+                  {item.address}
+                </option>
+              ) : (
+                <option key={item.address_id} value={item.address_id}>
+                  {item.address}
+                </option>
+              )
+            )}
         </select>
 
         <button

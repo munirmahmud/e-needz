@@ -42,11 +42,7 @@ const TrackOrders = ({ orderData }) => {
     if (item.order_status === "1") {
       badgeView = <figcaption className="success">Pending</figcaption>;
     } else if (item.order_status === "2") {
-      badgeView = (
-        <figcaption style={{ backgroundColor: "yellow" }}>
-          Processing
-        </figcaption>
-      );
+      badgeView = <figcaption className="success">Processing</figcaption>;
     } else if (item.order_status === "3") {
       badgeView = <figcaption className="success">Shipping</figcaption>;
     } else if (item.order_status === "4") {
