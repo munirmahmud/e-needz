@@ -20,7 +20,7 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
     };
 
     fetch(
-      "http://178.128.30.38/api/react/customer_dashboard/question_view",
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/question_view`,
       requestOptions
     )
       .then((response) => response.json())
@@ -28,7 +28,6 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
         if (result.response_status === 200) {
           setReviews(result.data);
         }
-        console.log(result);
       })
       .catch((error) => console.log("error", error));
   }, [seller_id, product_id, qu]);
@@ -53,7 +52,7 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
     };
 
     fetch(
-      "http://178.128.30.38/api/react/customer_dashboard/insert_question",
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/insert_question`,
       requestOptions
     )
       .then((response) => response.json())

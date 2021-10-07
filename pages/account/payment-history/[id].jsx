@@ -70,8 +70,8 @@ const PaymentHistoryDetails = () => {
       //approved
       paymentStatus = <span className="badge-btn alert-success">Approved</span>;
     } else if (status === "3") {
-      // canceled
-      paymentStatus = <span className="badge-btn alert-error">Canceled</span>;
+      // cancelled
+      paymentStatus = <span className="badge-btn alert-error">Cancelled</span>;
     }
     return paymentStatus;
   };

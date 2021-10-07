@@ -1,6 +1,6 @@
 import { Rate } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
@@ -10,14 +10,46 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [rating, setRating] = useState(3);
+  const [authCookie] = useCookies(["auth"]);
 
-  const [uCookie] = useCookies(["auth"]);
+  const [productRating, setProductRating] = useState([]);
+
+  useEffect(() => {
+    getProductReview();
+  }, []);
+
+  async function getProductReview() {
+    var formdata = new FormData();
+
+    formdata.append("product_id", product_id);
+    formdata.append("seller_id", seller_id);
+
+    var requestOptions = {
+      method: "POST",
+      body: formdata,
+    };
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/show_review`,
+      requestOptions
+    );
+    const result = await response.json();
+
+    console.log("review ", result);
+
+    if (result.response_status === 200) {
+      setProductRating(result.data);
+    } else {
+      console.log("show_review error", result);
+    }
+  }
 
   const handleReviewReuest = (e) => {
     e.preventDefault();
+
     var formdata = new FormData();
     formdata.append("product_id", product_id);
-    formdata.append("customer_id", uCookie.auth);
+    formdata.append("customer_id", authCookie.auth.id);
     formdata.append("seller_id", seller_id);
     formdata.append("rating_no", rating);
     formdata.append("title", title);
@@ -40,6 +72,8 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
           toast.warning(result.message);
           setTitle("");
           setDescription("");
+        } else {
+          console.log("customer_review error", result);
         }
       })
       .catch((error) => console.log("error", error));
@@ -53,8 +87,13 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
             <h3>4.00</h3>
             <Rating />
 
-            <span>1 Review</span>
+            {Array.isArray(productRating) && productRating.length > 0 ? (
+              <span>{productRating?.length} Review</span>
+            ) : (
+              <span>No product review found.</span>
+            )}
           </div>
+
           <div className="ps-block__star">
             <span>5 Star</span>
             <div className="ps-progress" data-value="100">
@@ -64,7 +103,7 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
           </div>
           <div className="ps-block__star">
             <span>4 Star</span>
-            <div className="ps-progress" data-value="0">
+            <div className="ps-progress" data-value="80">
               <span></span>
             </div>
             <span>0</span>
@@ -106,8 +145,7 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
             <div className="form-group form-group__rating">
               <label>Your rating of this product</label>
               <Rate
-                defaultValue={3.5}
-                allowHalf
+                defaultValue={4}
                 onChange={(e) => {
                   setRating(e);
                 }}

@@ -1,7 +1,7 @@
 import { actionTypes } from "./action";
 
 export const initState = {
-  isLoggedIn: false,
+  isLoggedIn: undefined,
 };
 
 function reducer(state = initState, actions) {
