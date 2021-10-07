@@ -4,25 +4,23 @@ import PageContainer from "~/components/layouts/PageContainer";
 import PageContent from "~/components/partials/page/PageContent";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
-const OurCompany = () => {
+const HelpPage = () => {
   const breadCrumb = [
     {
       text: "Home",
       url: "/",
     },
     {
-      text: "Our Company",
+      text: "Help",
     },
   ];
-
   return (
-    <PageContainer footer={<FooterFullwidth />} title="Our Company">
+    <PageContainer footer={<FooterFullwidth />} title="Help">
       <div className="ps-page--single">
-        <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
-        <PageContent page_id={8} />
+        <BreadCrumb breacrumb={breadCrumb} />
+        <PageContent page_id="6" />
       </div>
     </PageContainer>
   );
 };
-
-export default OurCompany;
+export default HelpPage;

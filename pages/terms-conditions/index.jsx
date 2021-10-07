@@ -1,7 +1,7 @@
 import React from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
-import BlankContent from "~/components/partials/page/Blank";
+import PageContent from "~/components/partials/page/PageContent";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
 const TermsConditions = () => {
@@ -19,7 +19,7 @@ const TermsConditions = () => {
     <PageContainer footer={<FooterFullwidth />} title="Terms &amp; Conditions">
       <div className="ps-page--single">
         <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
-        <BlankContent />
+        <PageContent page_id="5" />
       </div>
     </PageContainer>
   );

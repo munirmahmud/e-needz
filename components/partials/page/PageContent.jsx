@@ -34,20 +34,24 @@ const PageContent = ({ page_id }) => {
   return (
     <div className="ps-section--custom">
       <div className="container">
-        <div className="section-white">
-          {content !== null && (
-            <div className="ps-section__header">
-              <h1>{content?.headlines}</h1>
-            </div>
+        <div className="section-white p-5">
+          {content?.headlines && (
+            <div
+              className="ps-section__header"
+              dangerouslySetInnerHTML={{ __html: content?.headlines }}
+            />
           )}
 
-          <div className="ps-section__content">
-            {content !== null ? (
-              <p>{content?.details}</p>
-            ) : (
-              <p>{noDataFound}</p>
-            )}
-          </div>
+          {content?.image && <img src={content.image} alt="" width={200} />}
+
+          {content?.details ? (
+            <div
+              className="ps-section__content"
+              dangerouslySetInnerHTML={{ __html: content?.details }}
+            />
+          ) : (
+            <p>{noDataFound}</p>
+          )}
         </div>
       </div>
     </div>
