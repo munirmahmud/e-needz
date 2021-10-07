@@ -265,10 +265,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     }
   };
 
-  console.log("selectedPrimaryAddress", selectedPrimaryAddress);
-
-  let data = ["Head phone", "mouse", "Sanitizer", "Cup", "Coffee"];
-
   return (
     <>
       <h5 className="ps-form__heading">Address</h5>
@@ -280,29 +276,19 @@ const FormCheckoutInformation = ({ ecomerce }) => {
           name="address"
           style={{ flex: 1 }}
           onChange={(e) => setSelectedAddress(e.target.value)}
-          defaultValue={selectedPrimaryAddress?.address}
-        >
-          {data?.length > 0 &&
-            data.map((item, index) => (
-              <option key={item.address_id} value={item.address_id}>
-                {item.address}
-              </option>
-            ))}
-        </select>
-        <select
-          className="form-control"
-          aria-label="Customer Address"
-          name="address"
-          style={{ flex: 1 }}
-          onChange={(e) => setSelectedAddress(e.target.value)}
-          defaultValue={selectedPrimaryAddress?.address}
         >
           {addresses?.length > 0 &&
-            addresses.map((item) => (
-              <option key={item.address_id} value={item.address_id}>
-                {item.address}
-              </option>
-            ))}
+            addresses.map((item) =>
+              item.is_primary === "1" ? (
+                <option key={item.address_id} value={item.address_id} selected>
+                  {item.address}
+                </option>
+              ) : (
+                <option key={item.address_id} value={item.address_id}>
+                  {item.address}
+                </option>
+              )
+            )}
         </select>
 
         <button
@@ -313,25 +299,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
           Add new Address
         </button>
       </div>
-
-      <p xss="removed">
-        The main goal of<b> E-needz</b> to attract customers to online
-        purchasing by providing them unlimited offers and top-class services to
-        change the concept of online shopping. We are onboarding all the brands
-        and quality entrepreneurs in our platform as our honorable merchants
-        where they will have their own login and dashboard (Merchant zone) to
-        upload and decide the price of their products,<b> E-needz</b> will only
-        verify and approve after the inspection of the price and the quality.{" "}
-        <b>E-needz</b> has a goal to gather thousands of regular customers by
-        providing the best price, offer, and service within a short time. By
-        doing so, <b>E-needz</b> will contribute to the goal of digital
-        Bangladesh. We all familiar with the concept “Customer is King” but no
-        one is thinking about the seller and small entrepreneurs, in{" "}
-        <b>E-needz</b> we will be focusing not only on our customers but also on
-        our sellers by providing them the best service and assurance of on-time
-        payment.
-        <br />
-      </p>
 
       <div className="primary-address mt-4">
         {getPrimaryAddress && (

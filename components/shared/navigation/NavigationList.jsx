@@ -106,10 +106,11 @@ class NavigationList extends Component {
               </span>
             </div>
             <div className="ps-panel__content">
-              <PanelCartMobile />
+              <PanelCartMobile closeCartModal={this.handleDrawerClose} />
             </div>
           </div>
         </Drawer>
+
         <Drawer
           className="ps-panel--mobile"
           placement="right"
@@ -128,10 +129,11 @@ class NavigationList extends Component {
               </span>
             </div>
             <div className="ps-panel__content">
-              <PanelSearch />
+              <PanelSearch closeSearch={this.handleDrawerClose} />
             </div>
           </div>
         </Drawer>
+
         <Drawer
           className="ps-panel--mobile"
           placement="right"

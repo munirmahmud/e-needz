@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import { toggleDrawerMenu } from "~/store/app/action";
 
 const Invoices = () => {
   const dispatch = useDispatch();
+  const Router = useRouter();
   const authUser = useSelector((state) => state);
 
   const [usrOrderItems, setUsrOrderItems] = useState([]);
@@ -17,7 +19,19 @@ const Invoices = () => {
   const [err, setErr] = useState(false);
   const [authCookie] = useCookies(["auth"]);
 
-  useEffect(() => {});
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (authUser.auth.isLoggedIn) {
+      setLoggedIn(true);
+    } else {
+      userRedirect();
+    }
+  }, [authUser]);
+
+  function userRedirect() {
+    Router.push("/account/login");
+  }
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -95,34 +109,36 @@ const Invoices = () => {
   ];
 
   return (
-    <section className="ps-my-account ps-page--account">
-      <div className="ps-container">
-        <div className="row">
-          <div className="col-lg-3">
-            <div className="ps-page__left">
-              <AccountMenuSidebar data={accountLinks} active />
+    isLoggedIn && (
+      <section className="ps-my-account ps-page--account">
+        <div className="ps-container">
+          <div className="row">
+            <div className="col-lg-3">
+              <div className="ps-page__left">
+                <AccountMenuSidebar data={accountLinks} active />
+              </div>
             </div>
-          </div>
 
-          <div className="col-lg-9">
-            <div className="ps-page__content">
-              <div className="ps-section--account-setting">
-                <div className="ps-section__header">
-                  <h3>Invoices</h3>
-                </div>
-                <div className="ps-section__content">
-                  <TableOrdersItems usrOrderItems={usrOrderItems} err={err} />
-                  {/* <TableInvoices
+            <div className="col-lg-9">
+              <div className="ps-page__content">
+                <div className="ps-section--account-setting">
+                  <div className="ps-section__header">
+                    <h3>Invoices</h3>
+                  </div>
+                  <div className="ps-section__content">
+                    <TableOrdersItems usrOrderItems={usrOrderItems} err={err} />
+                    {/* <TableInvoices
                     usrOrderItems={usrOrderItemsSpliced}
                     err={err}
                   /> */}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    )
   );
 };
 

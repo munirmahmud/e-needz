@@ -5,7 +5,7 @@ import useEcomerce from "~/hooks/useEcomerce";
 import useProduct from "~/hooks/useProduct";
 import { calculateAmount } from "~/utilities/ecomerce-helpers";
 
-const PanelCartMobile = ({ ecomerce }) => {
+const PanelCartMobile = ({ ecomerce, closeCartModal }) => {
   const { products, getProducts, removeItem } = useEcomerce();
   const { title, thumbnailImage } = useProduct();
 
@@ -22,10 +22,10 @@ const PanelCartMobile = ({ ecomerce }) => {
   //view
   let cartItemsView, footerView;
 
-  if (products && products.length > 0) {
-    const amount = calculateAmount(products);
-    const items = products.map((item) => (
-      <div className="ps-product--cart-mobile" key={item.id}>
+  if (products && products?.data?.length > 0) {
+    const amount = calculateAmount(products.data);
+    const items = products.data.map((item, index) => (
+      <div className="ps-product--cart-mobile" key={index}>
         <div className="ps-product__thumbnail">
           <Link href="/product/[pid]" as={`/product/${item.id}`}>
             <a>{thumbnailImage(item)}</a>
@@ -62,7 +62,9 @@ const PanelCartMobile = ({ ecomerce }) => {
             <a className="ps-btn">View Cart</a>
           </Link>
           <Link href="/account/checkout">
-            <a className="ps-btn">Checkout</a>
+            <a className="ps-btn" onClick={closeCartModal}>
+              Checkout
+            </a>
           </Link>
         </figure>
       </div>

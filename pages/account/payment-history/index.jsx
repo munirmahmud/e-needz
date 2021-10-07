@@ -1,7 +1,9 @@
+import { Alert } from "antd";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PageContainer from "~/components/layouts/PageContainer";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
@@ -9,6 +11,9 @@ import { toggleDrawerMenu } from "~/store/app/action";
 
 const PaymentHistory = () => {
   const dispatch = useDispatch();
+  const Router = useRouter();
+  const authUser = useSelector((state) => state);
+
   const [paymentHistory, setPaymentHistory] = useState([]);
   const [paymentHistorySpliced, setPaymentHistorySpliced] = useState([]);
   const [len, setLen] = useState(0);
@@ -16,6 +21,20 @@ const PaymentHistory = () => {
   const [spliceNO, setSpliceNO] = useState(10);
   const [err, setErr] = useState(false);
   const [authCookie] = useCookies(["auth"]);
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (authUser.auth.isLoggedIn) {
+      setLoggedIn(true);
+    } else {
+      userRedirect();
+    }
+  }, [authUser]);
+
+  function userRedirect() {
+    Router.push("/account/login");
+  }
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -162,51 +181,55 @@ const PaymentHistory = () => {
   ];
 
   return (
-    <PageContainer footer={<FooterFullwidth />} title="Payment History">
-      <section className="ps-my-account ps-page--account">
-        <div className="ps-container">
-          <div className="row">
-            <div className="col-lg-3">
-              <div className="ps-page__left">
-                <AccountMenuSidebar data={accountLinks} />
+    isLoggedIn && (
+      <PageContainer footer={<FooterFullwidth />} title="Payment History">
+        <section className="ps-my-account ps-page--account">
+          <div className="ps-container">
+            <div className="row">
+              <div className="col-lg-3">
+                <div className="ps-page__left">
+                  <AccountMenuSidebar data={accountLinks} />
+                </div>
               </div>
-            </div>
 
-            <div className="col-lg-9">
-              <div className="ps-page__content">
-                <div className="ps-section--account-setting">
-                  <div className="ps-section__header">
-                    <h3>Payment History</h3>
-                  </div>
+              <div className="col-lg-9">
+                <div className="ps-page__content">
+                  <div className="ps-section--account-setting">
+                    <div className="ps-section__header">
+                      <h3>Payment History</h3>
+                    </div>
 
-                  <div className="ps-section__content">
-                    {err ? (
-                      <Alert message="Failed to fetch data" type="error" />
-                    ) : (
-                      ""
-                    )}
-                    <div className="table-responsive">
-                      <table className="table ps-table">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Order No</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-center">{tableItemsView}</tbody>
-                      </table>
+                    <div className="ps-section__content">
+                      {err ? (
+                        <Alert message="Failed to fetch data" type="error" />
+                      ) : (
+                        ""
+                      )}
+                      <div className="table-responsive">
+                        <table className="table ps-table">
+                          <thead>
+                            <tr>
+                              <th>ID</th>
+                              <th>Order No</th>
+                              <th>Name</th>
+                              <th>Amount</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody className="text-center">
+                            {tableItemsView}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-    </PageContainer>
+        </section>
+      </PageContainer>
+    )
   );
 };
 

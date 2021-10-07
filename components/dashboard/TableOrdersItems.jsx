@@ -43,11 +43,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
     if (item.order_status === "1") {
       badgeView = <span className="ps-badge success">Pending</span>;
     } else if (item.order_status === "2") {
-      badgeView = (
-        <span className="ps-badge" style={{ backgroundColor: "yellow" }}>
-          Processing
-        </span>
-      );
+      badgeView = <span className="ps-badge success">Processing</span>;
     } else if (item.order_status === "3") {
       badgeView = <span className="ps-badge success">Shipping</span>;
     } else if (item.order_status === "4") {
@@ -91,7 +87,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
         </td>
 
         <td className="p-0 text-center">
-          {item.remainingStatus ? (
+          {item.remainingStatus && (
             <button
               type="button"
               className="ps-btn ps-btn--sm"
@@ -99,9 +95,10 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
             >
               Pay Now
             </button>
-          ) : (
-            "Timeout"
           )}
+
+          {/* {item.order_status === "6" && "Cancelled"} */}
+          {item.order_status !== "1" && item.order_status !== "6" && "Paid"}
         </td>
         <td>
           <Link href={`/account/invoice-details/${item.order_id}`}>

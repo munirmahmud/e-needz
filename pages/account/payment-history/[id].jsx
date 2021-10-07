@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
 import PageContainer from "~/components/layouts/PageContainer";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
@@ -10,10 +11,25 @@ import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 const PaymentHistoryDetails = () => {
   const Router = useRouter();
   const { id } = Router.query;
+  const authUser = useSelector((state) => state);
 
   const [authCookie] = useCookies(["auth"]);
   const [paymentInfo, setpaymentInfo] = useState([]);
   const [orderNo, setOrderNo] = useState("");
+
+  const [isLoggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (authUser.auth.isLoggedIn) {
+      setLoggedIn(true);
+    } else {
+      userRedirect();
+    }
+  }, [authUser]);
+
+  function userRedirect() {
+    Router.push("/account/login");
+  }
 
   const getPaymentDetails = async () => {
     let formData = new FormData();
