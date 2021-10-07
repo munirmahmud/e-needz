@@ -10,14 +10,14 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
   const [rating, setRating] = useState(3);
-
-  const [uCookie] = useCookies(["auth"]);
+  const [authCookie] = useCookies(["auth"]);
 
   const handleReviewReuest = (e) => {
     e.preventDefault();
+
     var formdata = new FormData();
     formdata.append("product_id", product_id);
-    formdata.append("customer_id", uCookie.auth);
+    formdata.append("customer_id", authCookie.auth.id);
     formdata.append("seller_id", seller_id);
     formdata.append("rating_no", rating);
     formdata.append("title", title);
@@ -40,6 +40,8 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
           toast.warning(result.message);
           setTitle("");
           setDescription("");
+        } else {
+          console.log("customer_review error", result);
         }
       })
       .catch((error) => console.log("error", error));
@@ -106,8 +108,8 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
             <div className="form-group form-group__rating">
               <label>Your rating of this product</label>
               <Rate
-                defaultValue={3.5}
-                allowHalf
+                defaultValue={4}
+                // allowHalf
                 onChange={(e) => {
                   setRating(e);
                 }}

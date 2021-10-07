@@ -37,22 +37,22 @@ const AccountQuickLinks = (props) => {
     {
       text: "Track Order",
       url: "/account/order-tracking",
-      icon: "icon-papers",
     },
     {
       text: "Payment History",
       url: "/account/payment-history",
-      icon: "icon-papers",
     },
     {
       text: "Wishlist",
       url: "/account/wishlist",
-      icon: "icon-heart",
+    },
+    {
+      text: "Address",
+      url: "/account/address",
     },
     {
       text: "Change Password",
       url: "/account/change-password",
-      icon: "icon-heart",
     },
   ];
 

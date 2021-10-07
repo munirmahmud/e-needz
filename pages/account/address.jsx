@@ -12,12 +12,15 @@ const MyAccountPage = () => {
 
   const [isLoggedIn, setLoggedIn] = useState(false);
 
+  console.log("authUser.auth", authUser.auth);
   useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
+    setTimeout(() => {
+      if (authUser.auth.isLoggedIn === true) {
+        setLoggedIn(true);
+      } else {
+        userRedirect();
+      }
+    }, 2000);
   }, [authUser]);
 
   function userRedirect() {

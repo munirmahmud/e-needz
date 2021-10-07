@@ -58,7 +58,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
               <div className="col-xl-8 col-lg-4 col-md-12 col-sm-12 col-12 ">
                 <div className="row">
                   <div className="col-lg-6">
-                    <figure>
+                    {/* <figure>
                       <figcaption>Coupon Discount</figcaption>
                       <div className="form-group">
                         <input
@@ -72,7 +72,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
                           Apply
                         </button>
                       </div>
-                    </figure>
+                    </figure> */}
                   </div>
                 </div>
               </div>
