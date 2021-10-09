@@ -26,13 +26,18 @@ const ProductsByCategory = () => {
         }),
       })
         .then((res) => res.json())
-        .then((data) => {
-          if (data.response_status === 200) {
-            setCategory(data.data);
-            setcategoryInfo(data?.info);
+        .then((result) => {
+          if (result.response_status === 200) {
+            setCategory(result.data);
+            setcategoryInfo(result?.info);
+            setLoading(false);
+          } else if (result.response_status === 204) {
             setLoading(false);
           }
-          // setFilterProds(data.data)
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log("category_wise_product error", error);
         });
     } else {
       await Router.push("/");
@@ -66,10 +71,28 @@ const ProductsByCategory = () => {
         <ProductItems columns={4} products={category} categoryId={id} />
       );
     } else {
-      productItemsViews = <p>No Product found with this category</p>;
+      productItemsViews = (
+        <div className="ps-shopping py-4 ">
+          <div
+            className="section-white d-flex align-items-center justify-content-center"
+            style={{ minHeight: 300 }}
+          >
+            <p>No Product found with this category</p>
+          </div>
+        </div>
+      );
     }
   } else {
-    productItemsViews = <p>Loading...</p>;
+    productItemsViews = (
+      <div className="ps-shopping py-4 ">
+        <div
+          className="section-white d-flex align-items-center justify-content-center"
+          style={{ minHeight: 300 }}
+        >
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
   }
 
   return (

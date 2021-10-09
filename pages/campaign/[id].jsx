@@ -57,7 +57,7 @@ const CampaignProducts = () => {
   if (!loading) {
     if (campaignProducts && campaignProducts.length > 0) {
       productItemsViews = (
-        <ProductItems columns={4} products={campaignProducts} />
+        <ProductItems columns={4} products={campaignProducts} campaignID={id} />
       );
     } else {
       productItemsViews = <p>No Product found</p>;

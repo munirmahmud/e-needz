@@ -1,19 +1,9 @@
 import React from "react";
-// import {
-//     FacebookShareButton,
-//     InstapaperShareButton,
-//     LinkedinShareButton,
-//     TwitterShareButton
-// } from "react-share";
 
 const ModuleProductDetailSharing = () => {
   const shareUrl = location.href;
   return (
     <div className="ps-product__sharing">
-      {/* <FacebookShareButton size={32} round={true} url={shareUrl} />
-      <TwitterShareButton />
-      <InstapaperShareButton />
-      <LinkedinShareButton /> */}
       <a className="facebook" href="#">
         <i className="fa fa-facebook"></i>
       </a>
