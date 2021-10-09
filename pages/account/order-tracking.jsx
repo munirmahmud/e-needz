@@ -16,14 +16,8 @@ const OrderTrackingPage = () => {
   useEffect(() => {
     if (authUser.auth.isLoggedIn) {
       setLoggedIn(true);
-    } else {
-      userRedirect();
     }
   }, [authUser]);
-
-  function userRedirect() {
-    Router.push("/account/login");
-  }
 
   const breadCrumb = [
     {
@@ -70,40 +64,42 @@ const OrderTrackingPage = () => {
   ];
 
   return (
-    isLoggedIn && (
-      <>
-        <PageContainer footer={<FooterFullwidth />} title="Order Tracking">
-          <div className="ps-page--simple">
-            <BreadCrumb breacrumb={breadCrumb} />
+    <PageContainer footer={<FooterFullwidth />} title="Order Tracking">
+      <div className="ps-page--simple">
+        <BreadCrumb breacrumb={breadCrumb} />
 
-            <section className="ps-my-account ps-page--account">
-              <div className="ps-container">
-                <div className="row">
-                  <div className="col-lg-3">
-                    <div className="ps-page__left">
-                      <AccountMenuSidebar data={accountLinks} active />
-                    </div>
+        <section className="ps-my-account ps-page--account">
+          <div className="ps-container">
+            <div className="row">
+              {isLoggedIn && (
+                <div className="col-lg-3">
+                  <div className="ps-page__left">
+                    <AccountMenuSidebar data={accountLinks} active />
                   </div>
+                </div>
+              )}
 
-                  <div className="col-lg-9">
-                    <div className="ps-page__content">
-                      <div className="ps-section--account-setting">
-                        <div className="ps-section__header">
-                          <h3>Track Your Order</h3>
-                        </div>
-                        <div className="ps-section__content">
-                          <OrderTracking />
-                        </div>
-                      </div>
+              <div
+                className={`${
+                  isLoggedIn ? "col-lg-9" : "col-lg-8 offset-lg-2"
+                }`}
+              >
+                <div className="ps-page__content">
+                  <div className="ps-section--account-setting">
+                    <div className="ps-section__header">
+                      <h3>Track Your Order</h3>
+                    </div>
+                    <div className="ps-section__content">
+                      <OrderTracking />
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
           </div>
-        </PageContainer>
-      </>
-    )
+        </section>
+      </div>
+    </PageContainer>
   );
 };
 
