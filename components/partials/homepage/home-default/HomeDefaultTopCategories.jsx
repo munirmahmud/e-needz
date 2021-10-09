@@ -26,6 +26,8 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
       });
   }, []);
 
+  console.log("filterProds", filterProds);
+
   return (
     <div className="ps-top-categories">
       <div className="ps-container">
@@ -83,10 +85,15 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
                         >
                           <a className="ps-block__overlay"></a>
                         </Link>
-                        <img
-                          src={`/static/img/categories/5.jpg`}
-                          alt="E-needz"
-                        />
+
+                        {data?.image ? (
+                          <img src={data.image} alt="E-needz" />
+                        ) : (
+                          <img
+                            src={`/static/img/categories/5.jpg`}
+                            alt="E-needz"
+                          />
+                        )}
                         <p>
                           {data.category_name
                             ? data.category_name
