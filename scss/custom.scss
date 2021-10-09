@@ -707,6 +707,26 @@ button.ps-btn:disabled {
   }
 }
 
+.form-group__rating {
+  .ant-rate {
+    color: $color-1st;
+
+    .ant-rate-star {
+      .anticon {
+        font-size: 15px;
+      }
+    }
+  }
+}
+
+// .ps-block--average-rating {
+//   .ps-block__header {
+//     span.anticon {
+//       color: $color-1st;
+//     }
+//   }
+// }
+
 .profile-image {
   width: 60px;
   height: 60px;

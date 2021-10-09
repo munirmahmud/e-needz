@@ -4,15 +4,16 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
-import Rating from "~/components/elements/Rating";
 
 const PartialReview = ({ auth, product_id, seller_id }) => {
   const [title, setTitle] = useState();
   const [description, setDescription] = useState();
-  const [rating, setRating] = useState(3);
   const [authCookie] = useCookies(["auth"]);
 
-  const [productRating, setProductRating] = useState([]);
+  const [productRating, setProductRating] = useState(null);
+  const [customerReviews, setCustomerReviews] = useState([]);
+  const [noReviewsFound, setNoReviewsFound] = useState("");
+  const [avgRating, setAvgRating] = useState("");
 
   useEffect(() => {
     getProductReview();
@@ -35,11 +36,12 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
     );
     const result = await response.json();
 
-    console.log("review ", result);
-
     if (result.response_status === 200) {
-      setProductRating(result.data);
+      setProductRating(result.info);
+      setCustomerReviews(result.data);
+      setAvgRating(Number(result.info.avg_rating));
     } else {
+      setNoReviewsFound(result.message);
       console.log("show_review error", result);
     }
   }
@@ -79,16 +81,27 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
       .catch((error) => console.log("error", error));
   };
 
+  console.log("customerReviews", customerReviews);
   return (
     <div className="row">
-      <div className="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 ">
+      <div className="col-xl-7 col-lg-7 col-sm-12 col-12 ">
         <div className="ps-block--average-rating">
           <div className="ps-block__header">
-            <h3>4.00</h3>
-            <Rating />
+            <h3>{avgRating ? avgRating : "0.00"}</h3>
 
-            {Array.isArray(productRating) && productRating.length > 0 ? (
-              <span>{productRating?.length} Review</span>
+            {avgRating && (
+              <div className="form-group form-group__rating">
+                <Rate disabled allowHalf defaultValue={avgRating} />
+              </div>
+            )}
+            {!avgRating && (
+              <div className="form-group form-group__rating">
+                <Rate disabled />
+              </div>
+            )}
+
+            {Array.isArray(customerReviews) && customerReviews.length > 0 ? (
+              <span>{customerReviews?.length} Review</span>
             ) : (
               <span>No product review found.</span>
             )}
@@ -97,43 +110,99 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
           <div className="ps-block__star">
             <span>5 Star</span>
             <div className="ps-progress" data-value="100">
-              <span></span>
+              {productRating?.five_star !== "0" &&
+              productRating?.five_star !== undefined ? (
+                <span style={{ width: "100%" }}></span>
+              ) : (
+                <span></span>
+              )}
             </div>
-            <span>100%</span>
+            <span>{productRating?.five_star !== "0" ? "100%" : 0}</span>
           </div>
           <div className="ps-block__star">
             <span>4 Star</span>
             <div className="ps-progress" data-value="80">
-              <span></span>
+              {productRating?.four_star !== "0" &&
+              productRating?.four_star !== undefined ? (
+                <span style={{ width: "80%" }}></span>
+              ) : (
+                <span></span>
+              )}
             </div>
-            <span>0</span>
+            <span>{productRating?.four_star !== "0" ? "80%" : 0}</span>
           </div>
           <div className="ps-block__star">
             <span>3 Star</span>
-            <div className="ps-progress" data-value="0">
-              <span></span>
+            <div className="ps-progress" data-value="60">
+              {productRating?.three_star !== "0" &&
+              productRating?.three_star !== undefined ? (
+                <span style={{ width: "60%" }}></span>
+              ) : (
+                <span></span>
+              )}
             </div>
-            <span>0</span>
+            <span>{productRating?.three_star !== "0" ? "60%" : 0}</span>
           </div>
           <div className="ps-block__star">
             <span>2 Star</span>
-            <div className="ps-progress" data-value="0">
-              <span></span>
+            <div className="ps-progress" data-value="40">
+              {productRating?.two_star !== "0" &&
+              productRating?.two_star !== undefined ? (
+                <span style={{ width: "40%" }}></span>
+              ) : (
+                <span></span>
+              )}
             </div>
-            <span>0</span>
+            <span>{productRating?.two_star !== "0" ? "40%" : 0}</span>
           </div>
+
           <div className="ps-block__star">
             <span>1 Star</span>
-            <div className="ps-progress" data-value="0">
-              <span></span>
+            <div className="ps-progress" data-value="20">
+              {productRating?.one_star !== "0" &&
+              productRating?.one_star !== undefined ? (
+                <span style={{ width: "20%" }}></span>
+              ) : (
+                <span></span>
+              )}
             </div>
-            <span>0</span>
+            <span>{productRating?.one_star !== "0" ? "20%" : 0}</span>
           </div>
+        </div>
+
+        <div className="customer-reviews mt-4 form-group__rating">
+          <p>Product Reviews</p>
+          <hr />
+          {Array.isArray(customerReviews) &&
+            customerReviews.length > 0 &&
+            customerReviews.map((review) => (
+              <>
+                <Rate
+                  disabled
+                  allowHalf
+                  defaultValue={Number(review.rating_no)}
+                />
+                <div className="d-flex justify-content-between">
+                  <p className="mb-0">
+                    by {review?.customer_name}{" "}
+                    {review.is_virified === "varified" && (
+                      <span style={{ color: "green", fontSize: 12 }}>
+                        <i className="ml-3 icon-checkmark-circle mr-2"></i>
+                        Verified Purchase
+                      </span>
+                    )}
+                  </p>
+                  <p>{review.date_time}</p>
+                </div>
+                <p className="mb-3">{review.title}</p>
+                <p>{review.comments}</p>
+              </>
+            ))}
         </div>
       </div>
 
       {auth.isLoggedIn ? (
-        <div className="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 ">
+        <div className="col-xl-5 col-lg-5 col-sm-12 col-12 ">
           <form className="ps-form--review" onSubmit={handleReviewReuest}>
             <h4>Submit Your Review</h4>
             <p>
@@ -143,7 +212,7 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
             </p>
 
             <div className="form-group form-group__rating">
-              <label>Your rating of this product</label>
+              <label>Your rating for this product</label>
               <Rate
                 defaultValue={4}
                 onChange={(e) => {

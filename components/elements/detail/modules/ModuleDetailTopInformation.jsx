@@ -1,8 +1,9 @@
+import { Rate } from "antd";
 import Link from "next/link";
 import React from "react";
-import Rating from "~/components/elements/Rating";
 
 const ModuleDetailTopInformation = ({ product }) => {
+  console.log("product", product);
   // Views
   let priceView;
   if (product.on_sale === "1") {
@@ -29,8 +30,9 @@ const ModuleDetailTopInformation = ({ product }) => {
         ) : (
           ""
         )}
-        <div className="ps-product__rating">
-          <Rating />
+        <div className="ps-product__rating form-group__rating">
+          <input type="number" defaultValue={Number(product?.ratings)} hidden />
+          <Rate disabled allowHalf defaultValue={Number(product?.ratings)} />
           <span>(* review)</span>
         </div>
       </div>
