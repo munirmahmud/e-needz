@@ -1,9 +1,9 @@
+import { Rate } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { connect } from "react-redux";
 import ModuleProductActions from "~/components/elements/products/modules/ModuleProductActions";
-import Rating from "~/components/elements/Rating";
 import useEcomerce from "~/hooks/useEcomerce";
 import useProduct from "~/hooks/useProduct";
 import { StrapiProductPriceExpanded } from "~/utilities/product-helper";
@@ -75,8 +75,10 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
           >
             {product.title}
           </Link>
-          <div className="ps-product__rating">
-            <Rating />
+          <div className="ps-product__rating form-group__rating">
+            <Rate disabled allowHalf defaultValue={product.ratings} />
+
+            {/* <Rating /> */}
             <span>{product.ratingCount}</span>
           </div>
           <button

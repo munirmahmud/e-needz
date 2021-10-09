@@ -13,7 +13,7 @@ const TrackOrders = ({ orderData }) => {
   const getOrderTrackTimeLine = async () => {
     const formData = new FormData();
     formData.append("order_no", orderData.order_no);
-    formData.append("customer_id", authCookie.auth?.id);
+    // formData.append("customer_id", authCookie.auth?.id);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/order_tracking`,
@@ -75,7 +75,10 @@ const TrackOrders = ({ orderData }) => {
 
   return (
     <>
-      <div style={{ background: "#e8e8e8", height: "1.5rem" }} />
+      {authCookie.auth && (
+        <div style={{ background: "#e8e8e8", height: "1.5rem" }} />
+      )}
+
       <div className="card p-5 track-order-card border-0">
         {Array.isArray(trackInfo) && trackInfo.length > 0 && (
           <div className="mb-2">

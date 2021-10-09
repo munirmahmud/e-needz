@@ -67,6 +67,7 @@ const Payment = () => {
   const destroyModal = () => {
     Modal.destroyAll();
   };
+
   const handlePaymentGateway = async (e) => {
     setPaymentAmountSubmitted(true);
 
@@ -89,6 +90,7 @@ const Payment = () => {
     formData.append("payment_method", paymentGatewayName);
     formData.append("customer_id", authCookie.auth?.id);
     formData.append("order_id", paymentInformation.order_id);
+    formData.append("response_url", `${location.origin}/account/invoices`);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/make_payment_submit`,

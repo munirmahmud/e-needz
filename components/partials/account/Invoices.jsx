@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import TableOrdersItems from "~/components/dashboard/TableOrdersItems";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import { toggleDrawerMenu } from "~/store/app/action";
@@ -25,9 +26,31 @@ const Invoices = () => {
     if (authUser.auth.isLoggedIn) {
       setLoggedIn(true);
     } else {
-      userRedirect();
+      // userRedirect();
     }
   }, [authUser]);
+
+  const params = new URLSearchParams(window.location.search);
+  const getMessageAfterPayment = () => {
+    const status = params.get("status");
+    const message = params.get("message");
+
+    if (status !== null) {
+      if (status === "success") {
+        toast.success(message);
+      } else if (status === "failed") {
+        toast.error(message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    getMessageAfterPayment();
+
+    setTimeout(() => {
+      Router.push("/account/invoices");
+    }, 3000);
+  }, []);
 
   function userRedirect() {
     Router.push("/account/login");

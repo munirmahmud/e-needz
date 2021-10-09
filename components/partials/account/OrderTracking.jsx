@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const OrderTracking = () => {
   const [orderNo, setOrderNo] = useState("");
   const [authCookie] = useCookies(["auth"]);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const Router = useRouter();
   const [isSubmitted, setSubmitted] = useState(false);
@@ -15,7 +18,7 @@ const OrderTracking = () => {
 
     var formdata = new FormData();
     formdata.append("order_no", orderNo);
-    formdata.append("customer_id", authCookie.auth?.id);
+    // formdata.append("customer_id", authCookie.auth?.id);
 
     var requestOptions = {
       method: "POST",
@@ -30,11 +33,20 @@ const OrderTracking = () => {
 
     const result = await response.json();
 
+    console.log("order_tracking", result);
+
     if (result.response_status === 200) {
-      Router.push(`/account/invoice-details/${result.data.order_id}`);
+      if (isLoggedIn) {
+        Router.push(`/account/invoice-details/${result.data.order_id}`);
+      } else {
+        Router.push(`/account/order-tracking/${orderNo}`);
+      }
+      setSubmitted(false);
+    } else if (result.response_status === 204) {
+      toast.error(result.message);
       setSubmitted(false);
     } else {
-      console.log(result);
+      console.log("order_tracking error", result);
       setSubmitted(false);
     }
   };
@@ -44,9 +56,10 @@ const OrderTracking = () => {
       <div className="ps-section__header flex-column justify-content-center">
         <h3 className="mb-5">Order Tracking</h3>
         <p>
-          To track your order please enter your Order ID in the box below and
-          press the "Track" button. This was given to you on your receipt and in
-          the confirmation email you should have received.
+          To track your order please enter your <strong>Order No</strong> in the
+          box below and press the "Track Your Order" button. This was given to
+          you on your receipt and in the confirmation email you should have
+          received.
         </p>
       </div>
       <div className="ps-section__content">

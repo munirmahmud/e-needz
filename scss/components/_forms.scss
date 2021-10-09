@@ -35,8 +35,9 @@
   .ps-form__categories {
     position: relative;
     background-color: #fff;
-    max-width: 160px;
+    max-width: 200px;
     vertical-align: top;
+    padding-right: 10px;
 
     &:after {
       content: "";
@@ -58,7 +59,7 @@
       padding-right: 30px;
       height: 40px;
       border-radius: 4px 0 0 4px;
-      @include appearance(none);
+      // @include appearance(none);
     }
   }
 

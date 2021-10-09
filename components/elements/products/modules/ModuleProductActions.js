@@ -1,12 +1,14 @@
 import { Modal } from "antd";
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import ProductDetailQuickView from "~/components/elements/detail/ProductDetailQuickView";
 import useEcomerce from "~/hooks/useEcomerce";
 
 const ModuleProductActions = ({ product, ecomerce }) => {
   const [isQuickView, setIsQuickView] = useState(false);
+  const wishList = useSelector((state) => state.ecomerce);
+
   const { addItem } = useEcomerce();
 
   function handleAddItemToCart(e) {
@@ -28,6 +30,16 @@ const ModuleProductActions = ({ product, ecomerce }) => {
 
   function handleAddItemToWishlist(e) {
     e.preventDefault();
+
+    const existItem = wishList.wishlistItems.find(
+      (item) => item.id === product.product_id
+    );
+
+    if (existItem) {
+      toast.error("The item is already in your cart");
+      return;
+    }
+
     addItem(
       { id: product.product_id, campaign_id: product.campaign_id },
       ecomerce.wishlistItems,
