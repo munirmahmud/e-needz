@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import CampaignModuleSortBy from "~/components/ecomerce/modules/CampaignModuleSortBy";
 import ModuleProductActions from "~/components/elements/products/modules/ModuleProductActions";
 import ProductWide from "~/components/elements/products/ProductWide";
 import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
@@ -17,7 +18,13 @@ import { StrapiProductPriceExpanded } from "~/utilities/product-helper";
  * This component just dipslay product items, not fetching data.
  * */
 
-const ProductItems = ({ products, columns = 4, ecomerce, categoryId }) => {
+const ProductItems = ({
+  products,
+  columns = 4,
+  ecomerce,
+  categoryId,
+  campaignID,
+}) => {
   const Router = useRouter();
   const { thumbnailImage } = useProduct();
   const [listView, setListView] = useState(true);
@@ -173,6 +180,44 @@ const ProductItems = ({ products, columns = 4, ecomerce, categoryId }) => {
     productItemsView = <div className="row">{skeletonItems}</div>;
   }
 
+  const getSortingModule = () => {
+    console.log("products", products);
+    let productCats;
+
+    products?.length > 0 &&
+      products?.map((product) => {
+        if (product.campaign_id === "1") {
+          productCats = (
+            <ModuleShopSortBy
+              setProductItems={setProductItems}
+              categoryId={categoryId}
+            />
+          );
+        } else {
+          productCats = (
+            <CampaignModuleSortBy
+              setProductItems={setProductItems}
+              campaignID={campaignID}
+            />
+          );
+        }
+      });
+    return productCats;
+    // products?.length > 0 &&
+    //   products?.map((product) => {
+    //     if (product.campaign_id === "1") {
+    //       return (
+    //         <ModuleShopSortBy
+    //           setProductItems={setProductItems}
+    //           categoryId={categoryId}
+    //         />
+    //       );
+    //     } else {
+    //       return "Sorry";
+    //     }
+    //   });
+  };
+
   return (
     <div className="ps-shopping pb-5">
       <div className="ps-shopping__header mt-4 mb-4">
@@ -182,11 +227,9 @@ const ProductItems = ({ products, columns = 4, ecomerce, categoryId }) => {
         </p>
 
         <div className="ps-shopping__actions">
-          <ModuleShopSortBy
-            setProductItems={setProductItems}
-            categoryId={categoryId}
-          />
           <div className="ps-shopping__view">
+            {getSortingModule()}
+
             <p>View</p>
             <ul className="ps-tab-list">
               <li className={listView === true ? "active" : ""}>
