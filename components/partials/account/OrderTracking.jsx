@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const OrderTracking = () => {
   const [orderNo, setOrderNo] = useState("");
   const [authCookie] = useCookies(["auth"]);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const Router = useRouter();
   const [isSubmitted, setSubmitted] = useState(false);
@@ -30,11 +33,20 @@ const OrderTracking = () => {
 
     const result = await response.json();
 
+    console.log("order_tracking", result);
+
     if (result.response_status === 200) {
-      Router.push(`/account/invoice-details/${result.data.order_id}`);
+      if (isLoggedIn) {
+        Router.push(`/account/invoice-details/${result.data.order_id}`);
+      } else {
+        Router.push(`/account/order-tracking/${orderNo}`);
+      }
+      setSubmitted(false);
+    } else if (result.response_status === 204) {
+      toast.error(result.message);
       setSubmitted(false);
     } else {
-      console.log(result);
+      console.log("order_tracking error", result);
       setSubmitted(false);
     }
   };

@@ -48,13 +48,11 @@ const NavigationDefault = () => {
           <PrimaryMenu source={parentMenu} className="menu" />
 
           <ul className="navigation__extra">
-            {userAuth.isLoggedIn && (
-              <li className="navigation-text">
-                <Link href="/account/order-tracking">
-                  <a>Tract your order</a>
-                </Link>
-              </li>
-            )}
+            <li className="navigation-text">
+              <Link href="/account/order-tracking">
+                <a>Tract your order</a>
+              </Link>
+            </li>
             {/* <li>
                 <LanguageSwicher />
               </li> */}
