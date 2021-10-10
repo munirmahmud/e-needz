@@ -41,7 +41,7 @@ const ModuleDetailShoppingActions = ({
       "cart"
     );
     setTimeout(function () {
-      Router.push("/account/checkout");
+      Router.push("/account/shopping-cart");
     }, 100);
   }
 

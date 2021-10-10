@@ -54,7 +54,7 @@ const ProductItems = ({
       "cart"
     );
     setTimeout(function () {
-      Router.push("/account/checkout");
+      Router.push("/account/shopping-cart");
     }, 1000);
   }
 
