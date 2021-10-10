@@ -9,7 +9,7 @@ import AccountMenuSidebar from "~/components/partials/account/modules/AccountMen
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 import { toggleDrawerMenu } from "~/store/app/action";
 
-const PaymentHistory = () => {
+const PaymentHistory = ({ auth }) => {
   const dispatch = useDispatch();
   const Router = useRouter();
   const authUser = useSelector((state) => state);
@@ -22,19 +22,9 @@ const PaymentHistory = () => {
   const [err, setErr] = useState(false);
   const [authCookie] = useCookies(["auth"]);
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
-  }, [authUser]);
-
-  function userRedirect() {
+  const redirectUser = () => {
     Router.push("/account/login");
-  }
+  };
 
   useEffect(() => {
     dispatch(toggleDrawerMenu(false));
@@ -43,7 +33,6 @@ const PaymentHistory = () => {
   useEffect(() => {
     var formdata = new FormData();
     formdata.append("customer_id", authCookie.auth?.id);
-    // formdata.append("customer_id", "BMJUCC22X54NZCN");
 
     var requestOptions = {
       method: "POST",
@@ -181,56 +170,82 @@ const PaymentHistory = () => {
   ];
 
   return (
-    isLoggedIn && (
-      <PageContainer footer={<FooterFullwidth />} title="Payment History">
-        <section className="ps-my-account ps-page--account">
-          <div className="ps-container">
-            <div className="row">
-              <div className="col-lg-3">
-                <div className="ps-page__left">
-                  <AccountMenuSidebar data={accountLinks} />
+    <>
+      {auth ? (
+        <PageContainer footer={<FooterFullwidth />} title="Payment History">
+          <section className="ps-my-account ps-page--account">
+            <div className="ps-container">
+              <div className="row">
+                <div className="col-lg-3">
+                  <div className="ps-page__left">
+                    <AccountMenuSidebar data={accountLinks} />
+                  </div>
                 </div>
-              </div>
 
-              <div className="col-lg-9">
-                <div className="ps-page__content">
-                  <div className="ps-section--account-setting">
-                    <div className="ps-section__header">
-                      <h3>Payment History</h3>
-                    </div>
+                <div className="col-lg-9">
+                  <div className="ps-page__content">
+                    <div className="ps-section--account-setting">
+                      <div className="ps-section__header">
+                        <h3>Payment History</h3>
+                      </div>
 
-                    <div className="ps-section__content">
-                      {err ? (
-                        <Alert message="Failed to fetch data" type="error" />
-                      ) : (
-                        ""
-                      )}
-                      <div className="table-responsive">
-                        <table className="table ps-table">
-                          <thead>
-                            <tr>
-                              <th>ID</th>
-                              <th>Order No</th>
-                              <th>Name</th>
-                              <th>Amount</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-center">
-                            {tableItemsView}
-                          </tbody>
-                        </table>
+                      <div className="ps-section__content">
+                        {err ? (
+                          <Alert message="Failed to fetch data" type="error" />
+                        ) : (
+                          ""
+                        )}
+                        <div className="table-responsive">
+                          <table className="table ps-table">
+                            <thead>
+                              <tr>
+                                <th>ID</th>
+                                <th>Order No</th>
+                                <th>Name</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-center">
+                              {tableItemsView}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </PageContainer>
-    )
+          </section>
+        </PageContainer>
+      ) : (
+        redirectUser()
+      )}
+    </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies["auth"];
+
+  let authUser = false;
+  if (cookies !== undefined) {
+    const auth = JSON.parse(cookies);
+    if (auth.id) {
+      authUser = true;
+    } else {
+      authUser = false;
+    }
+  } else {
+    authUser = false;
+  }
+
+  return {
+    props: {
+      auth: authUser,
+    },
+  };
+}
 
 export default PaymentHistory;

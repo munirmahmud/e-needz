@@ -2,39 +2,24 @@ import { Alert } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
-import { useSelector } from "react-redux";
 import PageContainer from "~/components/layouts/PageContainer";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
-const PaymentHistoryDetails = () => {
+const PaymentHistoryDetails = ({ auth }) => {
   const Router = useRouter();
   const { id } = Router.query;
-  const authUser = useSelector((state) => state);
 
-  const [authCookie] = useCookies(["auth"]);
   const [paymentInfo, setpaymentInfo] = useState([]);
   const [orderNo, setOrderNo] = useState("");
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
-  }, [authUser]);
-
-  function userRedirect() {
+  const redirectUser = () => {
     Router.push("/account/login");
-  }
+  };
 
   const getPaymentDetails = async () => {
     let formData = new FormData();
 
-    // formData.append("order_no", "EZ697896627092");
     formData.append("order_no", orderNo);
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/payment_details`,
@@ -114,93 +99,121 @@ const PaymentHistoryDetails = () => {
 
   return (
     <>
-      <PageContainer
-        footer={<FooterFullwidth />}
-        title="Payment History Details"
-      >
-        <div className="ps-page--my-account">
-          <section className="ps-my-account ps-page--account">
-            <div className="ps-container">
-              <div className="row">
-                <div className="col-lg-3">
-                  <div className="ps-page__left">
-                    <AccountMenuSidebar data={accountLinks} active />
+      {auth ? (
+        <PageContainer
+          footer={<FooterFullwidth />}
+          title="Payment History Details"
+        >
+          <div className="ps-page--my-account">
+            <section className="ps-my-account ps-page--account">
+              <div className="ps-container">
+                <div className="row">
+                  <div className="col-lg-3">
+                    <div className="ps-page__left">
+                      <AccountMenuSidebar data={accountLinks} active />
+                    </div>
                   </div>
-                </div>
-                <div className="col-lg-9">
-                  <div className="ps-page__content">
-                    <div className="ps-section--account-setting">
-                      <div className="ps-section__header">
-                        <h3>Payment ID #{id}</h3>
-                      </div>
+                  <div className="col-lg-9">
+                    <div className="ps-page__content">
+                      <div className="ps-section--account-setting">
+                        <div className="ps-section__header">
+                          <h3>Payment ID #{id}</h3>
+                        </div>
 
-                      <div className="ps-section__content">
-                        <div className="table-responsive">
-                          {Array.isArray(paymentInfo) &&
-                          paymentInfo.length > 0 ? (
-                            <table className="table">
-                              <thead>
-                                <tr>
-                                  <th>ID</th>
-                                  <th>Payment ID</th>
-                                  <th>Date</th>
-                                  <th>Order ID</th>
-                                  <th>Name</th>
-                                  <th>Status</th>
-                                  <th>Method</th>
-                                  <th>Amount</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {paymentInfo?.map((payment, index) => (
-                                  <tr key={payment.payment_id_no}>
-                                    <td>{index + 1}</td>
-                                    <td>{payment.payment_id_no}</td>
-                                    <td>{payment.date}</td>
-                                    <td>{payment.order_id}</td>
-                                    <td>{payment.customer_name}</td>
-                                    <td>
-                                      {getPaymentStatus(payment.payment_status)}
-                                    </td>
-                                    <td>{payment.payment_method}</td>
-                                    <td>৳ {payment.payment_amount}</td>
-                                    {/* <td>
+                        <div className="ps-section__content">
+                          <div className="table-responsive">
+                            {Array.isArray(paymentInfo) &&
+                            paymentInfo.length > 0 ? (
+                              <table className="table">
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Payment ID</th>
+                                    <th>Date</th>
+                                    <th>Order ID</th>
+                                    <th>Name</th>
+                                    <th>Status</th>
+                                    <th>Method</th>
+                                    <th>Amount</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {paymentInfo?.map((payment, index) => (
+                                    <tr key={payment.payment_id_no}>
+                                      <td>{index + 1}</td>
+                                      <td>{payment.payment_id_no}</td>
+                                      <td>{payment.date}</td>
+                                      <td>{payment.order_id}</td>
+                                      <td>{payment.customer_name}</td>
+                                      <td>
+                                        {getPaymentStatus(
+                                          payment.payment_status
+                                        )}
+                                      </td>
+                                      <td>{payment.payment_method}</td>
+                                      <td>৳ {payment.payment_amount}</td>
+                                      {/* <td>
                                       <button
                                         className="ps-btn ps-btn--sm"
                                       >
                                         Payment Details
                                       </button>
                                     </td> */}
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          ) : (
-                            <Alert
-                              message="Sorry no payment history details found"
-                              type="info"
-                            />
-                          )}
-                        </div>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            ) : (
+                              <Alert
+                                message="Sorry no payment history details found"
+                                type="info"
+                              />
+                            )}
+                          </div>
 
-                        <Link href="/account/payment-history">
-                          <a className="ps-btn ps-btn--sm mt-4">
-                            Back to Payment History
-                          </a>
-                        </Link>
+                          <Link href="/account/payment-history">
+                            <a className="ps-btn ps-btn--sm mt-4">
+                              Back to Payment History
+                            </a>
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* <TrackOrders order_id={orderInfo?.order_id} /> */}
+                    {/* <TrackOrders order_id={orderInfo?.order_id} /> */}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        </div>
-      </PageContainer>
+            </section>
+          </div>
+        </PageContainer>
+      ) : (
+        redirectUser()
+      )}
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies["auth"];
+
+  let authUser = false;
+  if (cookies !== undefined) {
+    const auth = JSON.parse(cookies);
+    if (auth.id) {
+      authUser = true;
+    } else {
+      authUser = false;
+    }
+  } else {
+    authUser = false;
+  }
+
+  return {
+    props: {
+      auth: authUser,
+    },
+  };
+}
 
 export default PaymentHistoryDetails;

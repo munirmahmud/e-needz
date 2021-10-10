@@ -1,27 +1,8 @@
-import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import AccountMenuSidebar from "~/components/partials/account/modules/AccountMenuSidebar";
 import FormChangeUserInformation from "~/components/shared/FormChangeUserInformation";
 
 const UserInformation = () => {
-  const authUser = useSelector((state) => state.auth);
-  const Router = useRouter();
-
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (authUser.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
-  }, [authUser]);
-
-  function userRedirect() {
-    Router.push("/account/login");
-  }
-
   const accountLinks = [
     {
       text: "Account Information",
@@ -57,25 +38,23 @@ const UserInformation = () => {
   ];
 
   return (
-    isLoggedIn && (
-      <section className="ps-my-account ps-page--account">
-        <div className="ps-container">
-          <div className="row">
-            <div className="col-lg-3">
-              <div className="ps-page__left">
-                <AccountMenuSidebar data={accountLinks} />
-              </div>
+    <section className="ps-my-account ps-page--account">
+      <div className="ps-container">
+        <div className="row">
+          <div className="col-lg-3">
+            <div className="ps-page__left">
+              <AccountMenuSidebar data={accountLinks} />
             </div>
+          </div>
 
-            <div className="col-lg-9">
-              <div className="ps-page__content">
-                <FormChangeUserInformation />
-              </div>
+          <div className="col-lg-9">
+            <div className="ps-page__content">
+              <FormChangeUserInformation />
             </div>
           </div>
         </div>
-      </section>
-    )
+      </div>
+    </section>
   );
 };
 
