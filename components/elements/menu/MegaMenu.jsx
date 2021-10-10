@@ -22,9 +22,9 @@ const MegaMenu = ({ source }) => {
     <li className="menu-item-has-children has-mega-menu">
       <Link href={`/category/${source.category_id}`}>
         <a>
-          {source.cat_image && (
+          {/* {source.cat_image && (
             <img src={source.cat_image} alt={source.category_name} />
-          )}
+          )} */}
           {source.category_name}
         </a>
       </Link>

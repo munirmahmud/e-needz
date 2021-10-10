@@ -26,8 +26,6 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
       });
   }, []);
 
-  console.log("filterProds", filterProds);
-
   return (
     <div className="ps-top-categories">
       <div className="ps-container">
