@@ -7,7 +7,6 @@ import MiniCart from "./MiniCart";
 const ElectronicHeaderActions = ({ auth, ecomerce }) => {
   return (
     <div className="header__actions">
-      <h2>Hello</h2>
       <Link href="/account/wishlist">
         <a className="header__extra">
           <i className="icon-heart"></i>

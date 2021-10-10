@@ -236,6 +236,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     formData.append("address_id", address);
     formData.append("cart_details", JSON.stringify(newItems));
     formData.append("payment_method", payment_method);
+    formData.append("response_url", `${location.origin}/account/invoices`);
 
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/submit_checkout`,
@@ -246,19 +247,52 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     );
     const result = await response.json();
 
+    console.log("result", result);
+    console.log("payment_method", payment_method);
+
     if (result.response_status === 0) {
       toast.error(result.message);
       setSubmitted(false);
     } else if (result?.response_status === 200) {
-      toast.success("Your order has been placed successfully!");
-      setAddresses(result?.data?.address_list);
-      localStorage.removeItem("p_code");
-      remove("cart");
-      dispatch(setCartItems([]));
-      setSubmitted(false);
-      setSubmitSuccess(!isSubmitSuccess);
-      setAgreeWithTerms(false);
-      Router.push("/account/invoices");
+      if (payment_method === "sslcommerz") {
+        window.open(`https://${result.data.url}`);
+
+        setTimeout(() => {
+          toast.success("Your order has been placed successfully!");
+          setAddresses(result?.data?.address_list);
+          localStorage.removeItem("p_code");
+          remove("cart");
+          dispatch(setCartItems([]));
+          setSubmitted(false);
+          setSubmitSuccess(!isSubmitSuccess);
+          setAgreeWithTerms(false);
+          Router.push("/account/invoices");
+        }, 1000);
+      } else if (payment_method === "nagad") {
+        window.open(`${result.data.url}`);
+
+        setTimeout(() => {
+          toast.success("Your order has been placed successfully!");
+          setAddresses(result?.data?.address_list);
+          localStorage.removeItem("p_code");
+          remove("cart");
+          dispatch(setCartItems([]));
+          setSubmitted(false);
+          setSubmitSuccess(!isSubmitSuccess);
+          setAgreeWithTerms(false);
+          Router.push("/account/invoices");
+        }, 1000);
+      } else {
+        toast.success("Your order has been placed successfully!");
+        setAddresses(result?.data?.address_list);
+        localStorage.removeItem("p_code");
+        remove("cart");
+        dispatch(setCartItems([]));
+        setSubmitted(false);
+        setSubmitSuccess(!isSubmitSuccess);
+        setAgreeWithTerms(false);
+        Router.push("/account/invoices");
+      }
     } else {
       setSubmitted(false);
       toast.error(result.message);

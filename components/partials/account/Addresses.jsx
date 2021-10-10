@@ -347,7 +347,7 @@ const Addresses = () => {
                             <th scope="col">Address</th>
                             <th scope="col">Area</th>
                             <th scope="col">Phone Number</th>
-                            {/* <th scope="col">Action</th> */}
+                            <th scope="col">Action</th>
                             <th scope="col">Primary</th>
                           </tr>
                         </thead>
@@ -361,21 +361,21 @@ const Addresses = () => {
                                 {address.area} {address.city} {address.division}
                               </th>
                               <th scope="row">{address.customer_phone}</th>
-                              {/* <th
+                              <th
                                 scope="row"
                                 className="d-flex align-items-center justify-content-center"
-                              > */}
-                              {/* <a
+                              >
+                                <a
                                   href="#"
                                   className="mr-3"
                                   onClick={(e) => handleEditAddress(e, address)}
                                 >
                                   <i className="icon-pencil"></i>
-                                </a> */}
-                              {/* <a href="#">
+                                </a>
+                                {/* <a href="#">
                                   <i className="icon-trash"></i>
                                 </a> */}
-                              {/* </th> */}
+                              </th>
 
                               <th scope="row">
                                 {address.is_primary === "1" ? (

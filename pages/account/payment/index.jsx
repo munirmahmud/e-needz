@@ -1,27 +1,17 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { connect, useSelector } from "react-redux";
+import React from "react";
+import { connect } from "react-redux";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
 import Payment from "~/components/partials/account/Payment";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
-const PaymentPage = () => {
-  const authUser = useSelector((state) => state);
+const PaymentPage = ({ auth }) => {
   const Router = useRouter();
-  const [isLoggedIn, setLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
-  }, [authUser]);
-
-  function userRedirect() {
+  const redirectUser = () => {
     Router.push("/account/login");
-  }
+  };
 
   const breadCrumb = [
     {
@@ -29,12 +19,8 @@ const PaymentPage = () => {
       url: "/",
     },
     {
-      text: "Shopping Cart",
-      url: "/account/shopping-cart",
-    },
-    {
-      text: "Checkout Information",
-      url: "/account/checkout",
+      text: "Invoices",
+      url: "/account/invoices",
     },
     {
       text: "Payment",
@@ -43,14 +29,40 @@ const PaymentPage = () => {
 
   return (
     <>
-      <PageContainer footer={<FooterFullwidth />} title="Payment">
-        <div className="ps-page--simple">
-          <BreadCrumb breacrumb={breadCrumb} />
-          <Payment />
-        </div>
-      </PageContainer>
+      {auth ? (
+        <PageContainer footer={<FooterFullwidth />} title="Payment">
+          <div className="ps-page--simple">
+            <BreadCrumb breacrumb={breadCrumb} />
+            <Payment />
+          </div>
+        </PageContainer>
+      ) : (
+        redirectUser()
+      )}
     </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies["auth"];
+
+  let authUser = false;
+  if (cookies !== undefined) {
+    const auth = JSON.parse(cookies);
+    if (auth.id) {
+      authUser = true;
+    } else {
+      authUser = false;
+    }
+  } else {
+    authUser = false;
+  }
+
+  return {
+    props: {
+      auth: authUser,
+    },
+  };
+}
 
 export default connect()(PaymentPage);
