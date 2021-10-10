@@ -1,27 +1,17 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
 import InvoiceDetail from "~/components/partials/account/InvoiceDetail";
 import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
-const InvoiceDetailPage = () => {
+const InvoiceDetailPage = ({ auth }) => {
   const Router = useRouter();
-  const authUser = useSelector((state) => state);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  console.log("auth", auth);
 
-  useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      userRedirect();
-    }
-  }, [authUser]);
-
-  function userRedirect() {
+  const redirectUser = () => {
     Router.push("/account/login");
-  }
+  };
 
   const breadCrumb = [
     {
@@ -32,9 +22,10 @@ const InvoiceDetailPage = () => {
       text: "Invoice Detail",
     },
   ];
+
   return (
-    isLoggedIn && (
-      <>
+    <>
+      {auth ? (
         <PageContainer footer={<FooterFullwidth />} title="Invoice detail">
           <div className="ps-page--my-account">
             <BreadCrumb breacrumb={breadCrumb} />
@@ -42,9 +33,33 @@ const InvoiceDetailPage = () => {
             <InvoiceDetail />
           </div>
         </PageContainer>
-      </>
-    )
+      ) : (
+        redirectUser()
+      )}
+    </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies["auth"];
+
+  let authUser = false;
+  if (cookies !== undefined) {
+    const auth = JSON.parse(cookies);
+    if (auth.id) {
+      authUser = true;
+    } else {
+      authUser = false;
+    }
+  } else {
+    authUser = false;
+  }
+
+  return {
+    props: {
+      auth: authUser,
+    },
+  };
+}
 
 export default InvoiceDetailPage;

@@ -1,31 +1,16 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import BreadCrumb from "~/components/elements/BreadCrumb";
 import PageContainer from "~/components/layouts/PageContainer";
 import Addresses from "~/components/partials/account/Addresses";
 import FooterDefault from "~/components/shared/footers/FooterDefault";
 
-const MyAccountPage = () => {
-  const authUser = useSelector((state) => state);
+const MyAccountPage = ({ auth }) => {
   const Router = useRouter();
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  console.log("authUser.auth", authUser.auth);
-  useEffect(() => {
-    setTimeout(() => {
-      if (authUser.auth.isLoggedIn === true) {
-        setLoggedIn(true);
-      } else {
-        userRedirect();
-      }
-    }, 2000);
-  }, [authUser]);
-
-  function userRedirect() {
+  const redirectUser = () => {
     Router.push("/account/login");
-  }
+  };
 
   const breadCrumb = [
     {
@@ -37,15 +22,41 @@ const MyAccountPage = () => {
     },
   ];
   return (
-    isLoggedIn && (
-      <PageContainer footer={<FooterDefault />} title="Address">
-        <div className="ps-page--my-account">
-          <BreadCrumb breacrumb={breadCrumb} />
-          <Addresses />
-        </div>
-      </PageContainer>
-    )
+    <>
+      {auth ? (
+        <PageContainer footer={<FooterDefault />} title="Address">
+          <div className="ps-page--my-account">
+            <BreadCrumb breacrumb={breadCrumb} />
+            <Addresses />
+          </div>
+        </PageContainer>
+      ) : (
+        redirectUser()
+      )}
+    </>
   );
 };
+
+export async function getServerSideProps(context) {
+  const cookies = context.req.cookies["auth"];
+
+  let authUser = false;
+  if (cookies !== undefined) {
+    const auth = JSON.parse(cookies);
+    if (auth.id) {
+      authUser = true;
+    } else {
+      authUser = false;
+    }
+  } else {
+    authUser = false;
+  }
+
+  return {
+    props: {
+      auth: authUser,
+    },
+  };
+}
 
 export default MyAccountPage;
