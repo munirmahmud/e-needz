@@ -7,7 +7,12 @@ import RefundPolicy from "~/components/elements/detail/description/RefundPolicy"
 
 const { TabPane } = Tabs;
 
-const DefaultDescription = ({ product_id, category_id, seller_id }) => {
+const DefaultDescription = ({
+  product_id,
+  category_id,
+  seller_id,
+  total_review,
+}) => {
   return (
     <div className="ps-product__content ps-tab-root">
       <Tabs defaultActiveKey="1">
@@ -18,7 +23,7 @@ const DefaultDescription = ({ product_id, category_id, seller_id }) => {
             seller_id={seller_id}
           />
         </TabPane>
-        <TabPane tab="Reviews (1)" key="4">
+        <TabPane tab={`Reviews (${total_review})`} key="4">
           <PartialReview
             product_id={product_id}
             category_id={category_id}

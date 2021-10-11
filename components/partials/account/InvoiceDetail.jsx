@@ -1,4 +1,5 @@
 import { Alert, Modal } from "antd";
+import moment from "moment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
@@ -23,10 +24,11 @@ const InvoiceDetail = () => {
   const [issueID, setIssueID] = useState("");
   const [attachment, setAttachment] = useState(null);
   const [existingIssues, setExistingIssues] = useState([]);
-  // const [totalAmount, setTotalAmount] = useState("")
+  const [isSubmittedIssue, setSubmittedIssue] = useState(false);
 
   const [isIssueDetails, setIsIssueDetails] = useState(false);
   const [issueDetails, setIssueDetails] = useState({});
+  const [isResolvedIssue, setResolvedIssue] = useState(false);
 
   const [customerComment, setCustomerComment] = useState("");
   const [isSubmittedComment, setSubmittedComment] = useState(false);
@@ -35,7 +37,7 @@ const InvoiceDetail = () => {
   const [isOrderCanceled, setisOrderCanceled] = useState(false);
 
   const [issueItems, setIssueItems] = useState({
-    issue_type: "",
+    issue_type: "0",
     description: "",
   });
 
@@ -57,7 +59,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-    console.log("details_order", result);
 
     let newProduct = {};
     if (result?.response_status === 200) {
@@ -65,7 +66,7 @@ const InvoiceDetail = () => {
       // setTotalAmount(result.data.total_amount)
     }
   };
-  console.log(orderInfo);
+
   useEffect(() => {
     getOrderDetails();
   }, [pid]);
@@ -106,17 +107,28 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData.response_status === 200) {
-      setIssueType(apiData.data);
+    if (result.response_status === 200) {
+      const defautlIssue = {
+        issueType_id: "0",
+        type_name: "Select an Issue",
+      };
+      setIssueType([defautlIssue, ...result.data]);
     } else {
-      toast.error(apiData.message);
+      console.log("issuetype_list error", result);
     }
   };
 
   const handleSubmitIssue = async () => {
     let formData = new FormData();
+    setSubmittedIssue(true);
+
+    if (issueItems.issue_type === "0") {
+      toast.error("Please select an issue type");
+      setSubmittedIssue(false);
+      return;
+    }
 
     formData.append("issueType_id", issueItems.issue_type); //Issue type ID
     formData.append("order_id", pid);
@@ -133,21 +145,22 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData.response_status === 200) {
-      setIssueType(apiData.data);
-      toast.success(apiData.message);
-
-      setIssueType({
-        issueItems: "",
+    if (result.response_status === 200) {
+      toast.success(result.message);
+      setIssueItems({
+        issue_type: "0",
         description: "",
       });
+
       setAttachment(null);
       attachmentRef.current.value = "";
       setOpenModal(false);
+      setSubmittedIssue(false);
     } else {
-      toast.error(apiData.message);
+      setSubmittedIssue(false);
+      toast.error(result.message);
     }
   };
 
@@ -164,12 +177,12 @@ const InvoiceDetail = () => {
         body: formData,
       }
     );
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData.response_status === 200) {
-      setExistingIssues(apiData.data);
+    if (result.response_status === 200) {
+      setExistingIssues(result.data);
     } else {
-      toast.error(apiData.message);
+      console.log(result);
     }
   };
 
@@ -206,18 +219,26 @@ const InvoiceDetail = () => {
       setIsIssueDetails(true);
       setIssueDetails(result.data);
       setIssueComments(result.data.comment);
+    } else if (result.response_status === 0) {
     } else {
-      toast.error(result.message);
+      console.log("issue details", result);
     }
   };
 
   const getBackToIssues = (e) => {
     setIsIssueDetails(false);
+    handleExistingIssues();
   };
 
   const handleSubmitComment = async () => {
     setSubmittedComment(true);
     const formData = new FormData();
+
+    if (!customerComment) {
+      toast.error("Comment field is empty. Please add your comment");
+      setSubmittedComment(false);
+      return;
+    }
 
     formData.append("issueType_id", issueDetails.issueType_id);
     formData.append("order_id", pid);
@@ -237,9 +258,19 @@ const InvoiceDetail = () => {
     if (result.response_status === 200) {
       setCustomerComment("");
       setSubmittedComment(false);
-      toast.success(result.message);
+      setIssueComments((prevComments) => [
+        ...prevComments,
+        {
+          name: authCookie.auth?.name,
+          msg: customerComment,
+          date: `${moment().format(
+            "D MMM YY"
+          )} ${new Date().toLocaleTimeString()}`,
+        },
+      ]);
     } else {
-      toast.error(result.message);
+      setSubmittedComment(false);
+      console.log("Comment submition issue", result);
     }
   };
 
@@ -253,6 +284,7 @@ const InvoiceDetail = () => {
     formData.append("details", customerComment);
     formData.append("submited_by", authCookie.auth?.id); //Customer ID
     formData.append("status", 1); //Status must be 1 to resolve the issue
+
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/issue_create`,
       {
@@ -262,13 +294,18 @@ const InvoiceDetail = () => {
     );
     const result = await response.json();
 
-    // if (result.response_status === 200) {
-    //   setCustomerComment("");
-    //   setSubmittedComment(false);
-    //   toast.success(result.message);
-    // } else {
-    //   toast.error(result.message);
-    // }
+    if (result.response_status === 200) {
+      setCustomerComment("");
+      setSubmittedComment(false);
+      toast.success("The issue has been resolved successfully!");
+      setIssueDetails({
+        ...issueDetails,
+        status: "1",
+      });
+      setResolvedIssue(true);
+    } else {
+      console.log("issue resolved error", result);
+    }
   };
 
   const handlePaymentInformation = (e) => {
@@ -486,7 +523,7 @@ const InvoiceDetail = () => {
                           <th>Amount</th>
                         </tr>
                       </thead>
-                      {console.log(orderInfo)}
+
                       <tbody>
                         {Array.isArray(orderInfo.product_information) &&
                           orderInfo?.product_information?.map(
@@ -512,7 +549,9 @@ const InvoiceDetail = () => {
                       <a className="ps-btn ps-btn--sm">Back to invoices</a>
                     </Link>
 
-                    <div>Total Amount: ৳ {orderInfo.total_amount}</div>
+                    <strong style={{ fontSize: 17 }}>
+                      Total Amount: ৳ {orderInfo.total_amount}
+                    </strong>
                   </div>
                 </div>
               </div>
@@ -544,6 +583,7 @@ const InvoiceDetail = () => {
             className="ps-btn btn-small"
             type="button"
             onClick={handleSubmitIssue}
+            disabled={isSubmittedIssue}
           >
             Submit
           </button>,
@@ -556,7 +596,7 @@ const InvoiceDetail = () => {
             placeholder="Select Issue Type"
             id="issue_type"
             className="form-control"
-            defaultValue={issueID}
+            defaultValue={issueItems.issue_type}
             onChange={handleChange}
           >
             {Array.isArray(issueType) &&
@@ -612,35 +652,44 @@ const InvoiceDetail = () => {
         onCancel={() => setOpenExistingIssueModal(false)}
         footer={[]}
       >
+        {console.log("existingIssues", existingIssues)}
         <div className="issues-wrapper">
           {!isIssueDetails ? (
-            Array.isArray(existingIssues) &&
-            existingIssues.length > 0 &&
-            existingIssues.map((issue, index) => (
-              <div
-                key={issue.issue_id}
-                className="issue d-flex"
-                data-issueid={issue.issue_id}
-                ref={issueDetailsRef}
-                onClick={handleIssueDetails}
-              >
-                <div className="issue-status mr-4"></div>
-                <div className="issue-details">
-                  <div className="d-flex align-items-center justify-content-between">
-                    <span>{issue.date_time}</span>
-                    {getIssuesStatus(issue)}
+            Array.isArray(existingIssues) && existingIssues.length > 0 ? (
+              existingIssues.map((issue, index) => (
+                <div
+                  key={issue.issue_id}
+                  className="issue d-flex"
+                  data-issueid={issue.issue_id}
+                  ref={issueDetailsRef}
+                  onClick={handleIssueDetails}
+                >
+                  <div className="issue-status mr-4"></div>
+                  <div className="issue-details">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <span>
+                        {moment(issue.date_time).format("D MMM YYYY")}{" "}
+                        {moment(issue.date_time).format("h:mm:ss A")}
+                      </span>
+                      {getIssuesStatus(issue)}
+                    </div>
+                    <h5>{issue.type_name}</h5>
+                    <p>Issue: {issue.details}</p>
                   </div>
-                  <h5>{issue.type_name}</h5>
-                  <p>Issue: {issue.details}</p>
                 </div>
-              </div>
-            ))
+              ))
+            ) : (
+              <p>Sorry, there is no existing issues found</p>
+            )
           ) : (
             <div className="issue issue-details-wrapper">
               {/* <div className="issue-status mr-4"></div> */}
               <div className="issue-details mb-4">
                 <div className="d-flex align-items-center justify-content-between">
-                  <span className="mb-2">{issueDetails?.date_time}</span>
+                  <span className="mb-2">
+                    {moment(issueDetails?.date_time).format("D MMM YYYY")}{" "}
+                    {moment(issueDetails?.date_time).format("h:mm:ss A")}
+                  </span>
                   {issueDetails.status !== "1" && (
                     <button
                       type="button"
@@ -652,9 +701,11 @@ const InvoiceDetail = () => {
                   )}
                 </div>
                 <h5 className="mb-4">{issueDetails?.type_name}</h5>
+
                 <div className="mb-4">{getIssuesStatus(issueDetails)}</div>
                 <p>Description: {issueDetails.details}</p>
               </div>
+
               {issueDetails?.attachment !== null && (
                 <div className="attachment mt-5">
                   <p>Attachment: </p>
@@ -670,13 +721,15 @@ const InvoiceDetail = () => {
 
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
+                {console.log("issueComments", issueComments)}
 
                 <div className="comments-wrapper">
                   {Array.isArray(issueComments) && issueComments.length > 0 ? (
-                    issueComments.map((comment) => (
-                      <div key={comment.msg} className="comment">
+                    issueComments.map((comment, index) => (
+                      <div key={comment.cmnt_id} className="comment">
                         <p className="mb-0">
-                          Munir Mahmud - 26 Sep 2021, 11:37 AM
+                          {authCookie?.auth?.name} -{" "}
+                          {moment(comment.date_time).format("D MMM YYYY")}
                         </p>
                         <p>{comment.msg}</p>
                       </div>
@@ -702,6 +755,7 @@ const InvoiceDetail = () => {
                         onChange={(e) => setCustomerComment(e.target.value)}
                       />
                     </div>
+
                     <button
                       type="button"
                       className="ps-btn btn-small"
