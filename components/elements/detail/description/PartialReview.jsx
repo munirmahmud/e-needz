@@ -10,14 +10,16 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
   const [description, setDescription] = useState();
   const [authCookie] = useCookies(["auth"]);
 
+  const [rating, setRating] = useState("");
   const [productRating, setProductRating] = useState(null);
   const [customerReviews, setCustomerReviews] = useState([]);
   const [noReviewsFound, setNoReviewsFound] = useState("");
   const [avgRating, setAvgRating] = useState("");
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
 
   useEffect(() => {
     getProductReview();
-  }, []);
+  }, [isReviewSubmitted]);
 
   async function getProductReview() {
     var formdata = new FormData();
@@ -49,6 +51,14 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
   const handleReviewReuest = (e) => {
     e.preventDefault();
 
+    if (!rating) {
+      toast.error("Rating no is required");
+      return;
+    } else if (!title) {
+      toast.error("Review title is required");
+      return;
+    }
+
     var formdata = new FormData();
     formdata.append("product_id", product_id);
     formdata.append("customer_id", authCookie.auth.id);
@@ -70,24 +80,26 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
       .then((result) => {
         if (result.response_status === 200) {
           toast.success("Thanks for the review");
+          setTitle("");
+          setDescription("");
+          setIsReviewSubmitted(true);
         } else if (result.response_status === 0) {
           toast.warning(result.message);
           setTitle("");
           setDescription("");
         } else {
-          console.log("customer_review error", result);
+          console.log("customer_review", result);
         }
       })
       .catch((error) => console.log("error", error));
   };
 
-  console.log("customerReviews", customerReviews);
   return (
     <div className="row">
       <div className="col-xl-7 col-lg-7 col-sm-12 col-12 ">
         <div className="ps-block--average-rating">
           <div className="ps-block__header">
-            <h3>{avgRating ? avgRating : "0.00"}</h3>
+            <h3>{avgRating ? `${avgRating}.00` : "0.00"}</h3>
 
             {avgRating && (
               <div className="form-group form-group__rating">
@@ -176,7 +188,7 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
           {Array.isArray(customerReviews) &&
             customerReviews.length > 0 &&
             customerReviews.map((review) => (
-              <>
+              <div className="mb-5">
                 <Rate
                   disabled
                   allowHalf
@@ -192,11 +204,11 @@ const PartialReview = ({ auth, product_id, seller_id }) => {
                       </span>
                     )}
                   </p>
-                  <p>{review.date_time}</p>
+                  <p className="m-0">{review.date_time}</p>
                 </div>
-                <p className="mb-3">{review.title}</p>
+                <p className="mb-2">{review.title}</p>
                 <p>{review.comments}</p>
-              </>
+              </div>
             ))}
         </div>
       </div>

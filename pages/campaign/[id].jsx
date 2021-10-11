@@ -46,9 +46,6 @@ const CampaignProducts = () => {
       text: "Campaigns",
       url: "/campaign",
     },
-    {
-      text: campaignInfo ? campaignInfo.campaign_name : "Campaign Products",
-    },
   ];
 
   //Views
@@ -66,18 +63,23 @@ const CampaignProducts = () => {
     productItemsViews = <p>Loading...</p>;
   }
 
+  // console.log("cmapaign prod", campaignProducts);
+
   return (
     <PageContainer
       footer={<FooterDefault />}
       title={
         campaignInfo
-          ? `Campaign for ${campaignInfo.campaign_name}`
+          ? `Campaign for ${campaignInfo?.campaign_name}`
           : "Campaign Products"
       }
       boxed={true}
     >
       <div className="ps-page--shop">
-        <BreadCrumb breacrumb={breadCrumb} />
+        <BreadCrumb
+          breacrumb={breadCrumb}
+          campaign_name={campaignInfo?.campaign_name}
+        />
 
         <div className="ps-container">{productItemsViews}</div>
 

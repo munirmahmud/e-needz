@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import CampaignModuleSortBy from "~/components/ecomerce/modules/CampaignModuleSortBy";
 import ModuleProductActions from "~/components/elements/products/modules/ModuleProductActions";
 import ProductWide from "~/components/elements/products/ProductWide";
@@ -58,6 +59,22 @@ const ProductItems = ({
     }, 1000);
   }
 
+  const handleAddItemToCart = (index) => {
+    if (products[index].quantity === "0") return;
+
+    addItem(
+      {
+        id: products[index].product_id,
+        campaign_id: products[index].campaign_id,
+        quantity: quantity,
+      },
+      ecomerce.cartItems,
+      "cart"
+    );
+
+    toast.success("The product added into your cart!");
+  };
+
   function handleSetColumns() {
     switch (columns) {
       case 2:
@@ -104,12 +121,18 @@ const ProductItems = ({
                   <a>{thumbnailImage(product)}</a>
                 </Link>
                 {/* {badge(product)} */}
-                {product.on_sale === "1" ? (
+                {product.on_sale === "1" && (
                   <small className="product-offer-badge">
-                    off ৳ {product.discount_amount}
+                    %{product.discount_percent} Off
                   </small>
-                ) : (
-                  ""
+                )}
+                {product.on_sale === "1" && (
+                  <small className="product-offer-badge discount flex-column">
+                    <span className="d-flex align-items-center justify-content-center">
+                      off ৳
+                    </span>{" "}
+                    {product.discount_amount}
+                  </small>
                 )}
                 <ModuleProductActions product={product} />
               </div>
@@ -145,14 +168,24 @@ const ProductItems = ({
 
                     <span>{product.ratingCount}</span>
                   </div>
-                  <button
-                    className="ps-btn btn-small"
-                    onClick={() => {
-                      handleBuynow(index);
-                    }}
-                  >
-                    Buy Now
-                  </button>
+                  <div className="d-flex justify-content-between flex-wrap">
+                    <button
+                      className="ps-btn ps-btn--sm mr-2"
+                      onClick={() => {
+                        handleAddItemToCart(index);
+                      }}
+                    >
+                      Add to Cart
+                    </button>
+                    <button
+                      className="ps-btn ps-btn--sm"
+                      onClick={() => {
+                        handleBuynow(index);
+                      }}
+                    >
+                      Buy Now
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -181,7 +214,6 @@ const ProductItems = ({
   }
 
   const getSortingModule = () => {
-    console.log("products", products);
     let productCats;
 
     products?.length > 0 &&

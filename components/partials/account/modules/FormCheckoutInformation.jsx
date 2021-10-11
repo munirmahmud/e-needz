@@ -193,7 +193,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
 
   const handleConfirmOrder = async (e) => {
     setSubmitted(true);
-    const payment_method = localStorage.getItem("p_code");
     const address = selectedAddress || getPrimaryAddress.address_id;
     let formData = new FormData();
     let newItems = [];
@@ -218,14 +217,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
       toast.error("You are not agreed yet with our terms & conditions.");
       setSubmitted(false);
       return;
-    } else if (payment_method === undefined && payment_method === "") {
-      toast.error("Please select your payment method");
-      setSubmitted(false);
-      return;
-    } else if (payment_method === "") {
-      toast.error("Please select your payment method");
-      setSubmitted(false);
-      return;
     } else if (cartItems === undefined) {
       toast.error("No items in your cart");
       setSubmitted(false);
@@ -235,7 +226,6 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     formData.append("customer_id", authCookie.auth?.id);
     formData.append("address_id", address);
     formData.append("cart_details", JSON.stringify(newItems));
-    formData.append("payment_method", payment_method);
     formData.append("response_url", `${location.origin}/account/invoices`);
 
     const response = await fetch(
@@ -247,52 +237,20 @@ const FormCheckoutInformation = ({ ecomerce }) => {
     );
     const result = await response.json();
 
-    console.log("result", result);
-    console.log("payment_method", payment_method);
+    console.log("submit_checkout", result);
 
     if (result.response_status === 0) {
       toast.error(result.message);
       setSubmitted(false);
     } else if (result?.response_status === 200) {
-      if (payment_method === "sslcommerz") {
-        window.open(`https://${result.data.url}`);
-
-        setTimeout(() => {
-          toast.success("Your order has been placed successfully!");
-          setAddresses(result?.data?.address_list);
-          localStorage.removeItem("p_code");
-          remove("cart");
-          dispatch(setCartItems([]));
-          setSubmitted(false);
-          setSubmitSuccess(!isSubmitSuccess);
-          setAgreeWithTerms(false);
-          Router.push("/account/invoices");
-        }, 1000);
-      } else if (payment_method === "nagad") {
-        window.open(`${result.data.url}`);
-
-        setTimeout(() => {
-          toast.success("Your order has been placed successfully!");
-          setAddresses(result?.data?.address_list);
-          localStorage.removeItem("p_code");
-          remove("cart");
-          dispatch(setCartItems([]));
-          setSubmitted(false);
-          setSubmitSuccess(!isSubmitSuccess);
-          setAgreeWithTerms(false);
-          Router.push("/account/invoices");
-        }, 1000);
-      } else {
-        toast.success("Your order has been placed successfully!");
-        setAddresses(result?.data?.address_list);
-        localStorage.removeItem("p_code");
-        remove("cart");
-        dispatch(setCartItems([]));
-        setSubmitted(false);
-        setSubmitSuccess(!isSubmitSuccess);
-        setAgreeWithTerms(false);
-        Router.push("/account/invoices");
-      }
+      toast.success("Your order has been placed successfully!");
+      setAddresses(result?.data?.address_list);
+      remove("cart");
+      dispatch(setCartItems([]));
+      setSubmitted(false);
+      setSubmitSuccess(!isSubmitSuccess);
+      setAgreeWithTerms(false);
+      Router.push("/account/invoices");
     } else {
       setSubmitted(false);
       toast.error(result.message);
@@ -451,12 +409,12 @@ const FormCheckoutInformation = ({ ecomerce }) => {
             />
             <label htmlFor="keep-update">
               I agree to the{" "}
-              <Link href="#">
+              <Link href="/terms-conditions">
                 <a>Terms &amp; Conditions</a>
               </Link>{" "}
               and{" "}
-              <Link href="#">
-                <a>Purchasing Policy</a>
+              <Link href="/privacy-policy">
+                <a>Privacy Policy</a>
               </Link>{" "}
               of E-needz.
             </label>

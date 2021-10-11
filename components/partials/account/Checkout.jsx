@@ -1,6 +1,5 @@
 import React from "react";
 import ModulePaymentOrderSummary from "~/components/partials/account/modules/ModulePaymentOrderSummary";
-import PaymentMethods from "~/components/partials/account/modules/PaymentMethods";
 import FormCheckoutInformation from "./modules/FormCheckoutInformation";
 
 const Checkout = () => {
@@ -30,7 +29,7 @@ const Checkout = () => {
                 </div>
 
                 <div className="payment-methods">
-                  <PaymentMethods />
+                  {/* <PaymentMethods /> */}
                 </div>
               </div>
             </div>

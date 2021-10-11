@@ -561,14 +561,18 @@ button.ps-btn:disabled {
       transition: all 0.5s cubic-bezier(0.7, 0, 0.3, 1) 0s;
       visibility: hidden;
       opacity: 0;
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       left: 0;
       border-radius: 50%;
       line-height: 1;
       display: flex;
       align-items: center;
       justify-content: center;
+
+      span {
+        width: 50px;
+      }
     }
   }
   &:hover {
@@ -625,6 +629,11 @@ button.ps-btn:disabled {
           font-size: 1.3rem;
         }
       }
+    }
+
+    .comments-wrapper {
+      max-height: 300px;
+      overflow-y: scroll;
     }
   }
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 import ModuleProductActions from "~/components/elements/products/modules/ModuleProductActions";
 import useEcomerce from "~/hooks/useEcomerce";
 import useProduct from "~/hooks/useProduct";
@@ -14,6 +15,22 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
 
   const [quantity] = useState(1);
   const { addItem } = useEcomerce();
+
+  const handleAddtoCart = () => {
+    if (product.quantity === "0") return;
+
+    addItem(
+      {
+        id: product.product_id,
+        campaign_id: product.campaign_id,
+        quantity: 1,
+      },
+      ecomerce.cartItems,
+      "cart"
+    );
+
+    toast.success("The product added into your cart!");
+  };
 
   function handleBuynow() {
     addItem(
@@ -42,11 +59,16 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
         {/* {badge(product)} */}
         {product.on_sale === "1" && (
           <small className="product-offer-badge">
-            off ৳ {product.discount_amount}
+            % {product.discount_percent} Off
           </small>
         )}
         {product.on_sale === "1" && (
-          <small className="product-offer-badge discount">10% Off</small>
+          <small className="product-offer-badge discount flex-column">
+            <span className="d-flex align-items-center justify-content-center">
+              off ৳
+            </span>{" "}
+            {product.discount_amount}
+          </small>
         )}
 
         <ModuleProductActions product={product} />
@@ -81,15 +103,26 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             {/* <Rating /> */}
             <span>{product.ratingCount}</span>
           </div>
-          <button
-            className="ps-btn btn-small"
-            onClick={() => {
-              handleBuynow();
-            }}
-            disabled={product.quantity === "0"}
-          >
-            Buy Now
-          </button>
+          <div className="d-flex justify-content-between flex-wrap">
+            <button
+              className="ps-btn ps-btn--sm mr-2"
+              onClick={() => {
+                handleAddtoCart();
+              }}
+              disabled={product.quantity === "0"}
+            >
+              Add to Cart
+            </button>
+            <button
+              className="ps-btn ps-btn--sm"
+              onClick={() => {
+                handleBuynow();
+              }}
+              disabled={product.quantity === "0"}
+            >
+              Buy Now
+            </button>
+          </div>
         </div>
       </div>
     </div>

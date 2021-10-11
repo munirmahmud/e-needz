@@ -69,6 +69,7 @@ const ProductDefaultPage = () => {
       text: product ? product.title : "Loading...",
     },
   ];
+  console.log("single product", product);
   // Views
   let productView, headerView;
   if (!loading) {
@@ -113,6 +114,7 @@ const ProductDefaultPage = () => {
                 product_id={product ? product.product_id : ""}
                 category_id={product ? product.category_id : ""}
                 seller_id={product ? product.seller_id : ""}
+                total_review={product && product.total_review}
               />
             </div>
 

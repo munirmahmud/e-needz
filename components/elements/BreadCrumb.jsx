@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-const BreadCrumb = ({ breacrumb, layout }) => {
+const BreadCrumb = ({ breacrumb, layout, campaign_name }) => {
   return (
     <div className="ps-breadcrumb">
       <div className={layout === "fullwidth" ? "ps-container" : "container"}>
@@ -19,6 +19,12 @@ const BreadCrumb = ({ breacrumb, layout }) => {
               );
             }
           })}
+
+          {campaign_name && (
+            <li>
+              <strong>{campaign_name}</strong>
+            </li>
+          )}
         </ul>
       </div>
     </div>
