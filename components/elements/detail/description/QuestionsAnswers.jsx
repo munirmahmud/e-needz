@@ -37,11 +37,12 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     var formdata = new FormData();
     formdata.append("product_id", product_id);
     formdata.append("seller_id", seller_id);
     formdata.append("category_id", category_id);
-    formdata.append("customer_id", uCookie.auth);
+    formdata.append("customer_id", uCookie.auth.id);
 
     formdata.append("question_details", question);
 
@@ -60,12 +61,12 @@ const QuestionsAnswers = ({ auth, product_id, category_id, seller_id }) => {
         if (result.response_status === 200) {
           toast.success("Your Question Has been submited");
           setQu(!qu);
+          setQuestion("");
         } else {
-          toast.warning("Something went wrong");
+          toast.warning(result.message);
         }
-        setQuestion("");
       })
-      .catch((error) => console.log("error", error));
+      .catch((error) => console.log("insert_question error", error));
   };
 
   return (
