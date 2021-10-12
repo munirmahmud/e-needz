@@ -90,38 +90,39 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
         </Link>
         <div className="ps-product__content">
           {StrapiProductPriceExpanded(product)}
-          {/* {title(product)} */}
+
           <Link
             href="/product/[pid]"
             as={`/product/${product.product_id}-${product.campaign_id}`}
           >
             {product.title}
           </Link>
-          <div className="ps-product__rating form-group__rating">
-            <Rate disabled allowHalf defaultValue={product.ratings} />
 
-            {/* <Rating /> */}
-            <span>{product.ratingCount}</span>
-          </div>
-          <div className="d-flex justify-content-between flex-wrap">
-            <button
-              className="ps-btn ps-btn--sm mr-2"
-              onClick={() => {
-                handleAddtoCart();
-              }}
-              disabled={product.quantity === "0"}
-            >
-              Add to Cart
-            </button>
-            <button
-              className="ps-btn ps-btn--sm"
-              onClick={() => {
-                handleBuynow();
-              }}
-              disabled={product.quantity === "0"}
-            >
-              Buy Now
-            </button>
+          <div className="item-footer">
+            <div className="ps-product__rating form-group__rating">
+              <Rate disabled defaultValue={product?.ratings} />
+            </div>
+
+            <div className="d-flex justify-content-between flex-wrap">
+              <button
+                className="ps-btn ps-btn--sm mr-2"
+                onClick={() => {
+                  handleAddtoCart();
+                }}
+                disabled={product.quantity === "0"}
+              >
+                Add to Cart
+              </button>
+              <button
+                className="ps-btn ps-btn--sm"
+                onClick={() => {
+                  handleBuynow();
+                }}
+                disabled={product.quantity === "0"}
+              >
+                Buy Now
+              </button>
+            </div>
           </div>
         </div>
       </div>

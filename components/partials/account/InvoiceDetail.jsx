@@ -41,6 +41,9 @@ const InvoiceDetail = () => {
     description: "",
   });
 
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [payableAmount, setPayableAmount] = useState("");
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -59,7 +62,6 @@ const InvoiceDetail = () => {
       }
     );
     const result = await response.json();
-
     let newProduct = {};
     if (result?.response_status === 200) {
       setOrderInfo(result.data);
@@ -74,23 +76,30 @@ const InvoiceDetail = () => {
   // CANCEL ORDER
   const handleCancelOrder = async () => {
     setisOrderCanceled(true);
+    const confirmCancellation = confirm("Are you sure to cancel your order?");
+
     let formData = new FormData();
 
     formData.append("order_id", pid);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/cancel_order`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const result = await response.json();
 
-    if (result.response_status === 200) {
-      toast.success(result.message);
-      setisOrderCanceled(false);
+    if (confirmCancellation) {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/cancel_order`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+      const result = await response.json();
+
+      if (result.response_status === 200) {
+        toast.success(result.message);
+        setisOrderCanceled(false);
+      } else {
+        toast.error(result.message);
+        setisOrderCanceled(false);
+      }
     } else {
-      toast.error(result.message);
       setisOrderCanceled(false);
     }
   };
@@ -182,7 +191,7 @@ const InvoiceDetail = () => {
     if (result.response_status === 200) {
       setExistingIssues(result.data);
     } else {
-      console.log(result);
+      console.log("issue_list", result);
     }
   };
 
@@ -220,6 +229,7 @@ const InvoiceDetail = () => {
       setIssueDetails(result.data);
       setIssueComments(result.data.comment);
     } else if (result.response_status === 0) {
+      console.log("issue ", result);
     } else {
       console.log("issue details", result);
     }
@@ -308,15 +318,18 @@ const InvoiceDetail = () => {
     }
   };
 
-  const handlePaymentInformation = (e) => {
+  const handlePaymentAmount = () => {
+    setPaymentModalOpen(true);
+    setPayableAmount(orderInfo.due_amount);
+  };
+  // console.log(orderInfo);
+  const handlePaymentPage = () => {
     const paymentInfo = {
-      due_amount: orderInfo.due_amount,
-      paid_amount: orderInfo.paid_amount,
-      total_amount: orderInfo.total_amount,
+      amount: payableAmount,
       order_id: orderInfo.order_id,
-      order_no: orderInfo.order_no,
     };
-    localStorage.setItem("p_info", JSON.stringify(paymentInfo));
+    localStorage.setItem("_p_a_", JSON.stringify(paymentInfo));
+    Router.push("/account/payment");
   };
 
   const accountLinks = [
@@ -371,15 +384,24 @@ const InvoiceDetail = () => {
                     {/* -<strong>Successful delivery</strong> */}
                   </h3>
 
-                  {orderInfo.order_status === "1" && (
+                  {orderInfo?.order_status === "1" && (
                     <button
-                      className="ps-btn btn-small"
                       type="button"
-                      onClick={handleCancelOrder}
-                      disabled={isOrderCanceled}
+                      onClick={handlePaymentAmount}
+                      className="ps-btn btn-small"
                     >
-                      Cancel Order
+                      Make Payment
                     </button>
+                    //   <Link href="/account/payment">
+                    //     <a
+                    //       className="ps-btn btn-small mb-3"
+                    //       style={{ backgroundColor: "#222" }}
+                    //       onClick={() =>}
+                    //       // onClick={handlePaymentInformation}
+                    //     >
+                    //       Make Payment
+                    //     </a>
+                    //   </Link>
                   )}
                 </div>
                 <div className="ps-section__content">
@@ -428,16 +450,15 @@ const InvoiceDetail = () => {
                           Check Existing Issues
                         </button>
 
-                        {orderInfo?.order_status === "1" && (
-                          <Link href="/account/payment">
-                            <a
-                              className="ps-btn btn-small mb-3"
-                              style={{ backgroundColor: "#222" }}
-                              onClick={handlePaymentInformation}
-                            >
-                              Make Payment
-                            </a>
-                          </Link>
+                        {orderInfo.order_status === "1" && (
+                          <button
+                            className="ps-btn btn-small mb-3"
+                            type="button"
+                            onClick={handleCancelOrder}
+                            disabled={isOrderCanceled}
+                          >
+                            Cancel Order
+                          </button>
                         )}
                       </div>
                     </div>
@@ -485,19 +506,17 @@ const InvoiceDetail = () => {
                         </figcaption>
                         <div className="ps-block__content">
                           <strong>{orderInfo?.customer_name}</strong>
+                          <p>{authCookie?.auth?.mobile}</p>
                           <p>
                             <strong>Address:</strong>{" "}
                             {orderInfo?.customer_short_address}
                           </p>
                           <p>
-                            <strong>Phone:</strong> {orderInfo?.customer_mobile}
+                            <strong>Contact No:</strong>{" "}
+                            {orderInfo?.customer_mobile}
                           </p>
                           <p>
                             <strong>Email:</strong> {orderInfo?.customer_email}
-                          </p>
-                          <p>
-                            <strong>Payment Method:</strong>{" "}
-                            {orderInfo?.pmethod}
                           </p>
                           <hr />
                           <p>
@@ -561,6 +580,45 @@ const InvoiceDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Modal for partial payment */}
+      <Modal
+        title="Make Payment"
+        centered
+        visible={paymentModalOpen}
+        onOk={() => setPaymentModalOpen(false)}
+        onCancel={() => setPaymentModalOpen(false)}
+        footer={[
+          <button
+            key="submit"
+            className="ps-btn btn-small"
+            type="button"
+            onClick={handlePaymentPage}
+            // disabled={isSubmittedIssue}
+          >
+            Continue Payment
+          </button>,
+        ]}
+      >
+        <h4 style={{ fontWeight: 500 }}>How much do you want to Pay?</h4>
+        <p>
+          You can pay partially. We will start processing your order when
+          payment is complete
+        </p>
+
+        <div className="form-group">
+          <label htmlFor="attachment" className="sr-only">
+            How much do you want to Pay?
+          </label>
+          <input
+            type="text"
+            id="payment_amount"
+            className="form-control"
+            value={payableAmount}
+            onChange={(e) => setPayableAmount(e.target.value)}
+          />
+        </div>
+      </Modal>
 
       {/* Modal for creating an issue */}
       <Modal
@@ -652,7 +710,6 @@ const InvoiceDetail = () => {
         onCancel={() => setOpenExistingIssueModal(false)}
         footer={[]}
       >
-        {console.log("existingIssues", existingIssues)}
         <div className="issues-wrapper">
           {!isIssueDetails ? (
             Array.isArray(existingIssues) && existingIssues.length > 0 ? (
@@ -721,7 +778,6 @@ const InvoiceDetail = () => {
 
               <div className="issue-comments mt-5">
                 <h5 className="mb-2">Replies</h5>
-                {console.log("issueComments", issueComments)}
 
                 <div className="comments-wrapper">
                   {Array.isArray(issueComments) && issueComments.length > 0 ? (

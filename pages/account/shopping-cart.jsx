@@ -26,6 +26,7 @@ const ShoppingCartScreen = ({ ecomerce }) => {
       Router.push("/account/checkout");
       return;
     }
+    localStorage.setItem("p_url", location.pathname);
     Router.push("/account/login");
   };
 

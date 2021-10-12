@@ -14,11 +14,8 @@ const Payment = () => {
   const [payableAmount, setPayableAmount] = useState("");
   const [paymentInformation, setPaymentInformation] = useState({});
 
-  const [isOpenModal, setOpenModal] = useState(false);
-  const [isPaymentAmountSubmitted, setPaymentAmountSubmitted] = useState(false);
-
   useEffect(() => {
-    setPaymentInformation(JSON.parse(localStorage.getItem("p_info")));
+    setPaymentInformation(JSON.parse(localStorage.getItem("_p_a_")));
 
     const getPaymentGateway = async () => {
       let formData = new FormData();
@@ -45,22 +42,65 @@ const Payment = () => {
 
     getPaymentGateway();
   }, [authCookie.auth]);
-
-  const handlePayment = (e) => {
+  const handlePayment = async (e) => {
     e.preventDefault();
 
     const bankInLowercase = e.currentTarget.dataset.bankname.toLowerCase();
-    const bankName = bankInLowercase.split(" ")[0];
+    const paymentGatewayName = bankInLowercase.split(" ")[0];
 
-    if (bankName === "bank") {
-      localStorage.setItem("paymentGateway", bankName);
+    if (paymentGatewayName === "bank") {
+      localStorage.setItem("paymentGateway", paymentGatewayName);
       Router.push(
-        `/account/payment/${bankName}-${paymentInformation.order_id}`
+        `/account/payment/${paymentGatewayName}-${paymentInformation.order_id}`
       );
       return;
     } else {
-      localStorage.setItem("paymentGateway", bankName);
-      setOpenModal(true);
+      // if (!payableAmount || isNaN(Number(payableAmount))) {
+      //   toast.error("Please enter the amount that you want to pay");
+      //   setPaymentAmountSubmitted(false);
+      //   return;
+      // }
+      // else if (isNaN(Number(payableAmount))) {
+      //   toast.error("2 Please enter the amount that you want to pay");
+      //   setPaymentAmountSubmitted(false);
+      //   return;
+      // }
+
+      // const paymentGatewayName = localStorage.getItem("paymentGateway");
+
+      let formData = new FormData();
+
+      formData.append("payment_amount", paymentInformation.amount);
+      formData.append("payment_method", paymentGatewayName);
+      formData.append("customer_id", authCookie.auth?.id);
+      formData.append("order_id", paymentInformation.order_id);
+      formData.append("response_url", `${location.origin}/account/invoices`);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/make_payment_submit`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      if (result?.response_status === 200) {
+        if (paymentGatewayName === "nagad") {
+          window.open(`${result.data.url}`);
+          setOpenModal(false);
+          destroyModal();
+          setPayableAmount("");
+        } else if (paymentGatewayName === "sslcommerz") {
+          window.open(`https://${result.data.url}`);
+          setOpenModal(false);
+          destroyModal();
+          setPayableAmount("");
+        }
+      } else {
+        toast.error(result.message);
+      }
     }
   };
 
@@ -69,11 +109,8 @@ const Payment = () => {
   };
 
   const handlePaymentGateway = async (e) => {
-    setPaymentAmountSubmitted(true);
-
     if (!payableAmount || isNaN(Number(payableAmount))) {
       toast.error("Please enter the amount that you want to pay");
-      setPaymentAmountSubmitted(false);
       return;
     }
     // else if (isNaN(Number(payableAmount))) {
@@ -108,17 +145,14 @@ const Payment = () => {
         setOpenModal(false);
         destroyModal();
         setPayableAmount("");
-        setPaymentAmountSubmitted(false);
       } else if (paymentGatewayName === "sslcommerz") {
         window.open(`https://${result.data.url}`);
         setOpenModal(false);
         destroyModal();
         setPayableAmount("");
-        setPaymentAmountSubmitted(false);
       }
     } else {
       toast.error(result.message);
-      setPaymentAmountSubmitted(false);
     }
   };
 
@@ -126,66 +160,70 @@ const Payment = () => {
     <>
       <div className="ps-checkout ps-section--shopping">
         <div className="container">
-          <div className="section-white">
-            <div className="ps-section__header justify-content-center">
-              <h1>Payment Gateways</h1>
-            </div>
+          {/* <div className="section-white"> */}
+          <div className="ps-section__header pb-5 justify-content-center">
+            <h1>Payment Gateways</h1>
+          </div>
 
-            <div className="ps-section__content">
-              <div className="row">
-                <div className="col-xl-7 col-lg-7 col-md-7 col-sm-12">
-                  <div className="payments-wrapper">
-                    {/* <ModulePaymentShipping /> */}
-                    {/* <ModulePaymentMethods /> */}
+          <div className="ps-section__content">
+            <div className="row">
+              <div className="col-xl-6 offset-xl-3">
+                {/* <div className="col-xl-6 offset-xl-3 col-lg-7 col-md-7 col-sm-12"> */}
+                <div
+                  className="payments-wrapper"
+                  style={{ background: "white", padding: 40 }}
+                >
+                  {/* <ModulePaymentShipping /> */}
+                  {/* <ModulePaymentMethods /> */}
 
-                    <div className="payment-methods">
-                      {Array.isArray(paymentGateways) &&
-                        paymentGateways.length > 0 &&
-                        paymentGateways.map((item) => (
-                          <div
-                            key={item.id}
-                            className="payment-gateway d-flex align-items-center justify-content-center"
-                            data-bankname={item.agent}
-                            onClick={handlePayment}
-                          >
-                            <div className="agent-logo mr-3">
-                              {item.agent === "Bank Payment" && (
-                                <img
-                                  src="/static/payments/bank.jpg"
-                                  alt={item.agent}
-                                />
-                              )}
-                              {item.agent === "Nagad Payment" && (
-                                <img
-                                  src="/static/payments/nagad.png"
-                                  alt={item.agent}
-                                />
-                              )}
-                              {item.agent === "SSLCOMMERZ" && (
-                                <img
-                                  src="/static/payments/sslcommerz.png"
-                                  alt={item.agent}
-                                />
-                              )}
-                            </div>
-
-                            <h4>{item.agent}</h4>
+                  <div className="payment-methods">
+                    {Array.isArray(paymentGateways) &&
+                      paymentGateways.length > 0 &&
+                      paymentGateways.map((item) => (
+                        <div
+                          key={item.id}
+                          className="payment-gateway d-flex align-items-center justify-content-center"
+                          data-bankname={item.agent}
+                          onClick={handlePayment}
+                        >
+                          <div className="agent-logo mr-3">
+                            {item.agent === "Bank Payment" && (
+                              <img
+                                src="/static/payments/bank.jpg"
+                                alt={item.agent}
+                              />
+                            )}
+                            {item.agent === "Nagad Payment" && (
+                              <img
+                                src="/static/payments/nagad.png"
+                                alt={item.agent}
+                              />
+                            )}
+                            {item.agent === "SSLCOMMERZ" && (
+                              <img
+                                src="/static/payments/sslcommerz.png"
+                                alt={item.agent}
+                              />
+                            )}
                           </div>
-                        ))}
-                    </div>
 
-                    <div className="ps-block__footer mt-5">
-                      <Link href="/account/invoices">
-                        <a>
-                          <i className="icon-arrow-left mr-2"></i>
-                          Return to Invoice
-                        </a>
-                      </Link>
-                    </div>
+                          <h4>{item.agent}</h4>
+                        </div>
+                      ))}
+                  </div>
+
+                  <div className="ps-block__footer mt-5">
+                    <Link href="/account/invoices">
+                      <a>
+                        <i className="icon-arrow-left mr-2"></i>
+                        Return to Invoice
+                      </a>
+                    </Link>
                   </div>
                 </div>
+              </div>
 
-                <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12 ">
+              {/* <div className="col-xl-5 col-lg-5 col-md-5 col-sm-12 ">
                   <div className="ps-form__orders">
                     <div className="ps-block--checkout-order">
                       <div className="ps-block__content">
@@ -236,69 +274,12 @@ const Payment = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </div> */}
             </div>
           </div>
+          {/* </div> */}
         </div>
       </div>
-
-      <Modal
-        title="Pay the amount"
-        centered
-        visible={isOpenModal}
-        onOk={() => setOpenModal(false)}
-        onCancel={() => setOpenModal(false)}
-        footer={null}
-        destroyOnClose={true}
-      >
-        <div className="form-group">
-          <label htmlFor="grand_total">Grand Total</label>
-          <input
-            type="text"
-            value={paymentInformation?.total_amount}
-            readOnly
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="paidAmount">Paid amount</label>
-          <input
-            type="text"
-            value={paymentInformation?.paid_amount}
-            readOnly
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="due">Due</label>
-          <input
-            type="text"
-            value={paymentInformation?.due_amount}
-            readOnly
-            className="form-control"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="due">
-            Paying Amount <span>*</span>
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            value={payableAmount}
-            onChange={(e) => setPayableAmount(e.target.value)}
-          />
-        </div>
-        <button
-          type="button"
-          className="ps-btn"
-          onClick={handlePaymentGateway}
-          disabled={isPaymentAmountSubmitted}
-        >
-          Pay Now
-        </button>
-      </Modal>
     </>
   );
 };

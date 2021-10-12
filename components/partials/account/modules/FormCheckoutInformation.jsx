@@ -193,7 +193,7 @@ const FormCheckoutInformation = ({ ecomerce }) => {
 
   const handleConfirmOrder = async (e) => {
     setSubmitted(true);
-    const address = selectedAddress || getPrimaryAddress.address_id;
+    const address = selectedAddress || getPrimaryAddress?.address_id;
     let formData = new FormData();
     let newItems = [];
 

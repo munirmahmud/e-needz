@@ -63,12 +63,10 @@ const TrackOrders = ({ orderData }) => {
 
   const dateTimeFormatter = (dateTime) => {
     const newDateTime = dateTime?.split(" ");
+
     return (
       <>
-        {newDateTime[0]}{" "}
-        <small>
-          {newDateTime[1]}:{newDateTime[2]}
-        </small>
+        {newDateTime[0]} <small>{newDateTime[1]}</small>
       </>
     );
   };
