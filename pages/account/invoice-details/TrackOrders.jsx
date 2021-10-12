@@ -1,7 +1,7 @@
 import { Alert } from "antd";
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import { connect, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toggleDrawerMenu } from "~/store/app/action";
 
 const TrackOrders = ({ orderData }) => {
@@ -23,6 +23,8 @@ const TrackOrders = ({ orderData }) => {
       }
     );
     const result = await response.json();
+
+    console.log("order_tracking", result);
 
     if (result?.response_status === 200) {
       setTrackInfo(result.data.track_details);
@@ -73,7 +75,7 @@ const TrackOrders = ({ orderData }) => {
 
   return (
     <>
-      {authCookie.auth && (
+      {authCookie.auth.id && (
         <div style={{ background: "#e8e8e8", height: "1.5rem" }} />
       )}
 
@@ -128,4 +130,5 @@ const TrackOrders = ({ orderData }) => {
     </>
   );
 };
-export default connect((state) => state.app)(TrackOrders);
+
+export default TrackOrders;

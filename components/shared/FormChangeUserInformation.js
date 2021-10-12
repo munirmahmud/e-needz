@@ -100,6 +100,8 @@ const FormChangeUserInformation = () => {
             image: URL.createObjectURL(image),
           };
           setAuthCookie("auth", profileInfo, { path: "/" });
+        } else if (result.response_status === 0) {
+          toast.error(result.message);
         } else {
           console.log("profile update error", result);
         }

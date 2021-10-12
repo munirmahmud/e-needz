@@ -71,7 +71,7 @@ const InvoiceDetail = () => {
 
   useEffect(() => {
     getOrderDetails();
-  }, [pid]);
+  }, []);
 
   // CANCEL ORDER
   const handleCancelOrder = async () => {
@@ -331,7 +331,6 @@ const InvoiceDetail = () => {
     localStorage.setItem("_p_a_", JSON.stringify(paymentInfo));
     Router.push("/account/payment");
   };
-  console.log("order int", orderInfo);
 
   const orderStatus = (order_status) => {
     let badgeView;

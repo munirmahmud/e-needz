@@ -20,16 +20,6 @@ const Invoices = () => {
   const [err, setErr] = useState(false);
   const [authCookie] = useCookies(["auth"]);
 
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    if (authUser.auth.isLoggedIn) {
-      setLoggedIn(true);
-    } else {
-      // userRedirect();
-    }
-  }, [authUser]);
-
   const params = new URLSearchParams(window.location.search);
   const getMessageAfterPayment = () => {
     const status = params.get("status");
@@ -38,18 +28,16 @@ const Invoices = () => {
     if (status !== null) {
       if (status === "success") {
         toast.success(message);
+        localStorage.removeItem("_p_a_");
       } else if (status === "failed") {
         toast.error(message);
+        localStorage.removeItem("_p_a_");
       }
     }
   };
 
   useEffect(() => {
     getMessageAfterPayment();
-
-    setTimeout(() => {
-      Router.push("/account/invoices");
-    }, 3000);
   }, []);
 
   function userRedirect() {
@@ -131,36 +119,34 @@ const Invoices = () => {
   ];
 
   return (
-    isLoggedIn && (
-      <section className="ps-my-account ps-page--account">
-        <div className="ps-container">
-          <div className="row">
-            <div className="col-lg-3">
-              <div className="ps-page__left">
-                <AccountMenuSidebar data={accountLinks} active />
-              </div>
+    <section className="ps-my-account ps-page--account">
+      <div className="ps-container">
+        <div className="row">
+          <div className="col-lg-3">
+            <div className="ps-page__left">
+              <AccountMenuSidebar data={accountLinks} active />
             </div>
+          </div>
 
-            <div className="col-lg-9">
-              <div className="ps-page__content">
-                <div className="ps-section--account-setting">
-                  <div className="ps-section__header">
-                    <h3>Invoices</h3>
-                  </div>
-                  <div className="ps-section__content">
-                    <TableOrdersItems usrOrderItems={usrOrderItems} err={err} />
-                    {/* <TableInvoices
+          <div className="col-lg-9">
+            <div className="ps-page__content">
+              <div className="ps-section--account-setting">
+                <div className="ps-section__header">
+                  <h3>Invoices</h3>
+                </div>
+                <div className="ps-section__content">
+                  <TableOrdersItems usrOrderItems={usrOrderItems} err={err} />
+                  {/* <TableInvoices
                     usrOrderItems={usrOrderItemsSpliced}
                     err={err}
                   /> */}
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </section>
-    )
+      </div>
+    </section>
   );
 };
 
