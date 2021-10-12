@@ -10,6 +10,7 @@ const InvoicePage = ({ auth }) => {
   const redirectUser = () => {
     Router.push("/account/login");
   };
+
   return (
     <>
       {auth ? (
