@@ -31,7 +31,7 @@ const ModulePaymentOptions = ({ paymentInfo }) => {
     setPaymentSubmitted(true);
     let formData = new FormData();
 
-    formData.append("payment_amount", paymentInfo.total_amount);
+    formData.append("payment_amount", paymentInfo.amount);
     formData.append("payment_method", "bank");
     formData.append("customer_id", authCookie.auth?.id);
     formData.append("order_id", paymentInfo.order_id);

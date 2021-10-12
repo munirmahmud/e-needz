@@ -69,6 +69,17 @@ const HeaderMarketPlace2 = () => {
               )}
             </ul>
           </div>
+
+          <div className="header__right">
+            <Link href="/account/merchant-account/login">
+              <a className="mb-0" style={{ cursor: "pointer" }}>
+                <span className="mr-2">
+                  <i className="icon-user"></i>
+                </span>
+                Merchant Account
+              </a>
+            </Link>
+          </div>
         </div>
       </div>
 

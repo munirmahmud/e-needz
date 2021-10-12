@@ -331,6 +331,33 @@ const InvoiceDetail = () => {
     localStorage.setItem("_p_a_", JSON.stringify(paymentInfo));
     Router.push("/account/payment");
   };
+  console.log("order int", orderInfo);
+
+  const orderStatus = (order_status) => {
+    let badgeView;
+    if (order_status === "1") {
+      badgeView = "Pending";
+    } else if (order_status === "2") {
+      badgeView = "Processing";
+    } else if (order_status === "3") {
+      badgeView = "Shipping";
+    } else if (order_status === "4") {
+      badgeView = "Delivered";
+    } else if (order_status === "5") {
+      badgeView = "Returned";
+    } else if (order_status === "6") {
+      badgeView = "Cancelled";
+    } else if (order_status === "7") {
+      badgeView = "Partial Delivered";
+    } else if (order_status === "18") {
+      badgeView = "Refunded";
+    } else if (order_status === "19") {
+      badgeView = "Picked";
+    } else if (order_status === "20") {
+      badgeView = "Confirmed";
+    }
+    return badgeView;
+  };
 
   const accountLinks = [
     {
@@ -521,6 +548,10 @@ const InvoiceDetail = () => {
                           <hr />
                           <p>
                             <strong>Order No:</strong> {orderInfo?.order_no}
+                          </p>
+                          <p className="d-flex">
+                            <strong className="mr-2">Order Status: </strong>{" "}
+                            {orderStatus(orderInfo?.order_status)}
                           </p>
                           <p>
                             <strong>Order Date:</strong> {orderInfo?.date}

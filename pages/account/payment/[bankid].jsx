@@ -12,12 +12,12 @@ const Payment = ({ auth }) => {
   const [paymentData, setPaymentData] = useState({});
 
   useEffect(() => {
-    const paymentInfo = localStorage.getItem("p_info");
+    const paymentInfo = JSON.parse(localStorage.getItem("_p_a_"));
 
     if (paymentInfo === null || paymentInfo === undefined) {
       Router.push("/account/invoices");
     }
-    setPaymentData(JSON.parse(paymentInfo));
+    setPaymentData(paymentInfo);
   }, [bankid]);
 
   const redirectUser = () => {
@@ -56,7 +56,7 @@ const Payment = ({ auth }) => {
                       </div>
                     </div>
 
-                    <div className="col-lg-4 col-sm-12">
+                    {/* <div className="col-lg-4 col-sm-12">
                       <div className="ps-form__orders">
                         <div className="ps-block--checkout-order">
                           <div className="ps-block__content">
@@ -106,7 +106,7 @@ const Payment = ({ auth }) => {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* </div> */}

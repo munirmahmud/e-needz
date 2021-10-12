@@ -33,8 +33,6 @@ const OrderTracking = () => {
 
     const result = await response.json();
 
-    console.log("order_tracking", result);
-
     if (result.response_status === 200) {
       if (isLoggedIn) {
         Router.push(`/account/invoice-details/${result.data.order_id}`);
