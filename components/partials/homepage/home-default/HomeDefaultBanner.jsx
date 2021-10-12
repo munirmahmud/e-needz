@@ -81,6 +81,7 @@ const HomeDefaultBanner = () => {
         <Link href={`${item.slider_link}`}>
           <a
             className="ps-banner-item--default bg--cover"
+            target="_blank"
             style={{
               backgroundImage: `url(${item.slider_image})`,
             }}

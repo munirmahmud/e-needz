@@ -7,7 +7,6 @@ import FooterFullwidth from "~/components/shared/footers/FooterFullwidth";
 
 const InvoiceDetailPage = ({ auth }) => {
   const Router = useRouter();
-  console.log("auth", auth);
 
   const redirectUser = () => {
     Router.push("/account/login");
