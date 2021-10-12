@@ -16,6 +16,7 @@ const Login = ({ auth }) => {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
 
+  const prevUrl = localStorage.getItem("p_url");
   const handleSubmit = () => {
     var formdata = new FormData();
     formdata.append("customer_mobile", phone);
@@ -30,7 +31,6 @@ const Login = ({ auth }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/customer_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("customer_login", result);
         if (result.response_status === 0) {
           toast.error(result.message);
         }
@@ -44,10 +44,29 @@ const Login = ({ auth }) => {
             image: result.data.image,
           };
           setAuthCookie("auth", profileInfo, { path: "/" });
+
           setTimeout(() => {
             dispatch(loginSuccess());
-            router.push("/");
-          }, 500);
+
+            localStorage.removeItem("p_url");
+
+            console.log("prevUrl", prevUrl);
+            // prevUrl !== undefined ||
+            if (prevUrl !== null) {
+              router.push(prevUrl);
+            } else {
+              router.push("/");
+            }
+            // router.push("/");
+          }, 100);
+
+          // setTimeout(() => {
+          //   if (prevUrl !== undefined) {
+          //     router.push(prevUrl);
+          //   } else {
+          //     router.push("/");
+          //   }
+          // }, [])
         }
       })
       .catch((error) => console.log("error", error));
