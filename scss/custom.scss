@@ -226,6 +226,36 @@ button.form-btn {
   }
 }
 
+@media (max-width: 1590px) {
+  .ps-product__content {
+    .item-footer {
+      .ps-btn--sm,
+      button.ps-btn--sm {
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+}
+
+.special-cat-section {
+  .no-carousel {
+    padding-right: 7px;
+    padding-left: 7px;
+    .col-6 {
+      &:nth-child(odd) {
+        padding-right: 0;
+        padding-left: 0;
+      }
+      &:nth-child(even) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+      padding-right: 7px !important;
+      padding-left: 7px !important;
+    }
+  }
+}
+
 .ps-carousel {
   .slick-list {
     .slick-track {

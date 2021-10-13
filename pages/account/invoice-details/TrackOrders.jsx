@@ -24,8 +24,6 @@ const TrackOrders = ({ orderData }) => {
     );
     const result = await response.json();
 
-    console.log("order_tracking", result);
-
     if (result?.response_status === 200) {
       setTrackInfo(result.data.track_details);
       setOrderInfo(result?.data?.order_no);
