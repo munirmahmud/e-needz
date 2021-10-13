@@ -392,6 +392,15 @@ const InvoiceDetail = () => {
     },
   ];
 
+  const printInvoice = (divName) => {
+    let printContents = document.getElementById(divName).innerHTML;
+    let originalContents = document.body.innerHTML;
+    document.body.innerHTML = printContents;
+    window.print();
+    window.location.reload();
+    document.body.innerHTML = originalContents;
+  };
+
   return (
     <section className="ps-my-account ps-page--account">
       <div className="ps-container">
@@ -409,6 +418,13 @@ const InvoiceDetail = () => {
                     Order No #{orderInfo?.order_no}
                     {/* -<strong>Successful delivery</strong> */}
                   </h3>
+
+                  <button
+                    onClick={() => printInvoice("print_invoice")}
+                    className="ps-btn ps-btn--sm"
+                  >
+                    Print
+                  </button>
 
                   {orderInfo?.order_status === "1" && (
                     <button
@@ -430,7 +446,7 @@ const InvoiceDetail = () => {
                     //   </Link>
                   )}
                 </div>
-                <div className="ps-section__content">
+                <div id="print_invoice" className="ps-section__content">
                   <div className="row">
                     <div className="col-md-7 col-12">
                       <figure className="ps-block--invoice">

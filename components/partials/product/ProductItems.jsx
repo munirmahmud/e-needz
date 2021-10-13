@@ -161,7 +161,9 @@ const ProductItems = ({
                     href="/product/[pid]"
                     as={`/product/${product.product_id}-${product.category_id}`}
                   >
-                    <a>{product.title}</a>
+                    <a title={product.title} className="product-title">
+                      {product.title}
+                    </a>
                   </Link>
                   <div className="ps-product__rating form-group__rating">
                     <Rate disabled allowHalf defaultValue={product.ratings} />

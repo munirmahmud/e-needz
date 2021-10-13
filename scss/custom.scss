@@ -256,6 +256,21 @@ button.form-btn {
   }
 }
 
+.ps-product__content {
+  a.product-title {
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    text-overflow: ellipsis;
+  }
+}
+
+@media print {
+  table {
+    page-break-inside: avoid;
+  }
+}
+
 .ps-carousel {
   .slick-list {
     .slick-track {

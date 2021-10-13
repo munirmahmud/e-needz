@@ -95,7 +95,9 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             href="/product/[pid]"
             as={`/product/${product.product_id}-${product.campaign_id}`}
           >
-            {product.title}
+            <a className="product-title" title={product.title}>
+              {product.title}
+            </a>
           </Link>
 
           <div className="item-footer">
