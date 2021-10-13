@@ -1,10 +1,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-import Slider from "react-slick";
 import ProductDealOfDay from "~/components/elements/products/ProductDealOfDay";
 import SkeletonProduct from "~/components/elements/skeletons/SkeletonProduct";
 import useGetProducts from "~/hooks/useGetProducts";
-import { carouselFullwidth } from "~/utilities/carousel-helpers";
 import { generateTempArray } from "~/utilities/common-helpers";
 
 const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
@@ -29,14 +27,26 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
 
   if (!loading) {
     if (productItems && prod.length > 0) {
-      const slideItems = prod.map((item, id) => (
-        <ProductDealOfDay product={item} key={id} />
-      ));
-      productItemsView = (
-        <Slider {...carouselFullwidth} className="ps-carousel outside">
-          {slideItems}
-        </Slider>
-      );
+      if (prod.length > 6) {
+        const slideItems = prod.map((item, index) => (
+          <ProductDealOfDay product={item} key={index} />
+        ));
+        productItemsView = (
+          <Slider {...carouselFullwidth} className="ps-carousel outside">
+            {slideItems}
+          </Slider>
+        );
+      } else {
+        productItemsView = (
+          <div className="row no-carousel">
+            {prod.map((item, index) => (
+              <div className="col-xl-2 col-lg-3 col-sm-4 col-6" key={index}>
+                <ProductDealOfDay product={item} />
+              </div>
+            ))}
+          </div>
+        );
+      }
     } else {
       productItemsView = <p>No product(s) found.</p>;
     }
@@ -48,6 +58,15 @@ const HomeDefaultDealOfDay = ({ dealTitle, endPoint, _link, _cat }) => {
     ));
     productItemsView = <div className="row">{skeletons}</div>;
   }
+
+  // const slideItems = prod.map((item, id) => (
+  //   <ProductDealOfDay product={item} key={id} />
+  // ));
+  // productItemsView = (
+  //   <Slider {...carouselFullwidth} className="ps-carousel outside">
+  //     {slideItems}
+  //   </Slider>
+  // );
 
   return (
     <div className="ps-deal-of-day">
