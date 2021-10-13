@@ -1,37 +1,70 @@
-import { Alert } from "antd";
+import { Alert, Modal } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
 import RemainingOfferTime from "~/components/dashboard/RemainingOfferTime";
 
 const TableOrdersItems = ({ usrOrderItems, err }) => {
   const Router = useRouter();
+  const [paymentModalOpen, setPaymentModalOpen] = useState(false);
+  const [payableAmount, setPayableAmount] = useState("");
+  const [orderID, setOrderID] = useState("");
+  const [isSubmitted, setSubmitted] = useState(false);
 
-  const handlePaymentPage = async (item) => {
-    let formData = new FormData();
+  // const handlePaymentPage = async (item) => {
+  //   let formData = new FormData();
 
-    formData.append("order_id", item.order_id);
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/details_order`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-    const result = await response.json();
+  //   formData.append("order_id", item.order_id);
+  //   const response = await fetch(
+  //     `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/details_order`,
+  //     {
+  //       method: "POST",
+  //       body: formData,
+  //     }
+  //   );
+  //   const result = await response.json();
 
-    if (result?.response_status === 200) {
-      const paymentInfo = {
-        due_amount: result.data.due_amount,
-        paid_amount: result.data.paid_amount,
-        total_amount: result.data.total_amount,
-        order_id: result.data.order_id,
-        order_no: result.data.order_no,
-      };
-      localStorage.setItem("p_info", JSON.stringify(paymentInfo));
-    } else {
-      console.log("Sorry no order information found!");
+  //   if (result?.response_status === 200) {
+  //     const paymentInfo = {
+  //       due_amount: result.data.due_amount,
+  //       paid_amount: result.data.paid_amount,
+  //       total_amount: result.data.total_amount,
+  //       order_id: result.data.order_id,
+  //       order_no: result.data.order_no,
+  //     };
+  //     localStorage.setItem("p_info", JSON.stringify(paymentInfo));
+  //   } else {
+  //     console.log("Sorry no order information found!");
+  //   }
+  //   Router.push("/account/payment");
+  // };
+
+  const handlePaymentAmount = (orderInfo) => {
+    setPaymentModalOpen(true);
+    setPayableAmount(orderInfo.due_amount);
+    setOrderID(orderInfo.order_id);
+  };
+
+  const handlePaymentPage = () => {
+    setSubmitted(true);
+
+    if (!payableAmount) {
+      toast.error("Please add at least a minimum amount");
+      setSubmitted(false);
+      return;
+    } else if (payableAmount === "0") {
+      toast.error("The amount should not be 0");
+      setSubmitted(false);
+      return;
     }
+
+    const paymentInfo = {
+      amount: payableAmount,
+      order_id: orderID,
+    };
+
+    localStorage.setItem("_p_a_", JSON.stringify(paymentInfo));
     Router.push("/account/payment");
   };
 
@@ -91,7 +124,7 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
             <button
               type="button"
               className="ps-btn ps-btn--sm"
-              onClick={() => handlePaymentPage(item)}
+              onClick={() => handlePaymentAmount(item)}
             >
               Pay Now
             </button>
@@ -128,6 +161,44 @@ const TableOrdersItems = ({ usrOrderItems, err }) => {
           <tbody>{tableItemsView}</tbody>
         </table>
       </div>
+
+      <Modal
+        title="Make Payment"
+        centered
+        visible={paymentModalOpen}
+        onOk={() => setPaymentModalOpen(false)}
+        onCancel={() => setPaymentModalOpen(false)}
+        footer={[
+          <button
+            key="submit"
+            className="ps-btn btn-small"
+            type="button"
+            onClick={handlePaymentPage}
+            disabled={isSubmitted}
+          >
+            Continue Payment
+          </button>,
+        ]}
+      >
+        <h4 style={{ fontWeight: 500 }}>How much do you want to Pay?</h4>
+        <p>
+          You can pay partially. We will start processing your order when
+          payment is complete
+        </p>
+
+        <div className="form-group">
+          <label htmlFor="attachment" className="sr-only">
+            How much do you want to Pay?
+          </label>
+          <input
+            type="text"
+            id="payment_amount"
+            className="form-control"
+            value={payableAmount}
+            onChange={(e) => setPayableAmount(e.target.value)}
+          />
+        </div>
+      </Modal>
     </>
   );
 };
