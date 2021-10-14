@@ -15,6 +15,7 @@
         margin-bottom: 0;
       }
     }
+
     .slick-slider {
       height: 100%;
       .slick-list {
@@ -91,6 +92,18 @@
       .ps-section__left {
         height: 150px;
       }
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .ps-home-banner {
+      max-height: 275px;
+    }
+  }
+
+  @media screen and (max-width: 480px) {
+    .ps-home-banner {
+      max-height: 180px;
     }
   }
 

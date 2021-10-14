@@ -18,11 +18,11 @@ const HeaderMarketPlace2 = () => {
       }
     );
 
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData?.response_status === 200) {
-      setMobileNumber(apiData?.data?.mobile);
-      setEmail(apiData?.data?.email);
+    if (result?.response_status === 200) {
+      setMobileNumber(result?.data?.mobile);
+      setEmail(result?.data?.email);
     }
   };
 
