@@ -44,11 +44,12 @@ class HeaderMobile extends Component {
               </a>
             </Link>
           </div>
+
           <MobileHeaderActions />
         </div>
         <div className="ps-search--mobile">
           <form className="ps-form--search-mobile" action="/" method="get">
-            <div className="form-group--nest">
+            {/* <div className="form-group--nest">
               <input
                 className="form-control"
                 type="text"
@@ -57,7 +58,7 @@ class HeaderMobile extends Component {
               <button>
                 <i className="icon-magnifier"></i>
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
       </header>
