@@ -11,11 +11,22 @@ const Payment = () => {
   const Router = useRouter();
 
   const [paymentGateways, setPaymentGateways] = useState([]);
-  const [payableAmount, setPayableAmount] = useState("");
   const [paymentInformation, setPaymentInformation] = useState({});
 
   useEffect(() => {
-    setPaymentInformation(JSON.parse(localStorage.getItem("_p_a_")));
+    const paymentAmount = JSON.parse(localStorage.getItem("_p_a_"));
+
+    if (!paymentAmount) {
+      toast.error(
+        "Sorry, we are unable to process your payment. Please try again!"
+      );
+
+      setTimeout(() => {
+        Router.push("/account/invoices");
+      }, 2000);
+    }
+
+    setPaymentInformation(paymentAmount);
 
     const getPaymentGateway = async () => {
       let formData = new FormData();
@@ -42,6 +53,9 @@ const Payment = () => {
 
     getPaymentGateway();
   }, [authCookie.auth]);
+
+  console.log("paymentInformation", paymentInformation);
+
   const handlePayment = async (e) => {
     e.preventDefault();
 
@@ -89,14 +103,8 @@ const Payment = () => {
       if (result?.response_status === 200) {
         if (paymentGatewayName === "nagad") {
           window.open(`${result.data.url}`);
-          setOpenModal(false);
-          destroyModal();
-          setPayableAmount("");
         } else if (paymentGatewayName === "sslcommerz") {
           window.open(`https://${result.data.url}`);
-          setOpenModal(false);
-          destroyModal();
-          setPayableAmount("");
         }
       } else {
         toast.error(result.message);
@@ -106,54 +114,6 @@ const Payment = () => {
 
   const destroyModal = () => {
     Modal.destroyAll();
-  };
-
-  const handlePaymentGateway = async (e) => {
-    if (!payableAmount || isNaN(Number(payableAmount))) {
-      toast.error("Please enter the amount that you want to pay");
-      return;
-    }
-    // else if (isNaN(Number(payableAmount))) {
-    //   toast.error("2 Please enter the amount that you want to pay");
-    //   setPaymentAmountSubmitted(false);
-    //   return;
-    // }
-
-    const paymentGatewayName = localStorage.getItem("paymentGateway");
-
-    let formData = new FormData();
-
-    formData.append("payment_amount", payableAmount);
-    formData.append("payment_method", paymentGatewayName);
-    formData.append("customer_id", authCookie.auth?.id);
-    formData.append("order_id", paymentInformation.order_id);
-    formData.append("response_url", `${location.origin}/account/invoices`);
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_CUSTOMER_DASHBOARD}/make_payment_submit`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
-
-    const result = await response.json();
-
-    if (result?.response_status === 200) {
-      if (paymentGatewayName === "nagad") {
-        window.open(`${result.data.url}`);
-        setOpenModal(false);
-        destroyModal();
-        setPayableAmount("");
-      } else if (paymentGatewayName === "sslcommerz") {
-        window.open(`https://${result.data.url}`);
-        setOpenModal(false);
-        destroyModal();
-        setPayableAmount("");
-      }
-    } else {
-      toast.error(result.message);
-    }
   };
 
   return (
