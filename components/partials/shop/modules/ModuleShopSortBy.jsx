@@ -1,4 +1,4 @@
-const ModuleShopSortBy = ({ setProductItems, categoryId }) => {
+const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
   const filterMyProduct = (val) => {
     let bodyReq = "";
 

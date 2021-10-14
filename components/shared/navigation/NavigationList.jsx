@@ -84,7 +84,7 @@ class NavigationList extends Component {
               </span>
             </div>
             <div className="ps-panel__content">
-              <PanelMenu />
+              <PanelMenu handleDrawerClose={this.handleDrawerClose} />
             </div>
           </div>
         </Drawer>

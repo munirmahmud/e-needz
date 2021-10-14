@@ -5,35 +5,50 @@ import { connect } from "react-redux";
 
 const { SubMenu } = Menu;
 
-const PanelMenu = () => {
+const PanelMenu = ({ handleDrawerClose }) => {
   const [rootSubmenuKeys] = useState(["sub1", "sub2", "sub4"]);
   const [openKeys, setOpenKeys] = useState([]);
   const [primaryMenus, setPrimaryMenus] = useState([]);
 
-  const onOpenChange = (e) => {
-    const latestOpenKey = primaryMenus.find(
-      (key) => primaryMenus.indexOf(key) === -1
+  const onOpenChange = (myOpenKeys) => {
+    const latestOpenKey = myOpenKeys.find(
+      (key) => openKeys.indexOf(key) === -1
     );
+
     if (rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
-      setPrimaryMenus(primaryMenus);
+      setOpenKeys(myOpenKeys);
     } else {
-      setPrimaryMenus(latestOpenKey ? [latestOpenKey] : []);
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
   };
 
   const getHeaderTopInfo = async () => {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/top_menu`,
+      `${process.env.NEXT_PUBLIC_API_URL}/mega_menu`,
       {
         method: "POST",
         body: JSON.stringify({}),
       }
     );
 
-    const apiData = await response.json();
+    const result = await response.json();
 
-    if (apiData?.response_status === 200) {
-      setPrimaryMenus(apiData.data);
+    const mobileMenus = [];
+
+    if (result?.response_status === 200) {
+      result.data.map((menu) => {
+        const data = {
+          text: menu.category_name,
+          url: menu.category_id,
+          extraClass: "menu-item-has-children has-mega-menu",
+          subClass: "sub-menu",
+          mega: "true",
+          megaContent: menu.sub_items,
+        };
+        mobileMenus.push(data);
+      });
+
+      setPrimaryMenus(mobileMenus);
     }
   };
 
@@ -44,66 +59,72 @@ const PanelMenu = () => {
   return (
     <Menu
       mode="inline"
-      openKeys={primaryMenus}
+      openKeys={openKeys}
       onOpenChange={onOpenChange}
       className="menu--mobile-2"
     >
       {primaryMenus.map((item, index) => {
-        if (item.sub_items) {
+        if (item?.subMenu) {
           return (
             <SubMenu
-              key={index}
+              key={`item-${index}`}
               title={
-                <Link href={`/category/${item.category_id}`}>
-                  <a>{item.category_name}</a>
+                <Link href={`/category/${item.url}`}>
+                  <a>{item.text}</a>
                 </Link>
               }
             >
-              {item.sub_items.map((subItem, index) => (
-                <Menu.Item key={subItem.category_id}>
-                  <Link href={`/category/${subItem.category_id}`}>
-                    <a>{subItem.category_name}</a>
+              {item.subMenu.map((subItem, index) => (
+                <Menu.Item key={`subitem-${index}`}>
+                  <Link href={`/category/${subItem.url}`}>
+                    <a>{subItem.text}</a>
                   </Link>
                 </Menu.Item>
               ))}
             </SubMenu>
           );
-        } else if (item.megaContent) {
+        } else if (item.megaContent.length > 0) {
           return (
             <SubMenu
-              key={index}
+              key={item.text}
               title={
-                <Link href={item.url}>
-                  <a>{item.text}</a>
+                <Link href={`/category/${item.url}`}>
+                  <a onClick={() => handleDrawerClose()}>{item.text}</a>
                 </Link>
               }
             >
-              {item.megaContent.map((megaItem) => (
+              {/* {console.log("item.megaContent", item.megaContent)} */}
+              {item.megaContent.map((megaItem, index) => (
                 <SubMenu
-                  key={megaItem.heading}
-                  title={<span>{megaItem.heading}</span>}
+                  key={`megaitem-${index + 1}`}
+                  title={<span>{megaItem.category_name}</span>}
                 >
-                  {megaItem.megaItems.map((megaSubItem) => (
-                    <Menu.Item key={megaSubItem.text}>
-                      <Link href={item.url}>
-                        <a>{megaSubItem.text}</a>
-                      </Link>
-                    </Menu.Item>
-                  ))}
+                  {/* {megaItem.megaItems.map((megaSubItem) => ( */}
+                  <Menu.Item>
+                    <Link href={`/category/${item.url}`}>
+                      <a onClick={() => handleDrawerClose()}>
+                        {megaItem.category_name}
+                      </a>
+                    </Link>
+                  </Menu.Item>
+                  {/* ))} */}
                 </SubMenu>
               ))}
             </SubMenu>
           );
         } else {
           return (
-            <Menu.Item key={index}>
+            <Menu.Item key={item.text}>
               {item.type === "dynamic" ? (
-                <Link href={`/category/${item.category_id}/[pid]`}>
-                  l<a>{item.category_name}</a>
+                <Link
+                  href={`/category/${item.url}/[pid]`}
+                  as={`${item.url}/${item.endPoint}`}
+                >
+                  l<a>{item.text}</a>
                 </Link>
               ) : (
-                <Link href={item.category_id} as={item.alias}>
-                  <a>{item.category_name}</a>
+                <Link href={`/category/${item.url}`} as={item.alias}>
+                  <a onClick={() => handleDrawerClose()}>{item.text}</a>
                 </Link>
               )}
             </Menu.Item>

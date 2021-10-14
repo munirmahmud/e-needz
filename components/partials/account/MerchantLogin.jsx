@@ -5,7 +5,6 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { connect, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { loginSuccess } from "~/store/auth/action";
 
 const MerchantLogin = ({ auth }) => {
   const router = useRouter();
@@ -13,14 +12,14 @@ const MerchantLogin = ({ auth }) => {
 
   const [authCookie, setAuthCookie] = useCookies(["auth"]);
 
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const prevUrl = localStorage.getItem("p_url");
   const handleSubmit = () => {
     var formdata = new FormData();
-    formdata.append("customer_mobile", phone);
+    formdata.append("email", email);
     formdata.append("password", password);
+    formdata.append("request_url", location.href);
 
     var requestOptions = {
       method: "POST",
@@ -28,48 +27,17 @@ const MerchantLogin = ({ auth }) => {
       redirect: "follow",
     };
 
-    fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/Merchantcustomer_login`,
-      requestOptions
-    )
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/seller_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
+        console.log("merchant", result);
+
         if (result.response_status === 0) {
           toast.error(result.message);
         }
         if (result.response_status === 200) {
           toast.success(result.message);
-          const profileInfo = {
-            id: result.data.customer_id,
-            email: result.data.customer_email,
-            mobile: result.data.customer_mobile,
-            name: result.data.customer_name,
-            image: result.data.image,
-          };
-          setAuthCookie("auth", profileInfo, { path: "/" });
-
-          setTimeout(() => {
-            dispatch(loginSuccess());
-
-            localStorage.removeItem("p_url");
-
-            console.log("prevUrl", prevUrl);
-            // prevUrl !== undefined ||
-            if (prevUrl !== null) {
-              router.push(prevUrl);
-            } else {
-              router.push("/");
-            }
-            // router.push("/");
-          }, 100);
-
-          // setTimeout(() => {
-          //   if (prevUrl !== undefined) {
-          //     router.push(prevUrl);
-          //   } else {
-          //     router.push("/");
-          //   }
-          // }, [])
+          router.push(result.data.url);
         }
       })
       .catch((error) => console.log("error", error));
@@ -93,23 +61,24 @@ const MerchantLogin = ({ auth }) => {
           </ul>
           <div className="ps-tab active pb-4" id="sign-in">
             <div className="ps-form__content">
-              <h4>Merchant Login</h4>
+              <h4>Merchant Login ff</h4>
               <div className="form-group">
                 <Form.Item
-                  name="username"
+                  name="email"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your phone number!",
+                      message: "Please enter your email!",
                     },
                   ]}
                 >
                   <Input
                     className="form-control"
-                    type="text"
-                    placeholder="Phone Number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    id="email"
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </Form.Item>
               </div>
@@ -119,7 +88,7 @@ const MerchantLogin = ({ auth }) => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your password!",
+                      message: "Please enter your password!",
                     },
                   ]}
                 >
