@@ -54,6 +54,7 @@ const ModulePaymentOptions = ({ paymentInfo }) => {
       setAttachment(null);
       paySlipRef.current.value = "";
       setPaymentSubmitted(false);
+      localStorage.removeItem("paymentGateway");
       Router.push(`/account/invoice-details/${paymentInfo.order_id}`);
     } else {
       toast.error(result.message);

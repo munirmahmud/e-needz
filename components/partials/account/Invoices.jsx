@@ -31,7 +31,6 @@ const Invoices = () => {
         localStorage.removeItem("_p_a_");
       } else if (status === "failed") {
         toast.error(message);
-        localStorage.removeItem("_p_a_");
       }
     }
   };
