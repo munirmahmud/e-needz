@@ -30,8 +30,6 @@ const MerchantLogin = ({ auth }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/seller_login`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        console.log("merchant", result);
-
         if (result.response_status === 0) {
           toast.error(result.message);
         }
@@ -61,7 +59,7 @@ const MerchantLogin = ({ auth }) => {
           </ul>
           <div className="ps-tab active pb-4" id="sign-in">
             <div className="ps-form__content">
-              <h4>Merchant Login ff</h4>
+              <h4>Merchant Login</h4>
               <div className="form-group">
                 <Form.Item
                   name="email"
