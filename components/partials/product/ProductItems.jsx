@@ -136,6 +136,13 @@ const ProductItems = ({
                 )}
                 <ModuleProductActions product={product} />
               </div>
+
+              {product.quantity === "0" && (
+                <div className="sold-out">
+                  <img src="/static/sold-out.png" alt="Sold Out" />
+                </div>
+              )}
+
               <div className="ps-product__container">
                 <Link href={`/store/${product.seller_id}`}>
                   <a
@@ -145,13 +152,7 @@ const ProductItems = ({
                       justifyContent: "space-between",
                     }}
                   >
-                    {" "}
                     <span>{product.seller_store_name}</span>
-                    {product.quantity === "0" ? (
-                      <span style={{ color: "red" }}>Out Of stock</span>
-                    ) : (
-                      ""
-                    )}
                   </a>
                 </Link>
                 <div className="ps-product__content">

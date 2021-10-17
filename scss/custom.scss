@@ -12,6 +12,10 @@
     align-items: center;
     border-bottom: 1px solid #eee;
   }
+  .ps-section__header {
+    margin-right: 13px;
+    margin-left: 11px;
+  }
   .section__header {
     display: flex;
     align-items: center;
@@ -823,4 +827,13 @@ button.ps-btn:disabled {
 .alert-success {
   background-color: rgb(237, 247, 237);
   color: rgb(30, 70, 32);
+}
+
+.sold-out {
+  position: absolute;
+  top: 22px;
+  left: -19px;
+  transform: rotate(-34deg);
+  width: 125px;
+  z-index: 99999;
 }

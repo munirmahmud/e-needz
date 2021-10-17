@@ -1,6 +1,8 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
+import NextArrow from "~/components/elements/carousel/NextArrow";
+import PrevArrow from "~/components/elements/carousel/PrevArrow";
 import MediaRepository from "~/repositories/MediaRepository";
 import { campaignCarousel } from "~/utilities/carousel-helpers";
 import { getItemBySlug } from "~/utilities/product-helper";
@@ -63,14 +65,18 @@ const HomeDefaultBanner = () => {
   }, []);
 
   const carouselSetting = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 750,
     fade: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: false,
+    arrows: true,
     autoplay: true,
+    draggable: true,
+    swipeToSlide: true,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   // Main Slider

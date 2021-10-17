@@ -16,7 +16,7 @@ const HomeDefaultTopCategories = ({ title, endpoint, _link }) => {
     fetch(`${process.env.NEXT_PUBLIC_API_URL}/${endpoint}`, {
       method: "post",
       body: JSON.stringify({
-        per_page: "12",
+        per_page: "8",
       }),
     })
       .then((res) => res.json())

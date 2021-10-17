@@ -70,22 +70,22 @@ const ProductDealOfDay = ({ product, ecomerce }) => {
             {product.discount_amount}
           </small>
         )}
-
         <ModuleProductActions product={product} />
       </div>
+
+      {product.quantity === "0" && (
+        <div className="sold-out">
+          <img src="/static/sold-out.png" alt="Sold Out" />
+        </div>
+      )}
+
       <div className="ps-product__container">
         <Link href={`/store/${product.seller_id}`}>
           <a
             className="ps-product__vendor"
             style={{ display: "flex", justifyContent: "space-between" }}
           >
-            {" "}
             <span>{product.seller_store_name}</span>
-            {product.quantity === "0" ? (
-              <span style={{ color: "red" }}>Out Of stock</span>
-            ) : (
-              ""
-            )}
           </a>
         </Link>
         <div className="ps-product__content">

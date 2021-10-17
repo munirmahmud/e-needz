@@ -29,10 +29,13 @@ const AccountMenuSidebar = ({ data }) => {
     <aside className="ps-widget--account-dashboard">
       <div className="ps-widget__header">
         <div className="profile-image">
-          {authCookie?.auth ? (
+          {authCookie?.auth && authCookie.auth?.image ? (
             <img src={authCookie.auth?.image} alt={authCookie.auth?.name} />
           ) : (
-            <img src="/static/img/users/3.jpg" alt={authCookie.auth?.name} />
+            <img
+              src="/static/img/users/demo-user.png"
+              alt={authCookie.auth?.name}
+            />
           )}
         </div>
         <figure>

@@ -1,27 +1,26 @@
-import React, { useEffect, useRef, useState } from 'react'
-import Slider from 'react-slick'
-import Lightbox from 'react-image-lightbox'
-import { baseUrl } from '~/repositories/Repository'
-import NextArrow from '~/components/elements/carousel/NextArrow'
-import PrevArrow from '~/components/elements/carousel/PrevArrow'
+import React, { useEffect, useRef, useState } from "react";
+import Lightbox from "react-image-lightbox";
+import Slider from "react-slick";
+import NextArrow from "~/components/elements/carousel/NextArrow";
+import PrevArrow from "~/components/elements/carousel/PrevArrow";
 
 const ThumbnailDefault = ({ product, vertical = true }) => {
-  const galleryCarousel = useRef(null)
-  const variantCarousel = useRef(null)
-  const [gallery, setGallery] = useState(null)
-  const [variant, setVariant] = useState(null)
-  const [isOpen, setIsOpen] = useState(false)
-  const [photoIndex, setPhotoIndex] = useState(0)
-  const [productImages, setProductImages] = useState([])
-
+  const galleryCarousel = useRef(null);
+  const variantCarousel = useRef(null);
+  const [gallery, setGallery] = useState(null);
+  const [variant, setVariant] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [productImages, setProductImages] = useState([]);
+  console.log("product", product);
   const handleOpenLightbox = (e, imageIndex) => {
-    e.preventDefault()
-    setPhotoIndex(imageIndex)
-    setIsOpen(true)
-  }
+    e.preventDefault();
+    setPhotoIndex(imageIndex);
+    setIsOpen(true);
+  };
 
   useEffect(() => {
-    let images = []
+    let images = [];
     // if (product && product.images.length > 0) {
     //     product.images.map((item) => {
     //         images.push(`${baseUrl}${item.url}`);
@@ -30,12 +29,12 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
     // }
 
     if (product) {
-      images.push(product.image_path)
-      setProductImages(images)
+      images.push(product.image_path);
+      setProductImages(images);
     }
-    setGallery(galleryCarousel.current)
-    setVariant(variantCarousel.current)
-  }, [product])
+    setGallery(galleryCarousel.current);
+    setVariant(variantCarousel.current);
+  }, [product]);
 
   const gallerySetting = {
     dots: false,
@@ -45,7 +44,7 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
     slidesToScroll: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-  }
+  };
   const variantSetting = {
     responsive: [
       {
@@ -79,23 +78,23 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
         },
       },
     ],
-  }
+  };
 
   //Views
-  let lightboxView, variantCarouselView, imagesView, galleryImagesView
+  let lightboxView, variantCarouselView, imagesView, galleryImagesView;
   if (productImages.length > 0) {
     imagesView = productImages.map((item) => (
-      <div className='item' key={item}>
+      <div className="item" key={item}>
         <img src={item} alt={item} />
       </div>
-    ))
+    ));
     galleryImagesView = productImages.map((item, index) => (
-      <div className='item' key={item}>
-        <a href='#' onClick={(e) => handleOpenLightbox(e, index)}>
+      <div className="item" key={item}>
+        <a href="#" onClick={(e) => handleOpenLightbox(e, index)}>
           <img src={item} alt={item} />
         </a>
       </div>
-    ))
+    ));
   }
   if (vertical) {
     variantCarouselView = (
@@ -109,11 +108,11 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
         infinite={true}
         focusOnSelect={true}
         {...variantSetting}
-        className='ps-product__variants'
+        className="ps-product__variants"
       >
         {imagesView}
       </Slider>
-    )
+    );
   } else {
     variantCarouselView = (
       <Slider
@@ -126,11 +125,11 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
         centered={true}
         infinite={false}
         focusOnSelect={true}
-        className='ps-product__variants'
+        className="ps-product__variants"
       >
         {imagesView}
       </Slider>
-    )
+    );
   }
   if (isOpen) {
     lightboxView = (
@@ -143,41 +142,47 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
           ]
         }
         onCloseRequest={() => {
-          setIsOpen(false)
+          setIsOpen(false);
         }}
         onMovePrevRequest={() => {
           setPhotoIndex(
             (photoIndex + productImages.length - 1) % productImages.length
-          )
+          );
         }}
         onMoveNextRequest={() => {
-          setPhotoIndex((photoIndex + 1) % productImages.length)
+          setPhotoIndex((photoIndex + 1) % productImages.length);
         }}
       />
-    )
+    );
   }
 
   return (
     <div
-      className='ps-product__thumbnail'
-      data-vertical={vertical ? 'true' : 'false'}
+      className="ps-product__thumbnail"
+      data-vertical={vertical ? "true" : "false"}
     >
       <figure>
-        <div className='ps-wrapper'>
+        <div className="ps-wrapper">
           <Slider
             {...gallerySetting}
             ref={(slider) => (galleryCarousel.current = slider)}
             asNavFor={variant}
-            className='ps-product__gallery ps-carousel inside'
+            className="ps-product__gallery ps-carousel inside"
           >
             {galleryImagesView}
           </Slider>
+
+          {product.on_sale === "1" && (
+            <small className="product-offer-badge">
+              %{product.discount_percent} Off
+            </small>
+          )}
         </div>
       </figure>
       {variantCarouselView}
       {lightboxView}
     </div>
-  )
-}
+  );
+};
 
-export default ThumbnailDefault
+export default ThumbnailDefault;
