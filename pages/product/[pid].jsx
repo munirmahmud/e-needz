@@ -109,7 +109,10 @@ const ProductDefaultPage = () => {
                 <ProductWidgets />
               </div>
             </div>
-            <div className="ps-page__container section-white mb-5">
+            <div
+              className="ps-page__container section-white mb-5 "
+              style={{ paddingLeft: 25, paddingRight: 25 }}
+            >
               <DefaultDescription
                 product_id={product ? product.product_id : ""}
                 category_id={product ? product.category_id : ""}

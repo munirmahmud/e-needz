@@ -23,7 +23,7 @@ class HeaderMobile extends Component {
                             </li>
                             <li>
                                 <Link href="/account/order-tracking">
-                                    <a>Tract your order</a>
+                                    <a>Track your order</a>
                                 </Link>
                             </li>
                             <li>

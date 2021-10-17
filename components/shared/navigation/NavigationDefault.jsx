@@ -50,7 +50,7 @@ const NavigationDefault = () => {
           <ul className="navigation__extra">
             <li className="navigation-text">
               <Link href="/account/order-tracking">
-                <a>Tract your order</a>
+                <a>Track your order</a>
               </Link>
             </li>
             {/* <li>
