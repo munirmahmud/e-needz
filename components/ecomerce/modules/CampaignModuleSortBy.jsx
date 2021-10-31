@@ -1,4 +1,4 @@
-const CampaignModuleSortBy = ({ setProductItems, campaignID }) => {
+const CampaignModuleSortBy = ({ setProductItems, campaignID, sellerID }) => {
   const filterMyProduct = (val) => {
     let bodyReq = "";
 

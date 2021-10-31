@@ -25,6 +25,7 @@ const ProductItems = ({
   ecomerce,
   categoryId,
   campaignID,
+  sellerID,
 }) => {
   const Router = useRouter();
   const { thumbnailImage } = useProduct();
@@ -226,6 +227,7 @@ const ProductItems = ({
             <ModuleShopSortBy
               setProductItems={setProductItems}
               categoryId={categoryId}
+              sellerID={sellerID}
             />
           );
         } else {
@@ -233,6 +235,7 @@ const ProductItems = ({
             <CampaignModuleSortBy
               setProductItems={setProductItems}
               campaignID={campaignID}
+              sellerID={sellerID}
             />
           );
         }
