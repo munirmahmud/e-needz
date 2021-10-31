@@ -49,7 +49,7 @@ const ProductsByStore = () => {
       await Router.push("/store");
     }
   }
-
+  console.log("storeInfo", storeInfo);
   useEffect(() => {
     getCategry();
   }, [slug]);
@@ -73,7 +73,13 @@ const ProductsByStore = () => {
 
   if (!loading) {
     if (category) {
-      productItemsViews = <ProductItems columns={4} products={category.data} />;
+      productItemsViews = (
+        <ProductItems
+          columns={4}
+          products={category.data}
+          sellerID={storeInfo.seller_id}
+        />
+      );
     } else {
       productItemsViews = <p>No Product found</p>;
     }

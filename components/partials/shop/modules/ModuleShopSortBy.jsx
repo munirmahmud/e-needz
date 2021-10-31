@@ -1,4 +1,9 @@
-const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
+const ModuleShopSortBy = ({
+  setProductItems,
+  isCampaign,
+  categoryId,
+  sellerID,
+}) => {
   const filterMyProduct = (val) => {
     let bodyReq = "";
 
@@ -7,6 +12,7 @@ const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
         per_page: 1000,
         page_offset: 0,
         category_id: categoryId,
+        seller_id: sellerID,
         latest: "1",
         price: "",
       });
@@ -15,6 +21,7 @@ const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
         per_page: 1000,
         page_offset: 0,
         category_id: categoryId,
+        seller_id: sellerID,
         latest: "",
         price: "low_to_high",
       });
@@ -23,6 +30,7 @@ const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
         per_page: 1000,
         page_offset: 0,
         category_id: categoryId,
+        seller_id: sellerID,
         latest: "",
         price: "high_to_low",
       });
@@ -40,7 +48,19 @@ const ModuleShopSortBy = ({ setProductItems, isCampaign, categoryId }) => {
           }
         })
         .catch((error) => console.log("error", error));
-    } else {
+    } else if (sellerID !== undefined) {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/store_wise_products`, {
+        method: "POST",
+        body: bodyReq,
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.response_status === 200) {
+            setProductItems(result.data);
+          }
+        })
+        .catch((error) => console.log("error", error));
+    } else if (categoryId !== undefined) {
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/category_wise_product`, {
         method: "POST",
         body: bodyReq,
